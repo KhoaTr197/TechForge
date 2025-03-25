@@ -97,10 +97,10 @@ namespace TechForgeGUI.BaseControls
           tabItem.MouseLeave += TabItem_MouseLeave;
           tabItem.Click += TabItem_Click;
           
-          //if (i == 0)
-          //{
-          //  SelectTabItem(tabItem);
-          //}
+          if (i == 0)
+          {
+            SelectTabItem(tabItem);
+          }
 
           flpTabs.Controls.Add(tabItem);
       }
@@ -109,6 +109,8 @@ namespace TechForgeGUI.BaseControls
     {
       SelectedTab = tabItem;
       SelectedTab.BackColor = TabHoverColor;
+      if (SelectedTabChanged != null)
+        SelectedTabChanged.Invoke(this, new SidebarTabChangedEventArgs());
     }
     private void TabItem_Click(object sender, EventArgs e)
     {
@@ -117,8 +119,6 @@ namespace TechForgeGUI.BaseControls
         SelectedTab.BackColor = TabBgColor;
       }
       SelectTabItem((SidebarTabItem)sender);
-      if(SelectedTabChanged != null)
-        SelectedTabChanged.Invoke(this, new SidebarTabChangedEventArgs());
     }
     private void TabItem_MouseEnter(object sender, EventArgs e)
     {
