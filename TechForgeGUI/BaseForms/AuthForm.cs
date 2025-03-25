@@ -19,6 +19,7 @@ namespace TechForgeGUI
     protected TextBox txtUsername;
     protected TextBox txtPassword;
     protected Button btnSubmit;
+    protected string DefaultFontName = "Segoe UI";
     public AuthForm()
     {
       InitializeComponent();
@@ -43,7 +44,7 @@ namespace TechForgeGUI
       {
         Text = "Authentication",
         TextAlign = ContentAlignment.MiddleCenter,
-        Font = new Font(Font.SystemFontName, 16), 
+        Font = new Font(DefaultFontName, 16), 
         Size = new Size(200, 30),
         Margin = new Padding(500),
         Location = new Point((panelMain.ClientSize.Width - 200) / 2, 20)
@@ -54,12 +55,12 @@ namespace TechForgeGUI
       {
         AutoSize = true,
         Text = "Username:",
-        Font = new Font(Font.SystemFontName, 10),
+        Font = new Font(DefaultFontName, 10),
         Location = new Point(40, 90)
       };
       txtUsername = new TextBox
       {
-        Font = new Font(Font.SystemFontName, 10),
+        Font = new Font(DefaultFontName, 10),
         Size = new Size(200, 20),
         Location = new Point(150, 90)
       };
@@ -68,12 +69,12 @@ namespace TechForgeGUI
       lblPassword = new Label
       {
         Text = "Password:",
-        Font = new Font(Font.SystemFontName, 10),
+        Font = new Font(DefaultFontName, 10),
         Location = new Point(40, 130)
       };
       txtPassword = new TextBox
       {
-        Font = new Font(Font.SystemFontName, 10),
+        Font = new Font(DefaultFontName, 10),
         Size = new Size(200, 20),
         Location = new Point(150, 130),
         UseSystemPasswordChar = true

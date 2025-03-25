@@ -31,9 +31,9 @@
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthForm));
       this.panelMain = new System.Windows.Forms.Panel();
-      this.pictureBox1 = new System.Windows.Forms.PictureBox();
+      this.picFormImg = new System.Windows.Forms.PictureBox();
       this.imgListIcons = new System.Windows.Forms.ImageList(this.components);
-      ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.picFormImg)).BeginInit();
       this.SuspendLayout();
       // 
       // panelMain
@@ -44,17 +44,17 @@
       this.panelMain.Size = new System.Drawing.Size(400, 461);
       this.panelMain.TabIndex = 0;
       // 
-      // pictureBox1
+      // picFormImg
       // 
-      this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.pictureBox1.ErrorImage = null;
-      this.pictureBox1.Image = global::TechForgeGUI.Properties.Resources.PlaceholderImg;
-      this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-      this.pictureBox1.Name = "pictureBox1";
-      this.pictureBox1.Size = new System.Drawing.Size(484, 461);
-      this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-      this.pictureBox1.TabIndex = 1;
-      this.pictureBox1.TabStop = false;
+      this.picFormImg.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.picFormImg.ErrorImage = null;
+      this.picFormImg.Image = global::TechForgeGUI.Properties.Resources.PlaceholderImg;
+      this.picFormImg.Location = new System.Drawing.Point(0, 0);
+      this.picFormImg.Name = "picFormImg";
+      this.picFormImg.Size = new System.Drawing.Size(484, 461);
+      this.picFormImg.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+      this.picFormImg.TabIndex = 1;
+      this.picFormImg.TabStop = false;
       // 
       // imgListIcons
       // 
@@ -68,11 +68,11 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(884, 461);
-      this.Controls.Add(this.pictureBox1);
+      this.Controls.Add(this.picFormImg);
       this.Controls.Add(this.panelMain);
       this.Name = "AuthForm";
       this.Text = "AuthForm";
-      ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.picFormImg)).EndInit();
       this.ResumeLayout(false);
 
     }
@@ -80,7 +80,7 @@
     #endregion
 
     private System.Windows.Forms.Panel panelMain;
-    private System.Windows.Forms.PictureBox pictureBox1;
+    private System.Windows.Forms.PictureBox picFormImg;
     private System.Windows.Forms.ImageList imgListIcons;
   }
 }

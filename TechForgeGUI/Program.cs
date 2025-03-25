@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TechForgeGUI.BaseForm;
 
 namespace TechForgeGUI
 {
@@ -17,7 +18,7 @@ namespace TechForgeGUI
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new CashierForm());
+      Application.Run(new DashboardForm());
     }
   }
 }

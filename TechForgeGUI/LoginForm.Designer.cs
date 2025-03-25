@@ -28,9 +28,12 @@
     /// </summary>
     private void InitializeComponent()
     {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
       this.panelForm.SuspendLayout();
       this.SuspendLayout();
+      // 
+      // lblTitle
+      // 
+      this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F);
       // 
       // lblUsername
       // 
