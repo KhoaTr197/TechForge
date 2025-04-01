@@ -6,19 +6,23 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Svg;
 using TechForgeGUI.BaseControls;
+using TechForgeGUI.BaseForms;
+using TechForgeGUI.SubForms;
 using TechForgeGUI.Utils;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace TechForgeGUI.BaseForm
 {
-  public partial class DashboardForm : Form
+  public partial class DashboardFormGUI : Form
   {
-    public DashboardForm()
+    private ManageFormGUI currentForm;
+    public DashboardFormGUI()
     {
       InitializeComponent();
 
@@ -37,6 +41,7 @@ namespace TechForgeGUI.BaseForm
         new SidebarTabItem{ Id="Homepage", ImageList=IconList, ImageKey="homepage_icon", Text="Trang Chủ" },
         new SidebarTabItem{ Id="Product", ImageList=IconList, ImageKey="box_icon", Text="Sản Phẩm" },
         new SidebarTabItem{ Id="Invoice", ImageList=IconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+        new SidebarTabItem{ Id="Users", ImageList=IconList, ImageKey="users_icon", Text="Người Dùng" },
         new SidebarTabItem{ Id="Customer", ImageList=IconList, ImageKey="users_icon", Text="Khách Hàng" },
         new SidebarTabItem{ Id="Logout", ImageList=IconList, ImageKey="logout_icon", Text="Đăng Xuất" },
       };
@@ -46,7 +51,28 @@ namespace TechForgeGUI.BaseForm
 
     }
     private void Hello(object sender, SidebarSelectedTabChangedEventArgs e) {
-      label1.Text = sideBar1.SelectedTab.Text.ToString();
+      if (currentForm != null)
+        currentForm.Close();
+
+      switch (sideBar1.SelectedTab.Id)
+      {
+        case "Product":
+          {
+            currentForm = new ProductManageFormGUI();
+            panelMain.Controls.Add(currentForm);
+            currentForm.Show();
+            break;
+          }
+        case "Users":
+          {
+            currentForm = new UserManagerFormGUI();
+            panelMain.Controls.Add(currentForm);
+            currentForm.Show();
+            break;
+          }
+        default:
+          break;
+      }
     }
 
   }

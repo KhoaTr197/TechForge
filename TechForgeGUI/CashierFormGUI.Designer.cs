@@ -1,6 +1,6 @@
 ﻿namespace TechForgeGUI
 {
-  partial class LoginForm
+  partial class CashierFormGUI
   {
     /// <summary>
     /// Required designer variable.
@@ -28,26 +28,15 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.panelForm.SuspendLayout();
       this.SuspendLayout();
       // 
-      // lblTitle
-      // 
-      this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F);
-      // 
-      // lblUsername
-      // 
-      this.lblUsername.Location = new System.Drawing.Point(40, 91);
-      // 
-      // LoginForm
+      // CashierForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(800, 450);
-      this.Name = "LoginForm";
-      this.Text = "TechForge - Login";
-      this.panelForm.ResumeLayout(false);
-      this.panelForm.PerformLayout();
+      this.Name = "CashierForm";
+      this.Text = "TechForge - Cashier";
       this.ResumeLayout(false);
 
     }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace TechForgeGUI
 {
-  public partial class AuthForm : Form
+  public partial class AuthFormGUI : Form
   {
     protected Panel panelForm;
     protected Label lblTitle;
@@ -20,7 +20,7 @@ namespace TechForgeGUI
     protected TextBox txtPassword;
     protected Button btnSubmit;
     protected string DefaultFontName = "Segoe UI";
-    public AuthForm()
+    public AuthFormGUI()
     {
       InitializeComponent();
       InitializeBaseControls();

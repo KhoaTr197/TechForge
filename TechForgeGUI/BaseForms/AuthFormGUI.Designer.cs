@@ -1,6 +1,6 @@
 ﻿namespace TechForgeGUI
 {
-  partial class AuthForm
+  partial class AuthFormGUI
   {
     /// <summary>
     /// Required designer variable.
@@ -29,7 +29,7 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthForm));
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthFormGUI));
       this.panelMain = new System.Windows.Forms.Panel();
       this.picFormImg = new System.Windows.Forms.PictureBox();
       this.imgListIcons = new System.Windows.Forms.ImageList(this.components);

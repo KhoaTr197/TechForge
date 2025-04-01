@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>app_icon.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExCSS, Version=4.2.3.0, Culture=neutral, PublicKeyToken=bdbe16be9b936b9a, processorArchitecture=MSIL">
@@ -76,54 +77,78 @@
     <Compile Include="BaseControls\Sidebar.Designer.cs">
       <DependentUpon>Sidebar.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaseForms\AuthForm.cs">
+    <Compile Include="BaseForms\AuthFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BaseForms\AuthForm.Designer.cs">
-      <DependentUpon>AuthForm.cs</DependentUpon>
+    <Compile Include="BaseForms\AuthFormGUI.Designer.cs">
+      <DependentUpon>AuthFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaseForms\DashboardForm.cs">
+    <Compile Include="BaseForms\DashboardFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BaseForms\DashboardForm.Designer.cs">
-      <DependentUpon>DashboardForm.cs</DependentUpon>
+    <Compile Include="BaseForms\DashboardFormGUI.Designer.cs">
+      <DependentUpon>DashboardFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaseForms\Homepage.cs">
+    <Compile Include="BaseForms\ManageFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BaseForms\Homepage.Designer.cs">
-      <DependentUpon>Homepage.cs</DependentUpon>
+    <Compile Include="BaseForms\ManageFormGUI.Designer.cs">
+      <DependentUpon>ManageFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="CashierForm.cs">
+    <Compile Include="CashierFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CashierForm.Designer.cs">
-      <DependentUpon>CashierForm.cs</DependentUpon>
+    <Compile Include="CashierFormGUI.Designer.cs">
+      <DependentUpon>CashierFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="LoginFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="LoginFormGUI.Designer.cs">
+      <DependentUpon>LoginFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubForms\ProductManageFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForms\ProductManageFormGUI.Designer.cs">
+      <DependentUpon>ProductManageFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SubForms\UserManagerFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubForms\UserManagerFormGUI.Designer.cs">
+      <DependentUpon>UserManagerFormGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\SVGIconHandler.cs" />
-    <EmbeddedResource Include="BaseForms\AuthForm.resx">
-      <DependentUpon>AuthForm.cs</DependentUpon>
+    <EmbeddedResource Include="BaseForms\AuthFormGUI.resx">
+      <DependentUpon>AuthFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BaseForms\DashboardForm.resx">
-      <DependentUpon>DashboardForm.cs</DependentUpon>
+    <EmbeddedResource Include="BaseForms\DashboardFormGUI.resx">
+      <DependentUpon>DashboardFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CashierForm.resx">
-      <DependentUpon>CashierForm.cs</DependentUpon>
+    <EmbeddedResource Include="BaseForms\ManageFormGUI.resx">
+      <DependentUpon>ManageFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <EmbeddedResource Include="CashierFormGUI.resx">
+      <DependentUpon>CashierFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginFormGUI.resx">
+      <DependentUpon>LoginFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubForms\ProductManageFormGUI.resx">
+      <DependentUpon>ProductManageFormGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -131,11 +156,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -146,10 +166,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\placeholder_img.jpg" />
+    <None Include="Resources\placeholder_img.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app_icon.ico" />
     <Content Include="Resources\box_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -168,8 +189,19 @@
     <Content Include="Resources\warehouse_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\app_icon.ico" />
+    <None Include="Resources\app_icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TechForgeBUS\TechForgeBUS.csproj">
+      <Project>{D29EE592-7D59-475B-8AE7-1F45A579E1BA}</Project>
+      <Name>TechForgeBUS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TechForgeDTO\TechForgeDTO.csproj">
+      <Project>{a8f30338-cc58-4999-a70d-f4c44c288de0}</Project>
+      <Name>TechForgeDTO</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

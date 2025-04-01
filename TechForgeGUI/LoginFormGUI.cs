@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace TechForgeGUI
 {
-  public partial class CashierForm : Form
+  public partial class LoginFormGUI : AuthFormGUI
   {
-    public CashierForm()
+    public LoginFormGUI()
     {
       InitializeComponent();
+
+      this.lblTitle.Text = "Đăng Nhập";
+      this.lblUsername.Text = "Tên Tài Khoản:";
+      this.lblPassword.Text = "Mật Khẩu:";
+      this.btnSubmit.Text = "Đăng Nhập";
     }
   }
 }
