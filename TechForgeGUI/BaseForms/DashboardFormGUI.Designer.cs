@@ -28,26 +28,9 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.components = new System.ComponentModel.Container();
-      this.IconList = new System.Windows.Forms.ImageList(this.components);
-      this.sideBar1 = new TechForgeGUI.BaseControls.Sidebar();
       this.panelMain = new System.Windows.Forms.Panel();
+      this.sideBar1 = new TechForgeGUI.BaseControls.Sidebar();
       this.SuspendLayout();
-      // 
-      // IconList
-      // 
-      this.IconList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-      this.IconList.ImageSize = new System.Drawing.Size(16, 16);
-      this.IconList.TransparentColor = System.Drawing.Color.Transparent;
-      // 
-      // sideBar1
-      // 
-      this.sideBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
-      this.sideBar1.Dock = System.Windows.Forms.DockStyle.Left;
-      this.sideBar1.Location = new System.Drawing.Point(0, 0);
-      this.sideBar1.Name = "sideBar1";
-      this.sideBar1.Size = new System.Drawing.Size(160, 729);
-      this.sideBar1.TabIndex = 1;
       // 
       // panelMain
       // 
@@ -58,21 +41,29 @@
       this.panelMain.Size = new System.Drawing.Size(1190, 729);
       this.panelMain.TabIndex = 5;
       // 
-      // DashboardForm
+      // sideBar1
+      // 
+      this.sideBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+      this.sideBar1.Dock = System.Windows.Forms.DockStyle.Left;
+      this.sideBar1.Location = new System.Drawing.Point(0, 0);
+      this.sideBar1.Name = "sideBar1";
+      this.sideBar1.Size = new System.Drawing.Size(160, 729);
+      this.sideBar1.TabIndex = 1;
+      // 
+      // DashboardFormGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1350, 729);
       this.Controls.Add(this.panelMain);
       this.Controls.Add(this.sideBar1);
-      this.Name = "DashboardForm";
+      this.Name = "DashboardFormGUI";
       this.Text = "DashboardForm";
       this.ResumeLayout(false);
 
     }
 
     #endregion
-    private System.Windows.Forms.ImageList IconList;
     private BaseControls.Sidebar sideBar1;
     private System.Windows.Forms.Panel panelMain;
   }

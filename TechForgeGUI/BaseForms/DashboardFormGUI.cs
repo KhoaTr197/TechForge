@@ -26,24 +26,13 @@ namespace TechForgeGUI.BaseForm
     {
       InitializeComponent();
 
-      SVGIconHandler iconHandler = new SVGIconHandler("Resources", new Size(16, 16));
-
-      Dictionary<string, Bitmap> icons = iconHandler.ConvertToBitmap();
-
-      foreach (KeyValuePair<string, Bitmap> icon in icons)
-      {
-        string name = icon.Key;
-        Bitmap bitmap = icon.Value;
-        IconList.Images.Add(name, bitmap);
-      }
-
       List<SidebarTabItem> tabs = new List<SidebarTabItem> {
-        new SidebarTabItem{ Id="Homepage", ImageList=IconList, ImageKey="homepage_icon", Text="Trang Chủ" },
-        new SidebarTabItem{ Id="Product", ImageList=IconList, ImageKey="box_icon", Text="Sản Phẩm" },
-        new SidebarTabItem{ Id="Invoice", ImageList=IconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
-        new SidebarTabItem{ Id="Users", ImageList=IconList, ImageKey="users_icon", Text="Người Dùng" },
-        new SidebarTabItem{ Id="Customer", ImageList=IconList, ImageKey="users_icon", Text="Khách Hàng" },
-        new SidebarTabItem{ Id="Logout", ImageList=IconList, ImageKey="logout_icon", Text="Đăng Xuất" },
+        new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
+        new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
+        new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+        new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
+        new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
+        new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
       };
 
       sideBar1.Init(tabs);

@@ -11,7 +11,7 @@ using System.Drawing;
 namespace TechForgeGUI.Utils
 {
   //Handle SVG to Bitmap for Icon-Purpose
-  internal class SVGIconHandler
+  public class SVGIconHandler
   {
     public string FolderPath { get; set; }
     public Size Size { get; set; }
@@ -22,7 +22,7 @@ namespace TechForgeGUI.Utils
     public Dictionary<string, Bitmap> ConvertToBitmap()
     {
       if (!Directory.Exists(FolderPath))
-        throw new DirectoryNotFoundException($"Icons folder not found: {FolderPath}");
+        throw new DirectoryNotFoundException($"Resources folder not found: {FolderPath}");
 
       Dictionary<string, Bitmap> results = new Dictionary<string, Bitmap>();
 

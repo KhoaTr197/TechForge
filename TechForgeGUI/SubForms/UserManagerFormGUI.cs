@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeBUS;
+using TechForgeDTO;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubForms
@@ -27,7 +28,7 @@ namespace TechForgeGUI.SubForms
     }
     protected override void LoadData()
     {
-      dgvMainListRef.DataSource = bus.GetAllConnected();
+      dgvMainListRef.BindingData(bus.GetAllConnected().Cast<object>().ToList());
     }
   }
 }

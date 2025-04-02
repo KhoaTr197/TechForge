@@ -71,6 +71,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseControls\CustomDataGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\CustomDataGridView.Designer.cs">
+      <DependentUpon>CustomDataGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseControls\Sidebar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -126,7 +132,11 @@
     <Compile Include="SubForms\UserManagerFormGUI.Designer.cs">
       <DependentUpon>UserManagerFormGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\GlobalImageList.cs" />
     <Compile Include="Utils\SVGIconHandler.cs" />
+    <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
+      <DependentUpon>CustomDataGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\AuthFormGUI.resx">
       <DependentUpon>AuthFormGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,6 +181,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\add_icon.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\box_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

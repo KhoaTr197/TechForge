@@ -10,18 +10,20 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using TechForgeBUS;
+using TechForgeGUI.BaseControls;
+using TechForgeGUI.Utils;
 
 namespace TechForgeGUI.BaseForms
 {
   public partial class ManageFormGUI : Form
   {
     protected readonly string connStr = "Data Source=DESKTOP-PEL4G3N;Initial Catalog=TECHFORGE;Integrated Security=True;";
-    protected DataGridView dgvMainListRef;
+    protected CustomDataGridView dgvMainListRef;
     protected string DefaultFontName = "Segoe UI";
     public ManageFormGUI()
     {
       InitializeComponent();
-      InitializeDataGridView();
+      InitializeButtons();
 
       this.Font = new Font(DefaultFontName, 10);
       this.TopLevel = false;
@@ -29,18 +31,15 @@ namespace TechForgeGUI.BaseForms
       this.FormBorderStyle = FormBorderStyle.None;
       this.StartPosition = FormStartPosition.Manual;
       this.ControlBox = false;
-    }
-    private void InitializeDataGridView() 
-    {
-      dgvMainList.AutoGenerateColumns = true;
-      dgvMainList.DataSource = null;
-      dgvMainList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-      dgvMainList.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-      dgvMainList.ScrollBars = ScrollBars.Both;
-
-      dgvMainList.DataBindingComplete += dgvMainList_DataBindingComplete;
 
       dgvMainListRef = dgvMainList;
+    }
+    private void InitializeButtons()
+    {
+      btnAdd.ImageList = GlobalStatics.iconList;
+      btnAdd.ImageKey = "add_icon";
+      btnAdd.TextImageRelation = TextImageRelation.ImageBeforeText;
+      btnAdd.Font = new Font(DefaultFontName, 10);
     }
     private void dgvMainList_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
     {

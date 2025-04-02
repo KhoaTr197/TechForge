@@ -27,7 +27,7 @@ namespace TechForgeGUI
     }
     sealed protected override void LoadData()
     {
-      dgvMainListRef.DataSource = bus.GetAllDisconnected().Tables["SANPHAM"];
+      dgvMainListRef.BindingData(bus.GetAllDisconnected().Tables["SANPHAM"]);
     }
   }
 }
