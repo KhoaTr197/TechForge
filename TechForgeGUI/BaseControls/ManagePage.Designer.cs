@@ -1,6 +1,6 @@
 ﻿namespace TechForgeGUI.BaseForms
 {
-  partial class ManageFormGUI
+  partial class ManagePage
   {
     /// <summary>
     /// Required designer variable.
@@ -125,7 +125,6 @@
       this.ClientSize = new System.Drawing.Size(1203, 646);
       this.Controls.Add(this.dgvMainList);
       this.Controls.Add(this.panel1);
-      this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
       this.Name = "ManageFormGUI";
       this.Text = "InteractiveListForm";
       this.panel1.ResumeLayout(false);

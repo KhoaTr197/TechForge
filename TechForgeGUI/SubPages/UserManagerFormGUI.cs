@@ -13,7 +13,7 @@ using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubForms
 {
-  public partial class UserManagerFormGUI : ManageFormGUI
+  public partial class UserManagerFormGUI : ManagePage
   {
     private NguoiDungBUS bus { get; set; }
     public UserManagerFormGUI()

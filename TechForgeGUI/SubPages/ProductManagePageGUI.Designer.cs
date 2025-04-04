@@ -1,6 +1,6 @@
 ﻿namespace TechForgeGUI
 {
-  partial class ProductManageFormGUI
+  partial class ProductManagePageGUI
   {
     /// <summary>
     /// Required designer variable.
@@ -30,13 +30,16 @@
     {
       this.SuspendLayout();
       // 
-      // ProductManageFormGUI
+      // dgvMainListRef
+      // 
+      this.dgvMainListRef.Size = new System.Drawing.Size(1294, 433);
+      // 
+      // ProductManagePageGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1294, 641);
-      this.Name = "ProductManageFormGUI";
-      this.Text = "ProductManageForm";
+      this.Name = "ProductManagePageGUI";
+      this.Size = new System.Drawing.Size(1294, 641);
       this.ResumeLayout(false);
 
     }

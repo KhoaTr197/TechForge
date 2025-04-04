@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDAO.cs" />
+    <Compile Include="DanhMucDAO.cs" />
+    <Compile Include="HangSanXuatDAO.cs" />
     <Compile Include="NguoiDungDAO.cs" />
     <Compile Include="SanPhamDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

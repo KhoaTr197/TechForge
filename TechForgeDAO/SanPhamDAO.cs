@@ -53,12 +53,10 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
-    public DataSet GetAllDisconnected()
+    public DataSet GetAllDisconnected(DataSet ds)
     {
       try
       {
-        DataSet ds = new DataSet();
-
         using (SqlConnection conn = CreateConnection())
         {
           SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM SANPHAM", conn);
@@ -144,7 +142,7 @@ namespace TechForgeDAO
     {
       if (id <= 0)
       {
-        throw new ArgumentException("Product ID (MaSP) must be a positive value.", nameof(id));
+        throw new ArgumentException("Product ID must be a positive value.", nameof(id));
       }
       try
       {

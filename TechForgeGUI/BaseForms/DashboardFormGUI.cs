@@ -21,7 +21,7 @@ namespace TechForgeGUI.BaseForm
 {
   public partial class DashboardFormGUI : Form
   {
-    private ManageFormGUI currentForm;
+    private ManagePage currentPage;
     public DashboardFormGUI()
     {
       InitializeComponent();
@@ -40,23 +40,21 @@ namespace TechForgeGUI.BaseForm
 
     }
     private void Hello(object sender, SidebarSelectedTabChangedEventArgs e) {
-      if (currentForm != null)
-        currentForm.Close();
+      if (currentPage != null)
+        panelMain.Controls.Remove(currentPage);
 
       switch (sideBar1.SelectedTab.Id)
       {
         case "Product":
           {
-            currentForm = new ProductManageFormGUI();
-            panelMain.Controls.Add(currentForm);
-            currentForm.Show();
+            currentPage = new ProductManagePageGUI();
+            panelMain.Controls.Add(currentPage);
             break;
           }
         case "Users":
           {
-            currentForm = new UserManagerFormGUI();
-            panelMain.Controls.Add(currentForm);
-            currentForm.Show();
+            currentPage = new UserManagerFormGUI();
+            panelMain.Controls.Add(currentPage);
             break;
           }
         default:

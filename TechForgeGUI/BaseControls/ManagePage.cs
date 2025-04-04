@@ -15,22 +15,19 @@ using TechForgeGUI.Utils;
 
 namespace TechForgeGUI.BaseForms
 {
-  public partial class ManageFormGUI : Form
+  public partial class ManagePage : UserControl
   {
+    public Form FormParent { get; set; }
     protected readonly string connStr = "Data Source=DESKTOP-PEL4G3N;Initial Catalog=TECHFORGE;Integrated Security=True;";
     protected CustomDataGridView dgvMainListRef;
     protected string DefaultFontName = "Segoe UI";
-    public ManageFormGUI()
+    public ManagePage()
     {
       InitializeComponent();
       InitializeButtons();
 
       this.Font = new Font(DefaultFontName, 10);
-      this.TopLevel = false;
       this.Dock = DockStyle.Fill;
-      this.FormBorderStyle = FormBorderStyle.None;
-      this.StartPosition = FormStartPosition.Manual;
-      this.ControlBox = false;
 
       dgvMainListRef = dgvMainList;
     }

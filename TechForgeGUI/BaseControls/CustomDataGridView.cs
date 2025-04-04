@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeDTO;
+using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.BaseControls
 {
@@ -22,7 +23,7 @@ namespace TechForgeGUI.BaseControls
 
     //Base Controls
     private BindingSource bindSrc;
-    public DataGridView List;
+    public DataGridView dgvList;
     private FlowLayoutPanel flpPagination;
     private Button btnPrev;
     private Button btnNext;
@@ -42,23 +43,28 @@ namespace TechForgeGUI.BaseControls
       bindSrc = new BindingSource();
 
       //Initialize Base Controls
-      List = new DataGridView()
+      dgvList = new DataGridView()
       {
         Dock = DockStyle.Top,
         Margin = new Padding(0),
         Size = new Size(this.Width, this.Height / 100 * 90),
         ReadOnly = true,
+        AutoGenerateColumns = false,
         AllowUserToAddRows = false,
         AllowUserToDeleteRows = false,
         AllowUserToOrderColumns = false,
         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
         AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None,
-        ScrollBars = ScrollBars.Both
+        ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+        MultiSelect = false,
+        ScrollBars = ScrollBars.Both,
       };
-      List.RowPrePaint += dgvList_RowPrePaint;
+      dgvList.RowPrePaint += dgvList_RowPrePaint;
 
       //Initialize flpPagination
-      flpPagination = new FlowLayoutPanel() {
+      flpPagination = new FlowLayoutPanel()
+      {
         AutoSize = true,
         Dock = DockStyle.Top,
         BackColor = Color.Transparent,
@@ -95,17 +101,17 @@ namespace TechForgeGUI.BaseControls
 
       //Add these controls to this CustomDataGridView
       this.Controls.Add(flpPagination);
-      this.Controls.Add(List);
+      this.Controls.Add(dgvList);
     }
     //Event Handlers when Size changed
     private void CustomDataGridView_SizeChanged(object sender, EventArgs e)
     {
-      List.Size = new Size(this.Width, this.Height - flpPagination.Height);
+      dgvList.Size = new Size(this.Width, this.Height - flpPagination.Height);
     }
     //Event Handlers when Dock changed
     private void CustomDataGridView_DockChanged(object sender, EventArgs e)
     {
-      List.Size = Size = new Size(this.Width, this.Height - flpPagination.Height);
+      dgvList.Size = Size = new Size(this.Width, this.Height - flpPagination.Height);
     }
     //Event Handlers when PrevButton and NextButton clicked
     private void PrevButton_Click(object sender, EventArgs e)
@@ -137,7 +143,6 @@ namespace TechForgeGUI.BaseControls
       SetUpPagination(dataList.Count);
 
       bindSrc.DataSource = dataList;
-      List.DataSource = bindSrc;
 
       UpdateDataGridView();
     }
@@ -146,7 +151,6 @@ namespace TechForgeGUI.BaseControls
       SetUpPagination(table.Rows.Count);
 
       bindSrc.DataSource = table;
-      List.DataSource = bindSrc;
 
       UpdateDataGridView();
     }
@@ -160,14 +164,14 @@ namespace TechForgeGUI.BaseControls
         int endIndex = Math.Min(startIndex + itemPerPage, dataList.Count);
 
         List<object> newDataList = dataList.GetRange(startIndex, endIndex - startIndex);
-        this.List.DataSource = newDataList;
+        this.dgvList.DataSource = newDataList;
       }
       else if (this.bindSrc.DataSource is DataTable table)
       {
         int endIndex = Math.Min(startIndex + itemPerPage, table.Rows.Count);
 
         DataTable newTable = table.Select().Skip(startIndex).Take(endIndex - startIndex).CopyToDataTable();
-        this.List.DataSource = newTable;
+        this.dgvList.DataSource = newTable;
       }
 
       pageLabel.Text = $"Page {currentPage} of {totalPages}";
@@ -176,7 +180,7 @@ namespace TechForgeGUI.BaseControls
     private void dgvList_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
     {
       int rowIndex = e.RowIndex;
-      var row = List.Rows[rowIndex];
+      var row = dgvList.Rows[rowIndex];
 
       if ((rowIndex & 1) == 0) //bitwise AND operator out performs % operator in large data scenarios
       {

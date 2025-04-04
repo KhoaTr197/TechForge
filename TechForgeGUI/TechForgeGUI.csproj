@@ -95,11 +95,23 @@
     <Compile Include="BaseForms\DashboardFormGUI.Designer.cs">
       <DependentUpon>DashboardFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaseForms\ManageFormGUI.cs">
+    <Compile Include="BaseForms\DetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BaseForms\ManageFormGUI.Designer.cs">
-      <DependentUpon>ManageFormGUI.cs</DependentUpon>
+    <Compile Include="BaseForms\DetailFormGUI.Designer.cs">
+      <DependentUpon>DetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseControls\ManagePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\ManagePage.Designer.cs">
+      <DependentUpon>ManagePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseForms\OverlayFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BaseForms\OverlayFormGUI.Designer.cs">
+      <DependentUpon>OverlayFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="CashierFormGUI.cs">
       <SubType>Form</SubType>
@@ -113,11 +125,17 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="SubForms\ProductManageFormGUI.cs">
+    <Compile Include="SubPages\ProductDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SubForms\ProductManageFormGUI.Designer.cs">
-      <DependentUpon>ProductManageFormGUI.cs</DependentUpon>
+    <Compile Include="SubPages\ProductDetailFormGUI.Designer.cs">
+      <DependentUpon>ProductDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ProductManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\ProductManagePageGUI.Designer.cs">
+      <DependentUpon>ProductManagePageGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,10 +144,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SubForms\UserManagerFormGUI.cs">
-      <SubType>Form</SubType>
+    <Compile Include="SubPages\UserManagerFormGUI.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SubForms\UserManagerFormGUI.Designer.cs">
+    <Compile Include="SubPages\UserManagerFormGUI.Designer.cs">
       <DependentUpon>UserManagerFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\GlobalImageList.cs" />
@@ -143,8 +161,8 @@
     <EmbeddedResource Include="BaseForms\DashboardFormGUI.resx">
       <DependentUpon>DashboardFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BaseForms\ManageFormGUI.resx">
-      <DependentUpon>ManageFormGUI.cs</DependentUpon>
+    <EmbeddedResource Include="BaseControls\ManagePage.resx">
+      <DependentUpon>ManagePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CashierFormGUI.resx">
       <DependentUpon>CashierFormGUI.cs</DependentUpon>
@@ -152,8 +170,8 @@
     <EmbeddedResource Include="LoginFormGUI.resx">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SubForms\ProductManageFormGUI.resx">
-      <DependentUpon>ProductManageFormGUI.cs</DependentUpon>
+    <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
+      <DependentUpon>ProductManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

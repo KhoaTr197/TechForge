@@ -9,13 +9,14 @@ using TechForgeDTO;
 
 namespace TechForgeBUS
 {
-  public class SanPhamBUS
+  public class HangSanXuatBUS
   {
-    private readonly SanPhamDAO DAO;
-    public SanPhamBUS(string _connStr) {
-      this.DAO = new SanPhamDAO(_connStr);
+    private readonly HangSanXuatDAO DAO;
+    public HangSanXuatBUS(string _connStr)
+    {
+      this.DAO = new HangSanXuatDAO(_connStr);
     }
-    public List<SanPhamDTO> GetAllConnected()
+    public List<HangSanXuatDTO> GetAllConnected()
     {
       return this.DAO.GetAllConnected();
     }
@@ -23,16 +24,13 @@ namespace TechForgeBUS
     {
       return this.DAO.GetAllDisconnected(ds);
     }
-    public void GetQuantity()
+    public int Add(HangSanXuatDTO newManufacturer)
     {
+      return this.DAO.Add(newManufacturer);
     }
-    public int Add(SanPhamDTO sp)
+    public bool Update(HangSanXuatDTO newManufacturer)
     {
-      return this.DAO.Add(sp);
-    }
-    public bool Update(SanPhamDTO sp)
-    {
-      return this.DAO.Update(sp);
+      return this.DAO.Update(newManufacturer);
     }
     public bool Delete(int id)
     {
