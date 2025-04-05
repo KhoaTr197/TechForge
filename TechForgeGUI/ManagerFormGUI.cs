@@ -13,12 +13,13 @@ using TechForgeGUI.Utils;
 
 namespace TechForgeGUI
 {
-    public partial class ManagerFormGUI : DashboardFormGUI
+  public partial class ManagerFormGUI : DashboardFormGUI
+  {
+    public ManagerFormGUI()
     {
-        public ManagerFormGUI()
-        {
             SetupSidebar("Manager");
-            this.Text = "TechForge - Manager";
-        }
+      this.Text = "TechForge - Manager";
+      this.SetUpSidebar("Manager");
     }
+  }
 }

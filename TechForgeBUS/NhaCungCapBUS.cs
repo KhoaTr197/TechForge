@@ -8,16 +8,16 @@ using TechForgeDTO;
 
 namespace TechForgeBUS
 {
-    public class NhaCungCapBUS
+  public class NhaCungCapBUS
+  {
+    private readonly NhaCungCapDAO DAO;
+    public NhaCungCapBUS(string _connStr)
     {
-        private readonly NhaCungCapDAO DAO;
-        public NhaCungCapBUS(string _connStr)
-        {
-            this.DAO = new NhaCungCapDAO(_connStr);
-        }
-        public List<NhaCungCapDTO> GetAllConnected()
-        {
-            return this.DAO.GetAllConnected();
-        }
+      this.DAO = new NhaCungCapDAO(_connStr);
     }
+    public List<NhaCungCapDTO> GetAllConnected()
+    {
+      return this.DAO.GetAllConnected();
+    }
+  }
 }

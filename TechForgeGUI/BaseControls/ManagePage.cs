@@ -18,7 +18,7 @@ namespace TechForgeGUI.BaseForms
   public partial class ManagePage : UserControl
   {
     public Form FormParent { get; set; }
-    protected readonly string connStr = "Data Source=DESKTOP-PEL4G3N;Initial Catalog=TECHFORGE;Integrated Security=True;";
+    protected readonly string connStr = "Data Source=.;Initial Catalog=TECHFORGE;Integrated Security=True;";
     protected CustomDataGridView dgvMainListRef;
     protected string DefaultFontName = "Segoe UI";
     public ManagePage()
