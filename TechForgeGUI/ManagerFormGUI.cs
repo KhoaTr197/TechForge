@@ -17,7 +17,6 @@ namespace TechForgeGUI
   {
     public ManagerFormGUI()
     {
-            SetupSidebar("Manager");
       this.Text = "TechForge - Manager";
       this.SetUpSidebar("Manager");
     }

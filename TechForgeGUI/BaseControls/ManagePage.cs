@@ -29,10 +29,7 @@ namespace TechForgeGUI.BaseForms
       this.Font = new Font(DefaultFontName, 10);
       this.Dock = DockStyle.Fill;
 
-      dgvMainListRef = dgvMainList;
-            dgvMainListRef.EnableHeaderWrapMode(true);
-            dgvMainListRef.ColumnHeadersHeight = 60;
-            
+      dgvMainListRef = dgvMainList; 
     }
     private void InitializeButtons()
     {

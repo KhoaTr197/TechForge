@@ -131,15 +131,14 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="SubPages\ProductDetailFormGUI.cs"></Compile>
+    <Compile Include="SubPages\ProductDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ManagerFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ManagerFormGUI.Designer.cs">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SubForms\ProductManageFormGUI.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.Designer.cs">
       <DependentUpon>ProductDetailFormGUI.cs</DependentUpon>
@@ -165,12 +164,6 @@
     </Compile>
     <Compile Include="SubPages\UserManagePageGUI.cs">
       <SubType>UserControl</SubType>
-		</Compile>
-    <Compile Include="SubForms\ProviderManageFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SubForms\ProviderManageFormGUI.Designer.cs">
-      <DependentUpon>ProviderManageFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\UserManagePageGUI.Designer.cs">
       <DependentUpon>UserManagePageGUI.cs</DependentUpon>
@@ -198,9 +191,6 @@
     <EmbeddedResource Include="ManagerFormGUI.resx">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SubForms\ProductManageFormGUI.resx">
-      <DependentUpon>ProductManageFormGUI.cs</DependentUpon>
-		</EmbeddedResource>
     <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
       <DependentUpon>ProductManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>

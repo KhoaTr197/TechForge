@@ -146,18 +146,17 @@ namespace TechForgeGUI.BaseControls
           SelectTabItem(tab);
         }
 
-
-        if (tab.SubSidebarItems != null && tab.SubSidebarItems.Count > 0)
-        {
-          CreateSubTabItems(tab, tabHeight);
-        }
-
         if (i == n - 1)
         {
           flpTabs.Controls.Add(spacer);
         }
 
         flpTabs.Controls.Add(tab);
+
+        if (tab.SubSidebarItems != null && tab.SubSidebarItems.Count > 0)
+        {
+          CreateSubTabItems(tab, tabHeight);
+        }
       }
     }
 
