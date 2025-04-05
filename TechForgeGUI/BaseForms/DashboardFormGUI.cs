@@ -25,21 +25,64 @@ namespace TechForgeGUI.BaseForm
     public DashboardFormGUI()
     {
       InitializeComponent();
+      //List<SidebarTabItem> tabs = new List<SidebarTabItem> {
+      //  new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
+      //  new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
+      //  new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+      //  new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
+      //  new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
+      //  new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
+      //};
 
-      List<SidebarTabItem> tabs = new List<SidebarTabItem> {
-        new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
-        new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
-        new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
-        new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
-        new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
-        new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
-      };
-
-      sideBar1.Init(tabs);
-      sideBar1.SelectedTabChanged += Hello;
+      //sideBar1.Init(tabs);
+      //sideBar1.SelectedTabChanged += Hello;
 
     }
-    private void Hello(object sender, SidebarSelectedTabChangedEventArgs e) {
+
+    public void SetupSidebar(string job = "Cashier")
+        {
+            List<SidebarTabItem> tabs = null;
+            switch (job)
+            {
+                case "Cashier":
+                    {
+                        tabs = new List<SidebarTabItem> {
+                            new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
+                            new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
+                            new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+                            new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
+                            new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
+                            new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
+                        };
+                    }
+                    break;
+                case "Manager":
+                    {
+                        tabs = new List<SidebarTabItem> {
+                            new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
+                            new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
+                            //new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+                            new SidebarTabItem{ Id="Provider", ImageList=GlobalStatics.iconList, ImageKey="provider_icon", Text="Nhà cung cấp" },
+                            //new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
+                            new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
+                        };
+                    }
+                    break;
+                case "WarehouseStaff":
+                    {
+                        tabs = new List<SidebarTabItem> {
+                            new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
+                            new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
+                            new SidebarTabItem{ Id="Warehouse", ImageList=GlobalStatics.iconList, ImageKey="warehouse_icon", Text="Kho" },
+                            new SidebarTabItem{ Id="Provider", ImageList=GlobalStatics.iconList, ImageKey="provider_icon", Text="Nhà cung cấp" },
+                            new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
+                        };
+                    } break;
+            }
+            sideBar1.Init(tabs);
+            sideBar1.SelectedTabChanged += Hello;
+        }
+    protected void Hello(object sender, SidebarSelectedTabChangedEventArgs e) {
       if (currentForm != null)
         currentForm.Close();
 
@@ -59,6 +102,13 @@ namespace TechForgeGUI.BaseForm
             currentForm.Show();
             break;
           }
+        case "Provider":
+            {
+                currentForm = new ProviderManageFormGUI();
+                panelMain.Controls.Add(currentForm);
+                currentForm.Show();
+                break;
+            }
         default:
           break;
       }

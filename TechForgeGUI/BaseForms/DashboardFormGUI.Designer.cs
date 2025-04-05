@@ -64,7 +64,7 @@
     }
 
     #endregion
-    private BaseControls.Sidebar sideBar1;
+    protected BaseControls.Sidebar sideBar1;
     private System.Windows.Forms.Panel panelMain;
   }
 }

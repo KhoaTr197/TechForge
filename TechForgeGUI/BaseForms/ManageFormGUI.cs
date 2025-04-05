@@ -17,7 +17,7 @@ namespace TechForgeGUI.BaseForms
 {
   public partial class ManageFormGUI : Form
   {
-    protected readonly string connStr = "Data Source=DESKTOP-PEL4G3N;Initial Catalog=TECHFORGE;Integrated Security=True;";
+    protected readonly string connStr = "Data Source=.;Initial Catalog=TECHFORGE;Integrated Security=True;";
     protected CustomDataGridView dgvMainListRef;
     protected string DefaultFontName = "Segoe UI";
     public ManageFormGUI()
@@ -33,6 +33,9 @@ namespace TechForgeGUI.BaseForms
       this.ControlBox = false;
 
       dgvMainListRef = dgvMainList;
+            dgvMainListRef.EnableHeaderWrapMode(true);
+            dgvMainListRef.ColumnHeadersHeight = 60;
+            
     }
     private void InitializeButtons()
     {

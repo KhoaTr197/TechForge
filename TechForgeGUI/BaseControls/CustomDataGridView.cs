@@ -56,9 +56,10 @@ namespace TechForgeGUI.BaseControls
         ScrollBars = ScrollBars.Both
       };
       List.RowPrePaint += dgvList_RowPrePaint;
+            List.CellFormatting += CustomDataGridView_CellFormatting;
 
-      //Initialize flpPagination
-      flpPagination = new FlowLayoutPanel() {
+        //Initialize flpPagination
+        flpPagination = new FlowLayoutPanel() {
         AutoSize = true,
         Dock = DockStyle.Top,
         BackColor = Color.Transparent,
@@ -125,7 +126,7 @@ namespace TechForgeGUI.BaseControls
       }
     }
     //Set up Pagination Properties
-    public void SetUpPagination(int _totalItems, int _itemPerPage = 15)
+    public void SetUpPagination(int _totalItems, int _itemPerPage = 5)
     {
       itemPerPage = _itemPerPage;
       totalPages = (int)Math.Ceiling((double)_totalItems / _itemPerPage);
@@ -187,5 +188,74 @@ namespace TechForgeGUI.BaseControls
         row.DefaultCellStyle.BackColor = Color.White;
       }
     }
-  }
+        //Column name assignment method
+        public void SetColumnNames(Dictionary<string, (string HeaderText, bool Visible)> columnMappings)
+        {
+            foreach (DataGridViewColumn column in List.Columns)
+            {
+                if (columnMappings.ContainsKey(column.Name))
+                {
+                    var (headerText, visible) = columnMappings[column.Name];
+                    column.HeaderText = headerText;
+                    column.Visible = visible;
+                }
+            }
+        }
+        //Enable Header Wrap Mode Method
+        public void EnableHeaderWrapMode(bool enable)
+        {
+            List.ColumnHeadersDefaultCellStyle.WrapMode = enable ? DataGridViewTriState.True : DataGridViewTriState.False;
+        }
+        //Set Column Headers Height
+        public int ColumnHeadersHeight
+        {
+            get => List.ColumnHeadersHeight;
+            set
+            {
+                List.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+                List.ColumnHeadersHeight = value;
+            }
+        }
+        //Config Dgv Columns
+        public void ConfigureDataGridViewColumns()
+        {
+            int colIndex = -1;
+            foreach (DataGridViewColumn col in List.Columns)
+            {
+                if(col.HeaderText == "Giới Tính")
+                {
+                    if(col is DataGridViewCheckBoxColumn)
+                    {
+                        colIndex = col.Index;
+                        List.Columns.Remove(col);
+                        break;
+                    }
+                }
+            }
+            if(colIndex > -1)
+            {
+                DataGridViewTextBoxColumn textColumn = new DataGridViewTextBoxColumn
+                {
+                    Name = "GioiTinh",
+                    HeaderText = "Giới Tính",
+                    DataPropertyName = "GioiTinh" // link to GioiTinh in NguoiDungDTO
+                };
+                List.Columns.Insert(colIndex, textColumn);
+            }
+        }
+        public void CustomDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (List.Columns[e.ColumnIndex].HeaderText == "Giới Tính" && e.Value != null)
+            {
+                try
+                {
+                    bool gioiTinh = (bool)e.Value;
+                    e.Value = gioiTinh ? "Nam" : "Nữ";
+                    e.FormattingApplied = true;
+                } catch (Exception ex) {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+    }
 }
