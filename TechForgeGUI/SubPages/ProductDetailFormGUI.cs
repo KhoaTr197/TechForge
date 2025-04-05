@@ -7,84 +7,142 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TechForgeBUS;
 using TechForgeDTO;
+using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubPages
 {
   public partial class ProductDetailFormGUI : DetailFormGUI
   {
-    private SanPhamDTO info { get; set; }
+    private SanPhamDTO thongTinSanPham { get; set; }
+    private List<DanhMucDTO> dsDanhMuc { get; set; }
+    private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
+    private SanPhamBUS BUS { get; set; }
     private FlowLayoutPanel flpInfoPanel;
-    public ProductDetailFormGUI(SanPhamDTO sanPham)
+    public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat, SanPhamBUS _BUS)
     {
       InitializeComponent();
 
-      info = sanPham;
+      thongTinSanPham = _thongTinSanPham;
+      dsDanhMuc = _dsDanhMuc;
+      dsHangSanXuat = _dsHangSanXuat;
+      BUS = _BUS;
       Text = "Chi tiết sản phẩm";
 
       flpInfoPanel = new FlowLayoutPanel
       {
+        BackColor = Color.FromArgb(240, 240, 240),
         Dock = DockStyle.Fill,
         FlowDirection = FlowDirection.TopDown,
         Padding = new Padding(4, 32, 4, 64),
       };
 
-      foreach (var prop in info.GetType().GetProperties())
+      LoadInfo();
+
+      this.Controls.Add(flpInfoPanel);
+
+      btnEdit.Click += btnEdit_Click;
+    }
+
+    private void LoadInfo()
+    {
+      Dictionary<string, string> displayNames = new Dictionary<string, string>
+        {
+            { "MaSP", "Mã Sản Phẩm" },
+            { "TenSP", "Tên Sản Phẩm" },
+            { "GiaNhap", "Giá Nhập" },
+            { "Gia", "Giá" },
+            { "KhuyenMai", "Khuyến Mãi" },
+            { "MoTa", "Mô Tả" },
+            { "SoLuong", "Số Lượng" },
+            { "DanhMuc", "Danh Mục" },
+            { "Hsx", "Hãng Sản Xuất" },
+            { "NgSx", "Ngày Sản Xuất" },
+            { "TrangThai", "Trạng Thái" }
+        };
+
+      foreach (var prop in thongTinSanPham.GetType().GetProperties())
       {
         FlowLayoutPanel panel = new FlowLayoutPanel
         {
           AutoSize = true,
-          Height = 32,
+          Height = 48,
           FlowDirection = FlowDirection.LeftToRight,
-          BackColor = Color.FromArgb(240, 240, 240),
         };
 
         Label lbl = new Label
         {
-          Width = 96,
+          Width = 128,
           Font = new Font(DefaultFontName, 10),
           TextAlign = ContentAlignment.MiddleLeft,
-          Text = prop.Name + ":",
+          Text = displayNames.ContainsKey(prop.Name) ? displayNames[prop.Name] + ":" : prop.Name + ":",
         };
 
         Control control;
-        if (prop.Name == "MaSp")
+
+        if (prop.Name == "MaSP")
         {
           control = new TextBox
           {
+            Name = "txt" + prop.Name,
             Font = new Font(DefaultFontName, 10),
-            Text = prop.GetValue(info)?.ToString(),
-            ReadOnly = true,
+            Text = prop.GetValue(thongTinSanPham)?.ToString(),
+            Enabled = false,
           };
+        }
+        else if (prop.Name == "DanhMuc" || prop.Name == "Hsx")
+        {
+          ComboBox comboBox = new ComboBox
+          {
+            Name = "cbo" + prop.Name,
+            Font = new Font(DefaultFontName, 10),
+            DropDownStyle = ComboBoxStyle.DropDownList,
+          };
+          if (prop.Name == "DanhMuc")
+          {
+            comboBox.Items.AddRange(dsDanhMuc.Select(dm => dm.TenDM).ToArray());
+            comboBox.SelectedItem = dsDanhMuc.FirstOrDefault(dm => dm.MaDM == (int)prop.GetValue(thongTinSanPham))?.TenDM;
+          }
+          else
+          {
+            comboBox.Items.AddRange(dsHangSanXuat.Select(hsx => hsx.TenHSX).ToArray());
+            comboBox.SelectedItem = dsHangSanXuat.FirstOrDefault(hsx => hsx.MaHSX == (int)prop.GetValue(thongTinSanPham))?.TenHSX;
+          }
+          control = comboBox;
         }
         else if (prop.PropertyType == typeof(DateTime))
         {
           control = new DateTimePicker
           {
-            Value = (DateTime)prop.GetValue(info),
+            Name = "dtp" + prop.Name,
+            Value = (DateTime)prop.GetValue(thongTinSanPham),
             Font = new Font(DefaultFontName, 10),
-            Enabled = false,
+            Format = DateTimePickerFormat.Custom,
+            CustomFormat = "dd/MM/yyyy",
           };
         }
         else if (prop.PropertyType == typeof(bool))
         {
           control = new ComboBox
           {
+            Name = "cbo" + prop.Name,
+            Width = 160,
             Font = new Font(DefaultFontName, 10),
             DropDownStyle = ComboBoxStyle.DropDownList,
-            Items = { "True", "False" },
-            SelectedItem = prop.GetValue(info).ToString(),
-            Enabled = false,
+            Items = { "Đang kinh doanh", "Ngừng kinh doanh" },
+            SelectedItem = (bool)prop.GetValue(thongTinSanPham) ? "Đang kinh doanh" : "Ngừng kinh doanh",
           };
         }
         else if (prop.PropertyType == typeof(decimal))
         {
-          decimal value = Convert.ToDecimal(prop.GetValue(info));
+          decimal value = Convert.ToDecimal(prop.GetValue(thongTinSanPham));
           decimal minimum = 0;
           decimal maximum = 250000000;
           control = new NumericUpDown
           {
+            Name = "nud" + prop.Name,
             Font = new Font(DefaultFontName, 10),
             ThousandsSeparator = true,
             Increment = prop.Name == "KhuyenMai" ? 1 : 100000,
@@ -93,17 +151,31 @@ namespace TechForgeGUI.SubPages
             Value = value,
           };
         }
+        else if (prop.PropertyType == typeof(int))
+        {
+          decimal value = Convert.ToInt64(prop.GetValue(thongTinSanPham));
+          decimal minimum = 0;
+          control = new NumericUpDown
+          {
+            Name = "nud" + prop.Name,
+            Font = new Font(DefaultFontName, 10),
+            ThousandsSeparator = true,
+            Increment = 5,
+            Minimum = minimum,
+            Value = value,
+          };
+        }
         else
         {
           control = new TextBox
           {
+            Name = "txt" + prop.Name,
             BackColor = Color.White,
             Size = prop.Name == "MoTa" ? new Size(320, 160) : new Size(320, 48),
             Multiline = prop.Name == "MoTa",
             ScrollBars = prop.Name == "MoTa" ? ScrollBars.Vertical : ScrollBars.None,
             Font = new Font(DefaultFontName, 10),
-            Text = prop.GetValue(info)?.ToString(),
-            ReadOnly = true,
+            Text = prop.GetValue(thongTinSanPham)?.ToString(),
           };
         }
 
@@ -111,9 +183,26 @@ namespace TechForgeGUI.SubPages
         panel.Controls.Add(control);
         flpInfoPanel.Controls.Add(panel);
       }
+    }
+    private void btnEdit_Click(object sender, EventArgs e)
+    {
+      SanPhamDTO updatedInfo = new SanPhamDTO()
+      {
+        MaSP = thongTinSanPham.MaSP,
+        TenSP = ((TextBox)GetControlByName(flpInfoPanel, "txtTenSP")).Text,
+        GiaNhap = (decimal)((NumericUpDown)GetControlByName(flpInfoPanel, "nudGiaNhap")).Value,
+        Gia = (decimal)((NumericUpDown)GetControlByName(flpInfoPanel, "nudGia")).Value,
+        KhuyenMai = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudKhuyenMai")).Value,
+        MoTa = ((TextBox)GetControlByName(flpInfoPanel, "txtMoTa")).Text,
+        SoLuong = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudSoLuong")).Value,
+        DanhMuc = dsDanhMuc[((ComboBox)GetControlByName(flpInfoPanel, "cboDanhMuc")).SelectedIndex].MaDM,
+        Hsx = dsHangSanXuat[((ComboBox)GetControlByName(flpInfoPanel, "cboHsx")).SelectedIndex].MaHSX,
+        NgSx = ((DateTimePicker)GetControlByName(flpInfoPanel, "dtpNgSx")).Value,
+        TrangThai = ((ComboBox)GetControlByName(flpInfoPanel, "cboTrangThai")).SelectedItem.ToString() == "Đang kinh doanh",
+      };
 
-
-      this.Controls.Add(flpInfoPanel);
+      if (BUS.Update(thongTinSanPham, updatedInfo))
+        OnEditSubmit(new DetailFormEditSubmitEventArgs());
     }
   }
 }

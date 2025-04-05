@@ -131,20 +131,20 @@ namespace TechForgeGUI.BaseControls
       }
     }
     //Set up Pagination Properties
-    public void SetUpPagination(int _totalItems, int _itemPerPage = 15)
+    public void SetUpPagination(int _totalItems, int _itemPerPage = 5)
     {
       itemPerPage = _itemPerPage;
       totalPages = (int)Math.Ceiling((double)_totalItems / _itemPerPage);
       currentPage = 1;
     }
-    //Binding Data method
-    public void BindingData(List<object> dataList)
+    //Binding Data to DataGridView
+    public void BindingData<T>(List<T> dataList) where T : class
     {
       SetUpPagination(dataList.Count);
 
       bindSrc.DataSource = dataList;
 
-      UpdateDataGridView();
+      UpdateDataGridView(dataList);
     }
     public void BindingData(DataTable table)
     {
@@ -152,28 +152,41 @@ namespace TechForgeGUI.BaseControls
 
       bindSrc.DataSource = table;
 
-      UpdateDataGridView();
+      UpdateDataGridView(table);
     }
     //Update DataGridView displayed data
     private void UpdateDataGridView()
     {
+      if (bindSrc.DataSource is List<SanPhamDTO> dataList)
+      {
+        UpdateDataGridView(dataList);
+      }
+      else if (bindSrc.DataSource is DataTable table)
+      {
+        UpdateDataGridView(table);
+      }
+    }
+    private void UpdateDataGridView<T>(List<T> dataList) where T : class
+    {
       int startIndex = (currentPage - 1) * itemPerPage;
-
-      if (this.bindSrc.DataSource is List<object> dataList)
+      if (dataList != null)
       {
         int endIndex = Math.Min(startIndex + itemPerPage, dataList.Count);
-
-        List<object> newDataList = dataList.GetRange(startIndex, endIndex - startIndex);
+        List<T> newDataList = dataList.GetRange(startIndex, endIndex - startIndex);
         this.dgvList.DataSource = newDataList;
       }
-      else if (this.bindSrc.DataSource is DataTable table)
+      pageLabel.Text = $"Page {currentPage} of {totalPages}";
+    }
+    private void UpdateDataGridView(DataTable table)
+    {
+      int startIndex = (currentPage - 1) * itemPerPage;
+      if (table != null)
       {
         int endIndex = Math.Min(startIndex + itemPerPage, table.Rows.Count);
 
         DataTable newTable = table.Select().Skip(startIndex).Take(endIndex - startIndex).CopyToDataTable();
         this.dgvList.DataSource = newTable;
       }
-
       pageLabel.Text = $"Page {currentPage} of {totalPages}";
     }
     //Event Handlers when Row Pre Paint

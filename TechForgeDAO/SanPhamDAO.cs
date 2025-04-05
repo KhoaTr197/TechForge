@@ -59,7 +59,7 @@ namespace TechForgeDAO
       {
         using (SqlConnection conn = CreateConnection())
         {
-          SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM SANPHAM", conn);
+          SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM SANPHAM WHERE TRANGTHAI = 1", conn);
           adapter.Fill(ds, "SANPHAM");
         }
 

@@ -15,9 +15,14 @@ namespace TechForgeGUI.BaseControls
   public class SidebarTabItem : Button
   {
     public string Id { get; set; }
-    public SidebarTabItem(string id=null)
+    public SidebarTabItem ParentSidebarItem { get; set; }
+    public List<SidebarTabItem> SubSidebarItems { get; set; }
+    public SidebarTabItem(string id=null, SidebarTabItem tab=null, List<SidebarTabItem> tabs = null)
     {
       Id = id;
+      ParentSidebarItem = tab;
+      SubSidebarItems = tabs;
+
       FlatStyle = FlatStyle.Flat;
       FlatAppearance.BorderSize = 0;
       Margin = new Padding(0);
@@ -77,20 +82,23 @@ namespace TechForgeGUI.BaseControls
       this.TabItemsChanged += Sidebar_ItemsChanged;
 
       //Init a Panel for Logo 
-      this.panelLogo = new Panel() {
+      this.panelLogo = new Panel()
+      {
         BackgroundImage = null,
         BackColor = this.Style.BgColor,
         Size = new Size(160, 64),
         Location = new Point(0, 0),
       };
       //Init a Flow Panel Layout for Tab Items
-      this.flpTabs = new FlowLayoutPanel() {
+      this.flpTabs = new FlowLayoutPanel()
+      {
         Location = new Point(0, panelLogo.Size.Height),
         FlowDirection = FlowDirection.TopDown,
-        Size = new Size(this.Width, this.Size.Height -  panelLogo.Size.Height),
+        Size = new Size(this.Width, this.Size.Height - panelLogo.Size.Height),
       };
       //Init a Panel for Spacing
-      this.spacer = new Panel() {
+      this.spacer = new Panel()
+      {
         Dock = DockStyle.Fill,
       };
 
@@ -111,7 +119,6 @@ namespace TechForgeGUI.BaseControls
     }
     private void CreateTabItems()
     {
-
       int n = this.Tabs.Count;
       int tabHeight = (int)Math.Round(this.Size.Width / 3.33333);
 
@@ -133,17 +140,50 @@ namespace TechForgeGUI.BaseControls
         tab.MouseEnter += TabItem_MouseEnter;
         tab.MouseLeave += TabItem_MouseLeave;
         tab.Click += TabItem_Click;
-          
+
         if (i == 0)
         {
           SelectTabItem(tab);
         }
 
-        if (i == n - 1) {
-          flpTabs.Controls.Add(spacer);
+        flpTabs.Controls.Add(tab);
+
+        if (tab.SubSidebarItems != null && tab.SubSidebarItems.Count > 0)
+        {
+          CreateSubTabItems(tab, tabHeight);
         }
 
-        flpTabs.Controls.Add(tab);
+        if (i == n - 1)
+        {
+          flpTabs.Controls.Add(spacer);
+        }
+      }
+    }
+
+    private void CreateSubTabItems(SidebarTabItem tab, int tabHeight)
+    {
+      foreach (var subTab in tab.SubSidebarItems)
+      {
+        subTab.Text = $"    {subTab.Text}";
+        subTab.Font = new Font(DefaultFontName, 9);
+        subTab.ImageAlign = ContentAlignment.MiddleLeft;
+        subTab.ImageList = subTab.ImageList;
+        subTab.ImageKey = subTab.ImageKey;
+        subTab.TextImageRelation = TextImageRelation.ImageBeforeText;
+        subTab.ForeColor = this.Style.TextColor;
+        subTab.BackColor = this.Style.BgColor;
+        subTab.Size = new Size(this.Size.Width, tabHeight);
+        subTab.Padding = new Padding(16, 0, 8, 0);
+        subTab.FlatAppearance.MouseOverBackColor = this.Style.HoverColor;
+        subTab.ParentSidebarItem = tab;
+
+        subTab.MouseEnter += TabItem_MouseEnter;
+        subTab.MouseLeave += TabItem_MouseLeave;
+        subTab.Click += TabItem_Click;
+
+        subTab.Visible = false;
+
+        flpTabs.Controls.Add(subTab);
       }
     }
     //Handle Select Tab Item
@@ -159,13 +199,50 @@ namespace TechForgeGUI.BaseControls
     }
     private void TabItem_Click(object sender, EventArgs e)
     {
-      //Check Selected Tab isnt null and reset their style
+      SidebarTabItem clickedTab = (SidebarTabItem)sender;
+
+      //Check Selected Tab isnt null and reset their style, hide sub tabs
       if (SelectedTab != null)
       {
         SelectedTab.BackColor = this.Style.BgColor;
+
+        // Hide sub-tabs of previously selected tab
+        if (SelectedTab.SubSidebarItems != null)
+        {
+          foreach (var subTab in SelectedTab.SubSidebarItems)
+          {
+            subTab.Visible = false;
+          }
+        }
+        else if (SelectedTab.ParentSidebarItem != null)  // SelectedTab is a sub-tab
+        {
+          foreach (var subTab in SelectedTab.ParentSidebarItem.SubSidebarItems)
+          {
+            subTab.Visible = false;
+          }
+        }
       }
-      //Call Selecte Tab Handler
-      SelectTabItem((SidebarTabItem)sender);
+      //Call Select Tab Handler
+      SelectTabItem(clickedTab);
+
+      if (SelectedTab.SubSidebarItems != null)
+      {
+        foreach (var subTab in SelectedTab.SubSidebarItems)
+        {
+          subTab.Visible = true;
+        }
+      }
+      // If clicked tab is a sub-tab, show all sibling sub-tabs
+      else if (clickedTab.ParentSidebarItem != null)
+      {
+        if (clickedTab.ParentSidebarItem.SubSidebarItems != null)
+        {
+          foreach (var subTab in clickedTab.ParentSidebarItem.SubSidebarItems)
+          {
+            subTab.Visible = true;
+          }
+        }
+      }
     }
     //Handle effect when mouse enter Tab Item
     private void TabItem_MouseEnter(object sender, EventArgs e)
@@ -194,7 +271,7 @@ namespace TechForgeGUI.BaseControls
     //Event Handlers when Dock changed
     private void Sidebar_DockChanged(object sender, EventArgs e)
     {
-      if(Tabs.Count > 0) 
+      if (Tabs.Count > 0)
         spacer.Height = this.Height - this.panelLogo.Height - (this.Tabs[0].Height * this.Tabs.Count + 1);
     }
   }

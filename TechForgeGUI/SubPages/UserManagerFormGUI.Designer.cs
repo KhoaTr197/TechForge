@@ -28,10 +28,20 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.components = new System.ComponentModel.Container();
+      this.SuspendLayout();
+      // 
+      // dgvMainListRef
+      // 
+      this.dgvMainListRef.Size = new System.Drawing.Size(1294, 433);
+      // 
+      // UserManagerFormGUI
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
-      this.Text = "UserManagerForm";
+      this.Name = "UserManagerFormGUI";
+      this.Size = new System.Drawing.Size(1294, 641);
+      this.ResumeLayout(false);
+
     }
 
     #endregion

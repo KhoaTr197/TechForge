@@ -26,9 +26,16 @@ namespace TechForgeGUI.BaseForm
     {
       InitializeComponent();
 
-      List<SidebarTabItem> tabs = new List<SidebarTabItem> {
-        new SidebarTabItem{ Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
-        new SidebarTabItem{ Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm" },
+      List<SidebarTabItem> tabs = new List<SidebarTabItem>() {
+        new SidebarTabItem { Id="Homepage", ImageList=GlobalStatics.iconList, ImageKey="homepage_icon", Text="Trang Chủ" },
+        new SidebarTabItem { 
+          Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm",
+          SubSidebarItems = new List<SidebarTabItem>
+          {
+            new SidebarTabItem{ Id="Manufacturer", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Hãng" },
+            new SidebarTabItem{ Id="Category", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Danh Mục" },
+          }
+        },
         new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
         new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
         new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
@@ -36,10 +43,10 @@ namespace TechForgeGUI.BaseForm
       };
 
       sideBar1.Init(tabs);
-      sideBar1.SelectedTabChanged += Hello;
+      sideBar1.SelectedTabChanged += OpenSubForm;
 
     }
-    private void Hello(object sender, SidebarSelectedTabChangedEventArgs e) {
+    private void OpenSubForm(object sender, SidebarSelectedTabChangedEventArgs e) {
       if (currentPage != null)
         panelMain.Controls.Remove(currentPage);
 

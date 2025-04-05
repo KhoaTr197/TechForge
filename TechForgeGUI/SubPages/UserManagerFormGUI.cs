@@ -28,7 +28,7 @@ namespace TechForgeGUI.SubForms
     }
     protected override void LoadData()
     {
-      dgvMainListRef.BindingData(bus.GetAllConnected().Cast<object>().ToList());
+      //dgvMainListRef.BindingData(bus.GetAllConnected().Cast<object>().ToList());
     }
   }
 }

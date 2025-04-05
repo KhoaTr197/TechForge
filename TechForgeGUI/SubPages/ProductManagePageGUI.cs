@@ -17,74 +17,126 @@ namespace TechForgeGUI
 {
   public partial class ProductManagePageGUI : ManagePage
   {
+    private DataSet ds = new DataSet();
+    private List<SanPhamDTO> dsSanPham { get; set; }
+    private List<DanhMucDTO> dsDanhMuc { get; set; }
+    private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
     private SanPhamBUS sanPhamBus { get; set; }
     private HangSanXuatBUS hangSanXuatBus { get; set; }
     private DanhMucBUS danhMucBus { get; set; }
+
+    // Constructor
     public ProductManagePageGUI()
     {
       InitializeComponent();
       InitializeBUS();
+      GetData();
       LoadData();
+      ModifyData();
 
-      //dgvMainListRef.dgvList.SelectionChanged += dgvList_SelectionChanged;
+      // Attach event handler for cell click
       dgvMainListRef.dgvList.CellClick += dgvList_CellClick;
     }
+
+    // Initialize business logic components
     sealed protected override void InitializeBUS()
     {
       sanPhamBus = new SanPhamBUS(this.connStr);
       hangSanXuatBus = new HangSanXuatBUS(this.connStr);
       danhMucBus = new DanhMucBUS(this.connStr);
     }
-    sealed protected override void LoadData()
+
+    // Retrieve data from the database
+    protected void GetData()
     {
-      DataSet ds = new DataSet();
+      ds = new DataSet();
+
       sanPhamBus.GetAllDisconnected(ds);
       hangSanXuatBus.GetAllDisconnected(ds);
       danhMucBus.GetAllDisconnected(ds);
 
-      // Bind data to the DataGridView
-      dgvMainListRef.BindingData(ds.Tables["SANPHAM"]);
+      dsSanPham = new List<SanPhamDTO>();
+      dsDanhMuc = new List<DanhMucDTO>();
+      dsHangSanXuat = new List<HangSanXuatDTO>();
 
+      // Map data to DTOs
+      dsSanPham = ds.Tables["SANPHAM"].AsEnumerable().Select(row => new SanPhamDTO()
+      {
+        MaSP = row.Field<int>("MASP"),
+        TenSP = row.Field<string>("TENSP"),
+        GiaNhap = row.Field<decimal>("GIANHAP"),
+        Gia = row.Field<decimal>("GIA"),
+        KhuyenMai = row.Field<decimal>("KHUYENMAI"),
+        MoTa = row.Field<string>("MOTA"),
+        SoLuong = row.Field<int>("SL"),
+        DanhMuc = row.Field<int>("DANHMUC"),
+        Hsx = row.Field<int>("HSX"),
+        NgSx = row.Field<DateTime>("NGSX"),
+        TrangThai = row.Field<bool>("TRANGTHAI")
+      }).ToList();
+
+      dsDanhMuc = ds.Tables["DANHMUC"].AsEnumerable().Select(row => new DanhMucDTO()
+      {
+        MaDM = row.Field<int>("MADM"),
+        TenDM = row.Field<string>("TENDM")
+      }).ToList();
+
+      dsHangSanXuat = ds.Tables["HANGSANXUAT"].AsEnumerable().Select(row => new HangSanXuatDTO()
+      {
+        MaHSX = row.Field<int>("MAHSX"),
+        TenHSX = row.Field<string>("TENHSX")
+      }).ToList();
+    }
+
+    // Load data into the DataGridView
+    sealed protected override void LoadData()
+    {
+      dgvMainListRef.BindingData(dsSanPham);
+    }
+
+    // Modify DataGridView columns
+    private void ModifyData()
+    {
       this.SuspendLayout();
 
-      // Re-modify the column header text
+      // Add columns to DataGridView
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "MASP",
-        DataPropertyName = "MASP",
+        DataPropertyName = "MaSP",
         HeaderText = "Mã",
         FillWeight = 48,
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "TENSP",
-        DataPropertyName = "TENSP",
+        DataPropertyName = "TenSP",
         HeaderText = "Tên sản phẩm",
         FillWeight = 240,
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "GIANHAP",
-        DataPropertyName = "GIANHAP",
+        DataPropertyName = "GiaNhap",
         HeaderText = "Giá nhập"
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "GIA",
-        DataPropertyName = "GIA",
+        DataPropertyName = "Gia",
         HeaderText = "Giá"
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "KHUYENMAI",
-        DataPropertyName = "KHUYENMAI",
+        DataPropertyName = "KhuyenMai",
         HeaderText = "Khuyến mãi (%)",
         FillWeight = 64,
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "MOTA",
-        DataPropertyName = "MOTA",
+        DataPropertyName = "MoTa",
         HeaderText = "Mô tả",
         FillWeight = 64,
         Visible = false,
@@ -92,51 +144,54 @@ namespace TechForgeGUI
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "SL",
-        DataPropertyName = "SL",
+        DataPropertyName = "SoLuong",
         HeaderText = "Số lượng",
         FillWeight = 64,
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewComboBoxColumn
       {
         Name = "DANHMUC",
-        DataPropertyName = "DANHMUC",
+        DataPropertyName = "DanhMuc",
         HeaderText = "Danh mục",
-        DataSource = ds.Tables["DANHMUC"],
+        DataSource = dsDanhMuc,
         DisplayMember = "TENDM",
         ValueMember = "MADM",
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewComboBoxColumn
       {
         Name = "HANGSANXUAT",
-        DataPropertyName = "HSX",
+        DataPropertyName = "Hsx",
         HeaderText = "Hãng sản xuất",
-        DataSource = ds.Tables["HANGSANXUAT"],
+        DataSource = dsHangSanXuat,
         DisplayMember = "TENHSX",
         ValueMember = "MAHSX",
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "NGSX",
-        DataPropertyName = "NGSX",
+        DataPropertyName = "Ngsx",
         HeaderText = "Ngày sản xuất",
         Visible = false,
       });
       dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "TRANGTHAI",
-        DataPropertyName = "TRANGTHAI",
+        DataPropertyName = "TrangThai",
         HeaderText = "Trạng Thái"
       });
 
+      // Attach event handler for cell formatting
       dgvMainListRef.dgvList.CellFormatting += dgvList_CellFormatting;
 
       this.ResumeLayout();
     }
+
+    // Format DataGridView cells
     protected void dgvList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
       if (e.Value != null)
       {
-        if (dgvMainListRef.dgvList.Columns[e.ColumnIndex].DataPropertyName == "TRANGTHAI")
+        if (dgvMainListRef.dgvList.Columns[e.ColumnIndex].Name == "TRANGTHAI")
         {
           bool status = (bool)e.Value;
           if (status)
@@ -152,8 +207,8 @@ namespace TechForgeGUI
             e.Value = "Ngừng kinh doanh";
           }
         }
-        else if (dgvMainListRef.dgvList.Columns[e.ColumnIndex].DataPropertyName == "GIANHAP" ||
-                 dgvMainListRef.dgvList.Columns[e.ColumnIndex].DataPropertyName == "GIA")
+        else if (dgvMainListRef.dgvList.Columns[e.ColumnIndex].Name == "GIANHAP" ||
+                 dgvMainListRef.dgvList.Columns[e.ColumnIndex].Name == "GIA")
         {
           decimal price = (decimal)e.Value;
           e.Value = price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
@@ -161,6 +216,8 @@ namespace TechForgeGUI
         }
       }
     }
+
+    // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
     {
       if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -168,35 +225,23 @@ namespace TechForgeGUI
         DataGridView dgvMainList = (DataGridView)sender;
         if (dgvMainList.SelectedRows.Count > 0)
         {
-          using (OverlayFormGUI overlay = new OverlayFormGUI())
-          {
-            DataGridViewRow selectedRow = dgvMainList.Rows[e.RowIndex];
-            SanPhamDTO sanPham = new SanPhamDTO() {
-              MaSP = (int)selectedRow.Cells["MASP"].Value,
-              TenSP = (string)selectedRow.Cells["TENSP"].Value,
-              GiaNhap = (decimal)selectedRow.Cells["GIANHAP"].Value,
-              Gia = (decimal)selectedRow.Cells["GIA"].Value,
-              KhuyenMai = (decimal)selectedRow.Cells["KHUYENMAI"].Value,
-              MoTa = (string)selectedRow.Cells["MOTA"].Value,
-              SoLuong = (int)selectedRow.Cells["SL"].Value,
-              DanhMuc = (int)selectedRow.Cells["DANHMUC"].Value,
-              Hsx = (int)selectedRow.Cells["HANGSANXUAT"].Value,
-              NgSx = (DateTime)selectedRow.Cells["NGSX"].Value,
-              TrangThai = (bool)selectedRow.Cells["TRANGTHAI"].Value
-            };
+          SanPhamDTO sanPham = dsSanPham.ElementAt(e.RowIndex);
 
-            overlay.Size = Form.ActiveForm.ClientSize;
-            overlay.Location = Form.ActiveForm.PointToScreen(new Point(0, 0));
-            ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham);
+          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus);
 
-            overlay.Show(Form.ActiveForm);
+          detailsForm.Show(Form.ActiveForm);
 
-            detailsForm.ShowDialog(Form.ActiveForm);
-
-            overlay.Close();
-          }
+          // Attach event handler for edit submit
+          detailsForm.EditSubmit += DetailsForm_EditSubmit;
         }
       }
+    }
+
+    // Handle edit submit event
+    private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
+    {
+      GetData();
+      LoadData();
     }
   }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using TechForgeDAO;
 using TechForgeDTO;
 
@@ -26,13 +27,43 @@ namespace TechForgeBUS
     public void GetQuantity()
     {
     }
+    //public DataSet GetSync()
+    //{
+    //  return this.DAO.GetSync();
+    //}
     public int Add(SanPhamDTO sp)
     {
       return this.DAO.Add(sp);
     }
-    public bool Update(SanPhamDTO sp)
+    public bool Update(SanPhamDTO sp, SanPhamDTO spMoi)
     {
-      return this.DAO.Update(sp);
+      List<string> fieldsToUpdate = new List<string>();
+
+      if (spMoi.TenSP != sp.TenSP) fieldsToUpdate.Add("TenSP");
+      if (spMoi.GiaNhap != sp.GiaNhap) fieldsToUpdate.Add("GiaNhap");
+      if (spMoi.Gia != sp.Gia) fieldsToUpdate.Add("Gia");
+      if (spMoi.KhuyenMai != sp.KhuyenMai) fieldsToUpdate.Add("KhuyenMai");
+      if (spMoi.MoTa != sp.MoTa) fieldsToUpdate.Add("MoTa");
+      if (spMoi.SoLuong != sp.SoLuong) fieldsToUpdate.Add("SoLuong");
+      if (spMoi.DanhMuc != sp.DanhMuc) fieldsToUpdate.Add("DanhMuc");
+      if (spMoi.Hsx != sp.Hsx) fieldsToUpdate.Add("Hsx");
+      if (spMoi.NgSx != sp.NgSx) fieldsToUpdate.Add("NgSx");
+      if (spMoi.TrangThai != sp.TrangThai) fieldsToUpdate.Add("TrangThai");
+
+      if (fieldsToUpdate.Count == 0)
+      {
+        MessageBox.Show("Không có thay đổi nào để cập nhật.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return false;
+      }
+
+      if (this.DAO.Update(spMoi)) {
+        MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return true;
+      } else
+      {
+        MessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return false;
+      }
     }
     public bool Delete(int id)
     {
