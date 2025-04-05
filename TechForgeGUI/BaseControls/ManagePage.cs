@@ -30,6 +30,9 @@ namespace TechForgeGUI.BaseForms
       this.Dock = DockStyle.Fill;
 
       dgvMainListRef = dgvMainList;
+            dgvMainListRef.EnableHeaderWrapMode(true);
+            dgvMainListRef.ColumnHeadersHeight = 60;
+            
     }
     private void InitializeButtons()
     {

@@ -41,6 +41,21 @@
       this.Name = "ProductManagePageGUI";
       this.Size = new System.Drawing.Size(1294, 641);
       this.ResumeLayout(false);
+            this.SuspendLayout();
+            // 
+            // dgvMainListRef
+            // 
+            this.dgvMainListRef.Size = new System.Drawing.Size(1208, 404);
+            // 
+            // ProductManageFormGUI
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1208, 686);
+            this.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            this.Name = "ProductManageFormGUI";
+            this.Text = "ProductManageForm";
+            this.ResumeLayout(false);
 
     }
 

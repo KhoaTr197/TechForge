@@ -28,7 +28,20 @@ namespace TechForgeGUI.SubForms
     }
     protected override void LoadData()
     {
-      //dgvMainListRef.BindingData(bus.GetAllConnected().Cast<object>().ToList());
-    }
+      dgvMainListRef.BindingData(bus.GetAllConnected().Cast<object>().ToList());
+            var columnMappings = new Dictionary<string, (string, bool)>{
+                { "MaND", ("Mã Người Dùng", true) },
+                { "HoTen", ("Họ Tên", true) },
+                { "NgSinh", ("Ngày Sinh", true) },
+                { "GioiTinh", ("Giới Tính", true) },
+                { "Cccd", ("Số Căn Cước", true) },
+                { "Sdt", ("Số Điện Thoại", true) },
+                { "Dchi", ("Địa Chỉ", true) },
+                { "VaiTro", ("Vai Trò", true) },
+                { "NgVaoLam", ("Ngày Vào Làm", true) },
+            };
+            dgvMainListRef.SetColumnNames(columnMappings);
+            dgvMainListRef.ConfigureDataGridViewColumns();
+        }
   }
 }
