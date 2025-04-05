@@ -8,6 +8,7 @@ namespace TechForgeGUI
     public CashierFormGUI()
     {
       this.Text = "TechForge - Cashier";
+      this.SetUpSidebar("Cashier");
     }
   }
 }

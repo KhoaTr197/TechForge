@@ -56,6 +56,10 @@ namespace TechForgeGUI.BaseControls
         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
         AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None,
         ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
+        ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+        {
+          WrapMode = DataGridViewTriState.True,
+        },
         SelectionMode = DataGridViewSelectionMode.FullRowSelect,
         MultiSelect = false,
         ScrollBars = ScrollBars.Both,
@@ -202,6 +206,20 @@ namespace TechForgeGUI.BaseControls
       else
       {
         row.DefaultCellStyle.BackColor = Color.White;
+      }
+    }
+    //Column name assignment method
+    public void SetColumnNames(Dictionary<string, (string HeaderText, bool Visible)> columnMappings)
+    {
+      dgvList.AutoGenerateColumns = true;
+      foreach (DataGridViewColumn column in dgvList.Columns)
+      {
+        if (columnMappings.ContainsKey(column.Name))
+        {
+          var (headerText, visible) = columnMappings[column.Name];
+          column.HeaderText = headerText;
+          column.Visible = visible;
+        }
       }
     }
   }

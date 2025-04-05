@@ -146,7 +146,6 @@ namespace TechForgeGUI.BaseControls
           SelectTabItem(tab);
         }
 
-        flpTabs.Controls.Add(tab);
 
         if (tab.SubSidebarItems != null && tab.SubSidebarItems.Count > 0)
         {
@@ -157,6 +156,8 @@ namespace TechForgeGUI.BaseControls
         {
           flpTabs.Controls.Add(spacer);
         }
+
+        flpTabs.Controls.Add(tab);
       }
     }
 

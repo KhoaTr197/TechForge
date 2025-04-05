@@ -1,6 +1,6 @@
 ﻿namespace TechForgeGUI.SubForms
 {
-  partial class UserManagerFormGUI
+  partial class SupplierManagePageGUI
   {
     /// <summary>
     /// Required designer variable.
@@ -32,14 +32,14 @@
       // 
       // dgvMainListRef
       // 
-      this.dgvMainListRef.Size = new System.Drawing.Size(1294, 433);
+      this.dgvMainListRef.Size = new System.Drawing.Size(1319, 433);
       // 
-      // UserManagerFormGUI
+      // SupplierManagePageGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Name = "UserManagerFormGUI";
-      this.Size = new System.Drawing.Size(1294, 641);
+      this.Name = "SupplierManagePageGUI";
+      this.Size = new System.Drawing.Size(1319, 641);
       this.ResumeLayout(false);
 
     }
