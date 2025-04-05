@@ -131,7 +131,7 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="SubPages\ProductDetailFormGUI.cs">
+    <Compile Include="SubPages\ProductDetailFormGUI.cs"></Compile>
     <Compile Include="ManagerFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +165,7 @@
     </Compile>
     <Compile Include="SubPages\UserManagePageGUI.cs">
       <SubType>UserControl</SubType>
+		</Compile>
     <Compile Include="SubForms\ProviderManageFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +200,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SubForms\ProductManageFormGUI.resx">
       <DependentUpon>ProductManageFormGUI.cs</DependentUpon>
+		</EmbeddedResource>
     <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
       <DependentUpon>ProductManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
