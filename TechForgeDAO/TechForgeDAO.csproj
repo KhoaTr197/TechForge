@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BaseDAO.cs" />
     <Compile Include="DanhMucDAO.cs" />
+    <Compile Include="DoanhThuDAO.cs" />
     <Compile Include="HangSanXuatDAO.cs" />
     <Compile Include="NguoiDungDAO.cs" />
     <Compile Include="NhaCungCapDAO.cs" />

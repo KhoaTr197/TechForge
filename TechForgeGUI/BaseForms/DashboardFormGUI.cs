@@ -14,6 +14,7 @@ using Svg;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 using TechForgeGUI.SubForms;
+using TechForgeGUI.SubPages;
 using TechForgeGUI.Utils;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
@@ -21,7 +22,7 @@ namespace TechForgeGUI.BaseForm
 {
   public partial class DashboardFormGUI : Form
   {
-    private ManagePage currentPage;
+    private Control currentPage;
     public DashboardFormGUI()
     {
       InitializeComponent();
@@ -52,6 +53,7 @@ namespace TechForgeGUI.BaseForm
           tabs = new List<SidebarTabItem>
           {
             new SidebarTabItem { Id = "Homepage", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Trang Chủ" },
+            new SidebarTabItem { Id = "Statistic", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Thống Kê" },
             new SidebarTabItem { Id = "Product", ImageList = GlobalStatics.iconList, ImageKey = "box_icon", Text = "Sản Phẩm" },
             new SidebarTabItem { Id = "Supplier", ImageList = GlobalStatics.iconList, ImageKey = "supplier_icon", Text = "Nhà cung cấp" },
             new SidebarTabItem { Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" }
@@ -98,6 +100,13 @@ namespace TechForgeGUI.BaseForm
             currentPage.Show();
             break;
           }
+                case "Statistic":
+                    {
+                        currentPage = new StatisticPageGUI();
+                        panelMain.Controls.Add(currentPage);
+                        currentPage.Show();
+                        break;
+                    }
         default:
           break;
       }

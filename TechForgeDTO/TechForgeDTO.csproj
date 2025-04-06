@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DanhMucDTO.cs" />
+    <Compile Include="DoanhThuDTO.cs" />
+    <Compile Include="DoanhThuTheoTG.cs" />
     <Compile Include="HangSanXuatDTO.cs" />
     <Compile Include="NguoiDungDTO.cs" />
     <Compile Include="NhaCungCapDTO.cs" />
