@@ -26,6 +26,8 @@ namespace TechForgeGUI.BaseForm
     public DashboardFormGUI()
     {
       InitializeComponent();
+
+      this.SizeChanged += DashboardFormGUI_SizeChanged;
     }
     public void SetUpSidebar(string job = "Cashier")
     {
@@ -73,8 +75,9 @@ namespace TechForgeGUI.BaseForm
       sideBar1.Init(tabs);
       sideBar1.SelectedTabChanged += OpenSubForm;
     }
-    protected void OpenSubForm(object sender, SidebarSelectedTabChangedEventArgs e) {
-      if(currentPage != null)
+    protected void OpenSubForm(object sender, SidebarSelectedTabChangedEventArgs e)
+    {
+      if (currentPage != null)
       {
         panelMain.Controls.Remove(currentPage);
       }
@@ -100,17 +103,20 @@ namespace TechForgeGUI.BaseForm
             currentPage.Show();
             break;
           }
-                case "Statistic":
-                    {
-                        currentPage = new StatisticPageGUI();
-                        panelMain.Controls.Add(currentPage);
-                        currentPage.Show();
-                        break;
-                    }
+        case "Statistic":
+          {
+            currentPage = new StatisticPageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
         default:
           break;
       }
     }
-
+    private void DashboardFormGUI_SizeChanged(object sender, EventArgs e)
+    {
+      sideBar1.UpdateSpacerHeight();
+    }
   }
 }

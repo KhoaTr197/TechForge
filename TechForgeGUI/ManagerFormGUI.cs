@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TechForgeGUI.BaseControls;
-using TechForgeGUI.BaseForm;
-using TechForgeGUI.Utils;
+﻿using TechForgeGUI.BaseForm;
 
 namespace TechForgeGUI
 {
@@ -17,8 +6,8 @@ namespace TechForgeGUI
   {
     public ManagerFormGUI()
     {
-      this.Text = "TechForge - Manager";
       this.SetUpSidebar("Manager");
+      this.Text = "TechForge - Manager";
     }
   }
 }

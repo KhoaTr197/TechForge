@@ -8,18 +8,17 @@ using TechForgeDTO;
 
 namespace TechForgeBUS
 {
-    public class DoanhThuBUS
+  public class DoanhThuBUS
+  {
+    private readonly DoanhThuDAO DAO;
+
+    public DoanhThuBUS(string _connStr)
     {
-        private readonly DoanhThuDAO DAO;
-
-        public DoanhThuBUS(string _connStr)
-        {
-            this.DAO = new DoanhThuDAO(_connStr);
-        }
-
-        public void Setup(DoanhThuDTO doanhThuDTO)
-        {
-            this.DAO.Setup(doanhThuDTO);
-        }
+      this.DAO = new DoanhThuDAO(_connStr);
     }
+    public void GetStatisticData(DoanhThuDTO statisticObj)
+    {
+      this.DAO.GetStatisticData(statisticObj);
+    }
+  }
 }
