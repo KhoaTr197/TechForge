@@ -29,11 +29,6 @@
     private void InitializeComponent()
     {
       this.SuspendLayout();
-      // 
-      // dgvMainListRef
-      // 
-      this.dgvMainListRef.Size = new System.Drawing.Size(1319, 433);
-      // 
       // SupplierManagePageGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);

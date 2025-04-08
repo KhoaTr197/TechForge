@@ -27,6 +27,7 @@ namespace TechForgeGUI.BaseForm
     {
       InitializeComponent();
 
+      this.StartPosition = FormStartPosition.CenterScreen;
       this.SizeChanged += DashboardFormGUI_SizeChanged;
     }
     public void SetUpSidebar(string job = "Cashier")
@@ -106,6 +107,13 @@ namespace TechForgeGUI.BaseForm
         case "Statistic":
           {
             currentPage = new StatisticPageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "Customer":
+          {
+            currentPage = new CustomerManagePageGUI();
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
             break;

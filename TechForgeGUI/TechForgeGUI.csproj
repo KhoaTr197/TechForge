@@ -138,6 +138,18 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\CustomerDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\CustomerDetailFormGUI.Designer.cs">
+      <DependentUpon>CustomerDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\CustomerManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\CustomerManagePageGUI.Designer.cs">
+      <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ManagerFormGUI.resx">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\CustomerManagePageGUI.resx">
+      <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
       <DependentUpon>ProductManagePageGUI.cs</DependentUpon>

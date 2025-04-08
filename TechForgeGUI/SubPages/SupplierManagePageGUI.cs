@@ -38,7 +38,7 @@ namespace TechForgeGUI.SubForms
     }
     sealed protected override void LoadData()
     {
-      dgvMainListRef.BindingData(dsNhaCungCap);
+      dgvMainList.BindingData(dsNhaCungCap);
 
       var columnMappings = new Dictionary<string, (string, bool)>{
         { "MaNCC", ("Mã Nhà Cung Cấp", true) },
@@ -47,7 +47,7 @@ namespace TechForgeGUI.SubForms
         { "Sdt", ("Số Điện Thoại", true) },
         { "TrangThai",  ("Trạng thái", false)},
       };
-      dgvMainListRef.SetColumnNames(columnMappings);
+      dgvMainList.SetColumnNames(columnMappings);
     }
   }
 }

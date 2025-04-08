@@ -21,7 +21,7 @@ namespace TechForgeGUI
 
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new ManagerFormGUI());
+      Application.Run(new CashierFormGUI());
     }
   }
 }

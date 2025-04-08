@@ -161,9 +161,17 @@ namespace TechForgeGUI.BaseControls
     //Update DataGridView displayed data
     private void UpdateDataGridView()
     {
-      if (bindSrc.DataSource is List<SanPhamDTO> dataList)
+      if (bindSrc.DataSource is List<SanPhamDTO> dataList1)
       {
-        UpdateDataGridView(dataList);
+        UpdateDataGridView(dataList1);
+      }
+      else if (bindSrc.DataSource is List<HoiVienDTO> dataList2)
+      {
+        UpdateDataGridView(dataList2);
+      }
+      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList3)
+      {
+        UpdateDataGridView(dataList3);
       }
       else if (bindSrc.DataSource is DataTable table)
       {

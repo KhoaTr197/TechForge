@@ -25,11 +25,13 @@ namespace TechForgeGUI.SubPages
     {
       InitializeComponent();
 
-      thongTinSanPham = _thongTinSanPham;
-      dsDanhMuc = _dsDanhMuc;
-      dsHangSanXuat = _dsHangSanXuat;
-      BUS = _BUS;
-      Text = "Chi tiết sản phẩm";
+      this.thongTinSanPham = _thongTinSanPham;
+      this.dsDanhMuc = _dsDanhMuc;
+      this.dsHangSanXuat = _dsHangSanXuat;
+      this.BUS = _BUS;
+      this.Text = "Chi tiết sản phẩm";
+      this.btnAdd.Visible = false;
+      this.btnAdd.Enabled = false;
 
       flpInfoPanel = new FlowLayoutPanel
       {
@@ -45,7 +47,6 @@ namespace TechForgeGUI.SubPages
 
       btnEdit.Click += btnEdit_Click;
     }
-
     private void LoadInfo()
     {
       Dictionary<string, string> displayNames = new Dictionary<string, string>
