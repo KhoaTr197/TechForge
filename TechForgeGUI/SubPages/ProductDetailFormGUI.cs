@@ -11,6 +11,7 @@ using TechForgeBUS;
 using TechForgeDTO;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
+using TechForgeGUI.Utils;
 
 namespace TechForgeGUI.SubPages
 {
@@ -21,6 +22,7 @@ namespace TechForgeGUI.SubPages
     private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
     private SanPhamBUS BUS { get; set; }
     private FlowLayoutPanel flpInfoPanel;
+        private AlertForm alert;
     public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat, SanPhamBUS _BUS)
     {
       InitializeComponent();
@@ -202,7 +204,12 @@ namespace TechForgeGUI.SubPages
       };
 
       if (BUS.Update(thongTinSanPham, updatedInfo))
-        OnEditSubmit(new DetailFormEditSubmitEventArgs());
+            {
+                alert = new AlertForm("Cap nhat thanh cong");
+                alert.Show();
+                OnEditSubmit(new DetailFormEditSubmitEventArgs());
+            }
+        
     }
   }
 }

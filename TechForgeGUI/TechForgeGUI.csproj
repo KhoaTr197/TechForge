@@ -181,6 +181,12 @@
     <Compile Include="SubPages\UserManagePageGUI.Designer.cs">
       <DependentUpon>UserManagePageGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AlertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utils\AlertForm.Designer.cs">
+      <DependentUpon>AlertForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\GlobalImageList.cs" />
     <Compile Include="Utils\SVGIconHandler.cs" />
     <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
@@ -225,6 +231,9 @@
     <EmbeddedResource Include="SubPages\UserManagePageGUI.resx">
       <DependentUpon>UserManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Utils\AlertForm.resx">
+      <DependentUpon>AlertForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -251,6 +260,9 @@
     <Content Include="Resources\box_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\CircleCheck_icon.bmp" />
+    <None Include="Resources\CircleCheck_icon.svg" />
+    <None Include="Resources\checked_icon.png" />
     <Content Include="Resources\homepage_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
