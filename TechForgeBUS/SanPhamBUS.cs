@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using TechForgeDAO;
 using TechForgeDTO;
 
+
 namespace TechForgeBUS
 {
   public class SanPhamBUS
@@ -57,7 +58,7 @@ namespace TechForgeBUS
       }
 
       if (this.DAO.Update(spMoi)) {
-        MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         return true;
       } else
       {

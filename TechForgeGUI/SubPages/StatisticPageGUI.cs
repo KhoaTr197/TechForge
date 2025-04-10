@@ -105,24 +105,24 @@ namespace TechForgeGUI.SubPages
       Label lblFromDate = new Label()
       {
         Dock = DockStyle.Fill,
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         Text = "Từ ngày:",
         TextAlign = ContentAlignment.MiddleLeft,
       };
       Label lblToDate = new Label()
       {
         Dock = DockStyle.Fill,
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         Text = "Đến ngày:",
         TextAlign = ContentAlignment.MiddleLeft,
       };
       dtpFrom = new DateTimePicker()
       {
-        CalendarFont = new Font("Segeo UI", 10),
+        CalendarFont = new Font("Segoe UI", 10),
         CalendarMonthBackground = Color.White,
         Dock = DockStyle.Fill,
         Enabled = false,
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         Format = DateTimePickerFormat.Custom,
         CustomFormat = "dd/MM/yyyy",
         Size = new Size(160, 32),
@@ -131,11 +131,11 @@ namespace TechForgeGUI.SubPages
       dtpFrom.ValueChanged += dtpFrom_ValueChanged;
       dtpTo = new DateTimePicker()
       {
-        CalendarFont = new Font("Segeo UI", 10),
+        CalendarFont = new Font("Segoe UI", 10),
         CalendarMonthBackground = Color.White,
         Dock = DockStyle.Fill,
         Enabled = false,
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         Format = DateTimePickerFormat.Custom,
         CustomFormat = "dd/MM/yyyy",
         Size = new Size(160, 32),
@@ -155,7 +155,7 @@ namespace TechForgeGUI.SubPages
       {
         Name = "btnThisMonth",
         Text = "Tháng này",
-        Font = new Font("Segeo UI", 10),
+        Font = new Font("Segoe UI", 10),
         FlatAppearance =
         {
           BorderSize = 1,
@@ -174,7 +174,7 @@ namespace TechForgeGUI.SubPages
       {
         Name = "btnLast30Days",
         Text = "30 ngày trước",
-        Font = new Font("Segeo UI", 10),
+        Font = new Font("Segoe UI", 10),
         FlatAppearance =
         {
           BorderSize = 1,
@@ -194,7 +194,7 @@ namespace TechForgeGUI.SubPages
       {
         Name = "btnLast7Days",
         Text = "7 ngày trước",
-        Font = new Font("Segeo UI", 10),
+        Font = new Font("Segoe UI", 10),
         FlatAppearance =
         {
           BorderSize = 1,
@@ -213,7 +213,7 @@ namespace TechForgeGUI.SubPages
       {
         Name = "btnToday",
         Text = "Hôm nay",
-        Font = new Font("Segeo UI", 10),
+        Font = new Font("Segoe UI", 10),
         FlatAppearance =
         {
           BorderSize = 1,
@@ -232,7 +232,7 @@ namespace TechForgeGUI.SubPages
       {
         Name = "btnCustomDate",
         Text = "Tùy chỉnh",
-        Font = new Font("Segeo UI", 10),
+        Font = new Font("Segoe UI", 10),
         FlatAppearance =
         {
           BorderSize = 1,
@@ -322,14 +322,14 @@ namespace TechForgeGUI.SubPages
       Label lblTotalReceiptLabel = new Label()
       {
         AutoSize = true,
-        Font = new Font("Segeo UI", 12, FontStyle.Bold),
+        Font = new Font("Segoe UI", 12, FontStyle.Bold),
         ForeColor = Color.Black,
         Text = "Số lượng hóa đơn:",
         TextAlign = ContentAlignment.MiddleLeft,
       };
       Label lblTotalReceipt = new Label()
       {
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         ForeColor = Color.Black,
         Name = "lblTotalReceipt",
         TextAlign = ContentAlignment.MiddleLeft,
@@ -347,14 +347,14 @@ namespace TechForgeGUI.SubPages
       Label lblGrossRevenueLabel = new Label()
       {
         AutoSize = true,
-        Font = new Font("Segeo UI", 12, FontStyle.Bold),
+        Font = new Font("Segoe UI", 12, FontStyle.Bold),
         ForeColor = Color.Black,
         Text = "Tổng doanh thu:",
         TextAlign = ContentAlignment.MiddleLeft,
       };
       Label lblGrossRevenue = new Label()
       {
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         ForeColor = Color.Black,
         TextAlign = ContentAlignment.MiddleLeft,
         Name = "lblGrossRevenue",
@@ -389,40 +389,58 @@ namespace TechForgeGUI.SubPages
         BackColor = Color.White,
       };
 
-      Chart chartGrossRevenue = new Chart()
-      {
-        Dock = DockStyle.Fill,
-        Name = "chartGrossRevenue",
-        Titles =
-        {
-          new Title()
-          {
-            Name = "GrossRevenueTitle",
-            Font = new Font("Segeo UI", 12, FontStyle.Bold),
-            Text = "Doanh thu theo thời gian",
-            Alignment = ContentAlignment.TopLeft,
-          }
-        },
-        ChartAreas =
-        {
-          new ChartArea()
-          {
-            Name = "GrossRevenueChartArea",
-          }
-        },
-        Series =
+            Chart chartGrossRevenue = new Chart()
+            {
+                Dock = DockStyle.Fill,
+                Name = "chartGrossRevenue",
+                Titles =
+                {
+                    new Title()
+                    {
+                        Name = "GrossRevenueTitle",
+                        Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                        Text = "Doanh thu theo thời gian",
+                        Alignment = ContentAlignment.TopLeft,
+                    }
+                },
+                ChartAreas =
+                {
+                    new ChartArea()
+                    {
+                        Name = "GrossRevenueChartArea",
+                        AxisX = new Axis(){
+                            MajorGrid = new Grid()
+                            {
+                                LineColor = Color.Silver,
+                            }
+                        },
+                        AxisY = new Axis()
+                        {
+                            LabelStyle = new LabelStyle()
+                            {
+                                Format = "N0",
+                            },
+                            MajorGrid = new Grid()
+                            {
+                                LineColor = Color.LightGray,
+                            }
+                        }
+                    }
+                },
+                Series =
         {
           new Series()
           {
             Name = "Doanh thu",
             Color = Color.FromArgb(254, 86, 37),
             IsValueShownAsLabel = true,
-            Font = new Font("Segeo UI", 10),
+            Font = new Font("Segoe UI", 10),
             LabelForeColor = Color.Black,
             LabelBackColor = Color.White,
             ChartType = SeriesChartType.SplineArea,
             BackGradientStyle = GradientStyle.DiagonalLeft,
             BackSecondaryColor = Color.FromArgb(255, 128, 128),
+            LabelFormat = "N0",
           }
         },
         Legends =
@@ -432,8 +450,9 @@ namespace TechForgeGUI.SubPages
             Name = "DoanhThuLegend",
             Docking = Docking.Bottom,
             ForeColor = Color.DimGray,
-            Font = new Font("Segeo UI", 12),
+            Font = new Font("Segoe UI", 12),
             IsTextAutoFit = false,
+            
           }
         },
       };
@@ -461,7 +480,7 @@ namespace TechForgeGUI.SubPages
           new Title()
           {
             Name = "TopProductTitle",
-            Font = new Font("Segeo UI", 12, FontStyle.Bold),
+            Font = new Font("Segoe UI", 12, FontStyle.Bold),
             Text = "Top 5 sản phẩm bán chạy",
             Alignment = ContentAlignment.TopLeft,
           }
@@ -482,9 +501,11 @@ namespace TechForgeGUI.SubPages
             BackGradientStyle = GradientStyle.DiagonalLeft,
             BackSecondaryColor = Color.FromArgb(255, 192, 255),
             IsValueShownAsLabel = true,
-            Font = new Font("Segeo UI", 10),
+            Font = new Font("Segoe UI", 10),
             ChartType = SeriesChartType.Doughnut,
             CustomProperties = "DoughnutRadius=64",
+            BorderWidth = 4,
+            BorderColor = Color.White,
           }
         },
         Legends =
@@ -494,7 +515,7 @@ namespace TechForgeGUI.SubPages
             Name = "TopProductLegend",
             Docking = Docking.Bottom,
             ForeColor = Color.DimGray,
-            Font = new Font("Segeo UI", 12),
+            Font = new Font("Segoe UI", 12),
             IsTextAutoFit = false,
           }
         },
@@ -536,7 +557,7 @@ namespace TechForgeGUI.SubPages
       Label lblStoreSummaryLabel = new Label()
       {
         AutoSize = true,
-        Font = new Font("Segeo UI", 12, FontStyle.Bold),
+        Font = new Font("Segoe UI", 12, FontStyle.Bold),
         Text = "Cửa hàng:",
         TextAlign = ContentAlignment.MiddleLeft,
       };
@@ -549,7 +570,7 @@ namespace TechForgeGUI.SubPages
       Label lblTotalMemberLabel = new Label()
       {
         AutoSize = true,
-        Font = new Font("Segeo UI", 12, FontStyle.Bold),
+        Font = new Font("Segoe UI", 12, FontStyle.Bold),
         Text = "Số lượng hội viên:",
         TextAlign = ContentAlignment.MiddleLeft,
         Margin = new Padding(8, 0, 0, 0),
@@ -557,7 +578,7 @@ namespace TechForgeGUI.SubPages
       Label lblTotalMember = new Label()
       {
         Name = "lblTotalMember",
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         TextAlign = ContentAlignment.MiddleLeft,
         Margin = new Padding(8, 0, 0, 16),
       };
@@ -570,7 +591,7 @@ namespace TechForgeGUI.SubPages
       Label lblTotalProductLabel = new Label()
       {
         AutoSize = true,
-        Font = new Font("Segeo UI", 12, FontStyle.Bold),
+        Font = new Font("Segoe UI", 12, FontStyle.Bold),
         Text = "Số lượng sản phẩm:",
         TextAlign = ContentAlignment.MiddleLeft,
         Margin = new Padding(8, 0, 0, 0),
@@ -578,7 +599,7 @@ namespace TechForgeGUI.SubPages
       Label lblTotalProduct = new Label()
       {
         Name = "lblTotalProduct",
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         TextAlign = ContentAlignment.MiddleLeft,
         Margin = new Padding(8, 0, 0, 16),
       };
@@ -591,7 +612,7 @@ namespace TechForgeGUI.SubPages
       Label lblTotalSupplierLabel = new Label()
       {
         AutoSize = true,
-        Font = new Font("Segeo UI", 12, FontStyle.Bold),
+        Font = new Font("Segoe UI", 12, FontStyle.Bold),
         Text = "Số lượng nhà cung cấp:",
         TextAlign = ContentAlignment.MiddleLeft,
         Margin = new Padding(8, 0, 0, 0),
@@ -599,7 +620,7 @@ namespace TechForgeGUI.SubPages
       Label lblTotalSupplier = new Label()
       {
         Name = "lblTotalSupplier",
-        Font = new Font("Segeo UI", 12),
+        Font = new Font("Segoe UI", 12),
         TextAlign = ContentAlignment.MiddleLeft,
         Margin = new Padding(8, 0, 0, 16),
       };
@@ -632,13 +653,17 @@ namespace TechForgeGUI.SubPages
       {
         Dock = DockStyle.Fill,
         Name = "dgvUnderstock",
-        BackColor = Color.White,
+        BackgroundColor = Color.White,
         BorderStyle = BorderStyle.None,
+        CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
+        ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None,
+        EnableHeadersVisualStyles = false,
         AutoGenerateColumns = false,
         AllowUserToAddRows = false,
         AllowUserToDeleteRows = false,
         ReadOnly = true,
         RowHeadersVisible = false,
+        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
         ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
         Columns = {
@@ -648,17 +673,26 @@ namespace TechForgeGUI.SubPages
             DataPropertyName = "Key",
             HeaderText = "Tên sản phẩm",
             AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-            Width=200,
           },
           new DataGridViewTextBoxColumn()
           {
             Name = "Value",
             DataPropertyName = "Value",
             HeaderText = "Số lượng",
-            AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
+            AutoSizeMode = DataGridViewAutoSizeColumnMode.None,
             Width=100,
           }
         },
+        RowsDefaultCellStyle = new DataGridViewCellStyle()
+        {
+            BackColor = Color.White,
+            SelectionBackColor = Color.FromArgb(254, 86, 37),
+        },
+        ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle()
+        {
+            SelectionBackColor = Color.White,
+            BackColor = Color.White,
+        }
       };
       tablePanelStatistic.Controls.Add(dgvUnderstock, 1, 2);
     }
@@ -698,20 +732,22 @@ namespace TechForgeGUI.SubPages
       Chart chartGrossRevenue = (Chart)panelGrossRevenueChart.Controls["chartGrossRevenue"];
       Chart chartTopProduct = (Chart)panelTopProductChart.Controls["chartTopProduct"];
 
-      //change to charttype column
-      if (StatisticData.DsDoanhThu.Count == 1)
-      {
-        chartGrossRevenue.Series[0].ChartType = SeriesChartType.Column;
-      }
+            //change to charttype column
+            chartGrossRevenue.Series[0].ChartType = StatisticData.DsDoanhThu.Count == 1 ? 
+                SeriesChartType.Column : SeriesChartType.SplineArea;
 
       //binding gross revenue data
       chartGrossRevenue.DataSource = StatisticData.DsDoanhThu;
       chartGrossRevenue.Series[0].XValueMember = "ThoiGian";
-      chartGrossRevenue.Series[0].YValueMembers = "TongTien";
+      chartGrossRevenue.Series[0].YValueMembers = "TongTien";     
       chartGrossRevenue.DataBind();
+            foreach (var point in chartGrossRevenue.Series[0].Points)
+            {
+                point.LabelBackColor = Color.Transparent;
+            }
 
-      //binding top product data
-      chartTopProduct.DataSource = StatisticData.DsSPBanChay;
+            //binding top product data
+            chartTopProduct.DataSource = StatisticData.DsSPBanChay;
       chartTopProduct.Series[0].XValueMember = "Key";
       chartTopProduct.Series[0].YValueMembers = "Value";
       chartTopProduct.DataBind();
