@@ -17,63 +17,62 @@ namespace TechForgeGUI.SubPages
   {
     private HoiVienDTO thongTinHoiVien { get; set; }
     private HoiVienBUS BUS { get; set; }
-    private TableLayoutPanel tlpInfo;
+    private FlowLayoutPanel flpInfo;
     public CustomerDetailFormGUI(HoiVienBUS _BUS, HoiVienDTO _thongTinHoiVien = null)
     {
       InitializeComponent();
 
       Dictionary<string, string> inputLabels = new Dictionary<string, string>
       {
+        { "MaHV", "Mã Hội Viên" },
         { "HoTen", "Họ Tên" },
+        { "GioiTinh", "Giới Tính" },
         { "Sdt", "Số Điện Thoại" },
         { "Dchi", "Địa Chỉ" },
-        { "GioiTinh", "Giới Tính" },
       };
 
       this.thongTinHoiVien = _thongTinHoiVien;
       this.BUS = _BUS;
       this.Text = "Thêm Hội Viên";
-      this.btnEdit.Visible = false;
-      this.btnEdit.Enabled = false;
-      this.btnDelete.Visible = false;
-      this.btnDelete.Enabled = false;
       this.MinimumSize = new Size(0, 0);
-      this.Size = new Size(500, 300);
+      this.Size = new Size(500, 340);
       this.Location = Form.ActiveForm != null ? Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2)) : new Point(0, 0);
 
-      tlpInfo = new TableLayoutPanel
+      flpInfo = new FlowLayoutPanel
       {
         BackColor = Color.FromArgb(240, 240, 240),
         Dock = DockStyle.Fill,
         Padding = new Padding(8, 32, 8, 64),
-        ColumnCount = 1,
-        RowCount = inputLabels.Count,
-        ColumnStyles = {
-          new ColumnStyle(SizeType.Percent, 100),
-        },
       };
-      for (int i = 0; i < inputLabels.Count; i++)
-      {
-        tlpInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / inputLabels.Count));
-      }
 
       if (thongTinHoiVien == null)
       {
+        this.btnEdit.Visible = false;
+        this.btnEdit.Enabled = false;
+        this.btnDelete.Visible = false;
+        this.btnDelete.Enabled = false;
+
+
         LoadAddForm(inputLabels);
       }
       else
       {
-        LoadDetailForm();
+        this.Size = new Size(500, 400);
+
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+
+
+        LoadDetailForm(inputLabels);
       }
 
       this.btnAdd.Click += btnAdd_Click;
+      this.btnEdit.Click += btnEdit_Click;
 
-      this.Controls.Add(tlpInfo);
+      this.Controls.Add(flpInfo);
     }
     private void LoadAddForm(Dictionary<string, string> inputLabels)
     {
-      int rowIdx = 0;
-
       foreach (var input in inputLabels)
       {
         string controlName = input.Key;
@@ -95,6 +94,10 @@ namespace TechForgeGUI.SubPages
 
         Control control;
 
+        if (controlName == "MaHV")
+        {
+          continue;
+        }
         if (controlName == "HoTen" || controlName == "Sdt")
         {
           control = new TextBox
@@ -153,25 +156,125 @@ namespace TechForgeGUI.SubPages
 
         panel.Controls.Add(lbl);
         panel.Controls.Add(control);
-        tlpInfo.Controls.Add(panel, 0, rowIdx++);
+        flpInfo.Controls.Add(panel);
       }
     }
-    private void LoadDetailForm()
+    private void LoadDetailForm(Dictionary<string, string> inputLabels)
     {
+      foreach (var prop in thongTinHoiVien.GetType().GetProperties())
+      {
+        string controlName = prop.Name;
+        FlowLayoutPanel panel = new FlowLayoutPanel
+        {
+          AutoSize = true,
+          FlowDirection = FlowDirection.LeftToRight,
+        };
+
+        Label lbl = new Label
+        {
+          Width = 128,
+          Margin = new Padding(0, 4, 0, 0),
+          Font = new Font(DefaultFontName, 12),
+          TextAlign = ContentAlignment.MiddleLeft,
+          Text = inputLabels.ContainsKey(controlName) ? inputLabels[controlName] + ":" : prop.Name + ":",
+        };
+
+        Control control;
+        
+        if (controlName == "TrangThai")
+        {
+          continue;
+        }
+        else if (controlName == "MaHV" || controlName == "HoTen" || controlName == "Sdt")
+        {
+          control = new TextBox
+          {
+            Name = "txt" + controlName,
+            Font = new Font(DefaultFontName, 12),
+            Text = prop.GetValue(thongTinHoiVien)?.ToString(),
+            MaxLength = controlName == "Sdt" ? 10 : 100,
+            Width = 240,
+          };
+        }
+        else if (controlName == "Dchi")
+        {
+          control = new TextBox
+          {
+            Name = "txt" + controlName,
+            Font = new Font(DefaultFontName, 12),
+            Multiline = true,
+            Text = prop.GetValue(thongTinHoiVien)?.ToString(),
+            Width = 240,
+            Height = 80,
+          };
+        }
+        else if (controlName == "GioiTinh")
+        {
+          control = new FlowLayoutPanel()
+          {
+            Name = "flp" + controlName,
+            AutoSize = true,
+          };
+          RadioButton radNam = new RadioButton()
+          {
+            Text = "Nam",
+            Name = "radNam",
+            Font = new Font(DefaultFontName, 12),
+            Checked = (bool)prop.GetValue(thongTinHoiVien),
+          };
+          RadioButton radNu = new RadioButton()
+          {
+            Text = "Nữ",
+            Name = "radNu",
+            Font = new Font(DefaultFontName, 12),
+            Checked = !(bool)prop.GetValue(thongTinHoiVien)
+          };
+          control.Controls.Add(radNam);
+          control.Controls.Add(radNu);
+        }
+        else
+        {
+          control = new TextBox
+          {
+            Name = "txt" + controlName,
+            Font = new Font(DefaultFontName, 10),
+            Text = "",
+          };
+        }
+
+        panel.Controls.Add(lbl);
+        panel.Controls.Add(control);
+        flpInfo.Controls.Add(panel);
+      }
     }
     private void btnAdd_Click(object sender, EventArgs e)
     {
       HoiVienDTO newHoiVien = new HoiVienDTO()
       {
-        HoTen = ((TextBox)GetControlByName(tlpInfo, "txtHoTen")).Text,
-        Sdt = ((TextBox)GetControlByName(tlpInfo, "txtSdt")).Text,
-        Dchi = ((TextBox)GetControlByName(tlpInfo, "txtDchi")).Text,
-        GioiTinh = ((RadioButton)tlpInfo.Controls.Find("radNam", true)[0]).Checked,
+        HoTen = ((TextBox)GetControlByName(flpInfo, "txtHoTen")).Text,
+        Sdt = ((TextBox)GetControlByName(flpInfo, "txtSdt")).Text,
+        Dchi = ((TextBox)GetControlByName(flpInfo, "txtDchi")).Text,
+        GioiTinh = ((RadioButton)flpInfo.Controls.Find("radNam", true)[0]).Checked,
         TrangThai = true,
       };
 
       if (BUS.Add(newHoiVien) != -1)
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
+    }
+    private void btnEdit_Click(object sender, EventArgs e)
+    {
+      HoiVienDTO updatedHoiVien = new HoiVienDTO()
+      {
+        MaHV = thongTinHoiVien.MaHV,
+        HoTen = ((TextBox)GetControlByName(flpInfo, "txtHoTen")).Text,
+        Sdt = ((TextBox)GetControlByName(flpInfo, "txtSdt")).Text,
+        Dchi = ((TextBox)GetControlByName(flpInfo, "txtDchi")).Text,
+        GioiTinh = ((RadioButton)flpInfo.Controls.Find("radNam", true)[0]).Checked,
+        TrangThai = true,
+      };
+
+      if (BUS.Update(thongTinHoiVien, updatedHoiVien))
+        OnEditSubmit(new DetailFormEditSubmitEventArgs());
     }
   }
 }

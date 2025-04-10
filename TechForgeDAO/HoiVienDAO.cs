@@ -74,8 +74,8 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO HOIVIEN(HOTEN, GIOITINH, SDT, DCHI, TRANGTHAI) VALUES(@TENHV, @GIOITINH, @SDT, @DCHI, @TRANGTHAI)", conn);
-          cmd.Parameters.AddWithValue("@TENHV", newCustomer.HoTen);
+          SqlCommand cmd = new SqlCommand("INSERT INTO HOIVIEN(HOTEN, GIOITINH, SDT, DCHI, TRANGTHAI) VALUES(@HOTEN, @GIOITINH, @SDT, @DCHI, @TRANGTHAI)", conn);
+          cmd.Parameters.AddWithValue("@HOTEN", newCustomer.HoTen);
           cmd.Parameters.AddWithValue("@GIOITINH", newCustomer.GioiTinh);
           cmd.Parameters.AddWithValue("@SDT", newCustomer.Sdt);
           cmd.Parameters.AddWithValue("@DCHI", newCustomer.Dchi);
@@ -106,8 +106,9 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE HOIVIEN SET TENHV = @TENHV, GIOITINH = @GIOITINH, SDT = @SDT, DCHI = @DCHI, TRANGTHAI = @TRANGTHAI WHERE MASP = @MASP", conn);
-          cmd.Parameters.AddWithValue("@TENHV", updatedCustomer.HoTen);
+          SqlCommand cmd = new SqlCommand("UPDATE HOIVIEN SET HOTEN = @HOTEN, GIOITINH = @GIOITINH, SDT = @SDT, DCHI = @DCHI, TRANGTHAI = @TRANGTHAI WHERE MAHV = @MAHV", conn);
+          cmd.Parameters.AddWithValue("@MAHV", updatedCustomer.MaHV);
+          cmd.Parameters.AddWithValue("@HOTEN", updatedCustomer.HoTen);
           cmd.Parameters.AddWithValue("@GIOITINH", updatedCustomer.GioiTinh);
           cmd.Parameters.AddWithValue("@SDT", updatedCustomer.Sdt);
           cmd.Parameters.AddWithValue("@DCHI", updatedCustomer.Dchi);

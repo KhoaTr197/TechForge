@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -149,6 +150,12 @@
     </Compile>
     <Compile Include="SubPages\CustomerManagePageGUI.Designer.cs">
       <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\InvoiceTransactionPageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\InvoiceTransactionPageGUI.Designer.cs">
+      <DependentUpon>InvoiceTransactionPageGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.cs">
       <SubType>Form</SubType>

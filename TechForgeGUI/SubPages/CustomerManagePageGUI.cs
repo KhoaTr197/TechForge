@@ -26,6 +26,9 @@ namespace TechForgeGUI.SubPages
       LoadData();
       ModifyData();
 
+      // Attach event handler for cell click
+      dgvMainList.dgvList.CellClick += dgvList_CellClick;
+
       btnAdd.Click += BtnAdd_Click;
     }
     sealed protected override void InitializeBUS()
@@ -42,6 +45,10 @@ namespace TechForgeGUI.SubPages
     protected override void LoadData()
     {
       dgvMainList.BindingData(dsHoiVien);
+    }
+    private void ModifyData()
+    {
+      this.SuspendLayout();
 
       dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
@@ -86,10 +93,6 @@ namespace TechForgeGUI.SubPages
         DataPropertyName = "TrangThai",
         Visible = true
       });
-    }
-    private void ModifyData()
-    {
-      this.SuspendLayout();
 
       // Attach event handler for cell formatting
       dgvMainList.dgvList.CellFormatting += dgvList_CellFormatting;
@@ -138,8 +141,32 @@ namespace TechForgeGUI.SubPages
 
       detailsForm.AddSubmit += DetailsForm_AddSubmit;
     }
+    // Handle cell click event
+    protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
+    {
+      if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+      {
+        DataGridView dgvMainList = (DataGridView)sender;
+        if (dgvMainList.SelectedRows.Count > 0)
+        {
+          HoiVienDTO hoiVien = dsHoiVien.ElementAt(e.RowIndex);
+
+          CustomerDetailFormGUI detailsForm = new CustomerDetailFormGUI(bus, hoiVien);
+
+          detailsForm.Show(Form.ActiveForm);
+
+          // Assign event handler for submits
+          detailsForm.EditSubmit += DetailsForm_EditSubmit;
+        }
+      }
+    }
     private void DetailsForm_AddSubmit(object sender, DetailFormAddSubmitEventArgs e)
     {
+    }
+    private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
+    {
+      GetData();
+      LoadData();
     }
   }
 }

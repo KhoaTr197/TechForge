@@ -47,7 +47,6 @@ namespace TechForgeGUI.BaseForm
               }
             },
             new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
-            new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
             new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
             new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
           };
@@ -107,6 +106,13 @@ namespace TechForgeGUI.BaseForm
         case "Statistic":
           {
             currentPage = new StatisticPageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "Invoice":
+          {
+            currentPage = new InvoiceTransactionPageGUI();
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
             break;

@@ -81,7 +81,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO SANPHAM VALUES(@TENSP, @GIANHAP, @GIA, @KHUYENMAI, @MOTA, @SL, @DANHMUC, @HSX, @NGSX, @TRANGTHAI)", conn);
+          SqlCommand cmd = new SqlCommand("INSERT INTO SANPHAM (TENSP, GIANHAP, GIA, KHUYENMAI, MOTA, SL, DANHMUC, HSX, NGSX, TRANGTHAI) VALUES(@TENSP, @GIANHAP, @GIA, @KHUYENMAI, @MOTA, @SL, @DANHMUC, @HSX, @NGSX, @TRANGTHAI)", conn);
           cmd.Parameters.AddWithValue("@TENSP", newProduct.TenSP);
           cmd.Parameters.AddWithValue("@GIANHAP", newProduct.GiaNhap);
           cmd.Parameters.AddWithValue("@GIA", newProduct.Gia);
