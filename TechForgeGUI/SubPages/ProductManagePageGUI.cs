@@ -111,7 +111,7 @@ namespace TechForgeGUI
       dgvMainList.BindingData(dsSanPham);
       
       // Add summary cards with product statistics
-      AddSummaryCards(new SummaryCard[] { 
+    summaryCards.Add(new SummaryCard[] { 
         new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
         new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
@@ -283,7 +283,8 @@ namespace TechForgeGUI
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           SanPhamDTO sanPham = dsSanPham.Find(sp => sp.MaSP == (int)selectedRow.Cells[0].Value);
 
-          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, dsNhaCungCap, sanPhamBus);
+          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus);
+          detailsForm.parentForm = this;
 
           detailsForm.Show(Form.ActiveForm);
 
@@ -300,7 +301,7 @@ namespace TechForgeGUI
       LoadData();
 
       // Update summary cards when new products are added
-      UpdateSummaryCards(new SummaryCard[]
+      summaryCards.Update(new SummaryCard[]
       {
         new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
@@ -315,7 +316,7 @@ namespace TechForgeGUI
       LoadData();
 
       // Update summary cards when products are edited
-      UpdateSummaryCards(new SummaryCard[]
+      summaryCards.Update(new SummaryCard[]
       {
         new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),

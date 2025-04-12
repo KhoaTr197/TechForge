@@ -23,9 +23,8 @@ namespace TechForgeGUI.SubPages
         private List<NhaCungCapDTO> dsNhaCungCap { get; set; }
     private SanPhamBUS BUS { get; set; }
     private FlowLayoutPanel flpInfoPanel;
-        private AlertForm alert;
-    public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat,
-        List<NhaCungCapDTO> _dsNhaCungCap, SanPhamBUS _BUS)
+    private Notification notify;
+    public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat, SanPhamBUS _BUS)
     {
       InitializeComponent();
 
@@ -303,12 +302,11 @@ namespace TechForgeGUI.SubPages
       };
 
       if (BUS.Update(thongTinSanPham, updatedSanPham))
-        {
-            alert = new AlertForm("Cap nhat thanh cong");
-            alert.Show();
-            OnEditSubmit(new DetailFormEditSubmitEventArgs());
-        }
-        
+      {
+        notify = new Notification("Cap nhat thanh cong");
+        notify.Show();
+        OnEditSubmit(new DetailFormEditSubmitEventArgs());
+      }
     }
   }
 }
