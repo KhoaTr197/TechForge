@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using TechForgeBUS;
 using TechForgeDTO;
@@ -54,7 +53,8 @@ namespace TechForgeGUI.SubPages
     
     // Font style
     private string DefaultFontName = "Segoe UI";
-    
+    //Place holder
+    private string placeHolder = "Nhập tên hoặc số điện thoại...";
     public InvoiceTransactionPageGUI()
     {
       InitializeComponent();
@@ -314,9 +314,12 @@ namespace TechForgeGUI.SubPages
       {
         Dock = DockStyle.Fill,
         Font = new Font(DefaultFontName, 10),
-        Text = "Nhập tên hoặc số điện thoại..."
+        Text = placeHolder,
+        ForeColor = Color.Gray,
       };
       txtCustomerSearch.TextChanged += txtCustomerSearch_TextChanged;
+            txtCustomerSearch.Enter += TxtCustomerSearch_Enter;
+            txtCustomerSearch.Leave += TxtCustomerSearch_Leave;
 
       lstCustomerResults = new ListBox()
       {
@@ -591,8 +594,26 @@ namespace TechForgeGUI.SubPages
       // Add to main layout
       tlpMain.Controls.Add(pnlRight, 1, 0);
     }
-    
-    private void BindProductsData()
+
+        private void TxtCustomerSearch_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCustomerSearch.Text))
+            {
+                txtCustomerSearch.Text = placeHolder;
+                txtCustomerSearch.ForeColor = Color.Gray;
+            }
+        }
+
+        private void TxtCustomerSearch_Enter(object sender, EventArgs e)
+        {
+            if(txtCustomerSearch.Text == placeHolder)
+            {
+                txtCustomerSearch.Text = "";
+                txtCustomerSearch.ForeColor = Color.Black;
+            }
+        }
+
+        private void BindProductsData()
     {
       dgvProducts.DataSource = null;
       dgvProducts.Columns.Clear();
