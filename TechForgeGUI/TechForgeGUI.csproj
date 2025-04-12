@@ -152,6 +152,19 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="RolePermissions.cs" />
+    <Compile Include="SubPages\CategoryDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\CategoryDetailFormGUI.Designer.cs">
+      <DependentUpon>CategoryDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\CategoryManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\CategoryManagePageGUI.Designer.cs">
+      <DependentUpon>CategoryManagePageGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\CustomerDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,11 +183,23 @@
     <Compile Include="SubPages\HomePageGUI.Designer.cs">
       <DependentUpon>HomePageGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="SubPages\InvoiceManagePageGUI.cs">
+    <Compile Include="SubPages\ManufacturerDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\ManufacturerDetailFormGUI.Designer.cs">
+      <DependentUpon>ManufacturerDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ManufacturerManagePageGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SubPages\InvoiceManagePageGUI.Designer.cs">
-      <DependentUpon>InvoiceManagePageGUI.cs</DependentUpon>
+    <Compile Include="SubPages\ManufacturerManagePageGUI.Designer.cs">
+      <DependentUpon>ManufacturerManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ReceiptManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\ReceiptManagePageGUI.Designer.cs">
+      <DependentUpon>ReceiptManagePageGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\InvoiceTransactionPageGUI.cs">
       <SubType>UserControl</SubType>
@@ -251,8 +276,14 @@
     <EmbeddedResource Include="ManagerFormGUI.resx">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\CategoryManagePageGUI.resx">
+      <DependentUpon>CategoryManagePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubPages\CustomerManagePageGUI.resx">
       <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\ManufacturerManagePageGUI.resx">
+      <DependentUpon>ManufacturerManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
       <DependentUpon>ProductManagePageGUI.cs</DependentUpon>

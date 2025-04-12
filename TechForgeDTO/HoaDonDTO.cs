@@ -18,7 +18,7 @@ namespace TechForgeDTO
     //[TONGTIEN] DECIMAL(18)   NULL,
     //[NGLAPHD] DATETIME DEFAULT(getdate()) NULL,
     public int MaHD { get; set; }
-    public int MaHV { get; set; }
+    public int? MaHV { get; set; }
     public string HoTen { get; set; }
     public string Sdt { get; set; }
     public string DiaChi { get; set; }

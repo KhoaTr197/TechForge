@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeBUS;
 using TechForgeDTO;
+using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubPages
@@ -18,18 +19,35 @@ namespace TechForgeGUI.SubPages
     private DataSet ds;
     private List<HoiVienDTO> dsHoiVien { get; set; }
     private HoiVienBUS bus { get; set; }
-    public CustomerManagePageGUI()
+    private RolePermissions permissions;
+
+    public CustomerManagePageGUI(string role)
     {
       InitializeComponent();
+
+      // Initialize permissions
+      permissions = RolePermissions.GetPermissions(role);
+      permissions.ApplyToManagePage(this);
+
       InitializeBUS();
       GetData();
       LoadData();
       ModifyData();
+      SetUpFeature();
 
       // Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+    }
+    private void SetUpFeature()
+    {
+      if (permissions.Role == "Cashier")
+      {
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        });
+      }
     }
     sealed protected override void InitializeBUS()
     {

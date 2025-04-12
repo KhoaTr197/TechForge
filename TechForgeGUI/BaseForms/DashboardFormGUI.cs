@@ -23,6 +23,7 @@ namespace TechForgeGUI.BaseForm
   public partial class DashboardFormGUI : Form
   {
     private Control currentPage;
+    private string role;
     public DashboardFormGUI()
     {
       InitializeComponent();
@@ -30,10 +31,17 @@ namespace TechForgeGUI.BaseForm
       this.StartPosition = FormStartPosition.CenterScreen;
       this.SizeChanged += DashboardFormGUI_SizeChanged;
     }
-    public void SetUpSidebar(string job = "Cashier")
+    public void SetUpForm(string _role)
     {
+      role = _role;
+    }
+    public void SetUpSidebar()
+    {
+      if (role == null)
+        return;
+
       List<SidebarTabItem> tabs = null;
-      switch (job)
+      switch (role)
       {
         case "Cashier":
           tabs = new List<SidebarTabItem>() {
@@ -46,7 +54,7 @@ namespace TechForgeGUI.BaseForm
                 new SidebarTabItem{ Id="Category", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Danh Mục" },
               }
             },
-            new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+            new SidebarTabItem{ Id="Receipt", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
             new SidebarTabItem{ Id="CreateInvoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Tạo Đơn Hàng" },
             new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
             new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
@@ -93,7 +101,19 @@ namespace TechForgeGUI.BaseForm
           }
         case "Product":
           {
-            currentPage = new ProductManagePageGUI();
+            currentPage = new ProductManagePageGUI(role);
+            panelMain.Controls.Add(currentPage);
+            break;
+          }
+        case "Manufacturer":
+          {
+            currentPage = new ManufacturerManagePageGUI(role);
+            panelMain.Controls.Add(currentPage);
+            break;
+          }
+        case "Category":
+          {
+            currentPage = new CategoryManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             break;
           }
@@ -117,9 +137,9 @@ namespace TechForgeGUI.BaseForm
             currentPage.Show();
             break;
           }
-        case "Invoice":
+        case "Receipt":
           {
-            currentPage = new InvoiceManagePageGUI();
+            currentPage = new ReceiptManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
             break;
@@ -133,7 +153,7 @@ namespace TechForgeGUI.BaseForm
           }
         case "Customer":
           {
-            currentPage = new CustomerManagePageGUI();
+            currentPage = new CustomerManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
             break;

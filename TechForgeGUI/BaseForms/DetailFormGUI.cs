@@ -17,9 +17,9 @@ namespace TechForgeGUI.BaseForms
 
     // Controls
     private FlowLayoutPanel flpActionsPanel;
-    protected Button btnAdd;
-    protected Button btnEdit;
-    protected Button btnDelete;
+    public Button btnAdd;
+    public Button btnEdit;
+    public Button btnDelete;
     public UserControl parentForm;
 
     protected string DefaultFontName = "Segoe UI";
@@ -97,39 +97,25 @@ namespace TechForgeGUI.BaseForms
       // Add action panel to form
       this.Controls.Add(flpActionsPanel);
     }
-        // Method to get a control by its name
-        /*protected Control GetControlByName(Control root, string name)
-        {
-          foreach (Control panel in root.Controls)
-          {
-            foreach (Control control in panel.Controls)
-            {
-              if (control.Name == name)
-              {
-                return control;
-              }
-            }
-          }
-          return null;
-        }*/
-        protected Control GetControlByName(Control container, string name)
-        {
-            if (container == null || string.IsNullOrEmpty(name))
-                return null;
 
-            foreach (Control control in container.Controls)
-            {
-                if (control.Name == name)
-                    return control;
-                Control found = GetControlByName(control, name);
-                if (found != null)
-                    return found;
-            }
-            return null;
-        }
+    protected Control GetControlByName(Control container, string name)
+    {
+      if (container == null || string.IsNullOrEmpty(name))
+        return null;
 
-        // Method to trigger the EditSubmit event
-        protected virtual void OnAddSubmit(DetailFormAddSubmitEventArgs e)
+      foreach (Control control in container.Controls)
+      {
+        if (control.Name == name)
+          return control;
+        Control found = GetControlByName(control, name);
+        if (found != null)
+          return found;
+      }
+      return null;
+    }
+
+    // Method to trigger the EditSubmit event
+    protected virtual void OnAddSubmit(DetailFormAddSubmitEventArgs e)
     {
       AddSubmit.Invoke(this, e);
     }

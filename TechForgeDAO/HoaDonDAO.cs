@@ -32,7 +32,7 @@ namespace TechForgeDAO
               receipts.Add(new HoaDonDTO()
               {
                 MaHD = reader.GetInt32(0),
-                MaHV = reader.GetInt32(1),
+                MaHV = reader.IsDBNull(1) ? (int?)null : reader.GetInt32(1),
                 HoTen = reader.GetString(2),
                 Sdt = reader.GetString(3),
                 DiaChi = reader.GetString(4),

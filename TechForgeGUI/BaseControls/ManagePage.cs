@@ -19,7 +19,7 @@ namespace TechForgeGUI.BaseForms
   {
     public Form FormParent { get; set; }
     private TableLayoutPanel tlpMain;
-    protected Button btnAdd;
+    public Button btnAdd;
     protected CustomDataGridView dgvMainList;
     
     // Summary cards section
@@ -61,16 +61,13 @@ namespace TechForgeGUI.BaseForms
       };
       this.Controls.Add(tlpMain);
     }
-    
     private void InitializeSummarySection()
     {
       flpSummaryCards = new FlowLayoutPanel
       {
-        AutoSize = true,
         Dock = DockStyle.Fill,
         FlowDirection = FlowDirection.LeftToRight,
         WrapContents = false,
-        AutoScroll = true,
         Margin = new Padding(4),
       };
       

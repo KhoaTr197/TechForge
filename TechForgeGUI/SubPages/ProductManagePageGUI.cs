@@ -26,20 +26,39 @@ namespace TechForgeGUI
     private HangSanXuatBUS hangSanXuatBus { get; set; }
     private DanhMucBUS danhMucBus { get; set; }
     private NhaCungCapBUS nhaCungCapBus { get; set; }
-
+    private RolePermissions permissions;
     // Constructor
-    public ProductManagePageGUI()
+    public ProductManagePageGUI(string role)
     {
       InitializeComponent();
+
+      // Initialize permissions
+      permissions = RolePermissions.GetPermissions(role);
+      permissions.ApplyToManagePage(this);
+
       InitializeBUS();
       GetData();
       LoadData();
       ModifyData();
+      SetUpFeature();
 
       // Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
     }
+    private void SetUpFeature()
+    {
+      if (permissions.Role == "Cashier")
+      {
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Tổng số lượng", dsSanPham.Where(p => p.TrangThai).Sum(p => p.SoLuong).ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Hàng sắp hết", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+        });
+      } else
+      {
 
+      }
+    }
     // Initialize business logic components
     sealed protected override void InitializeBUS()
     {
@@ -62,7 +81,7 @@ namespace TechForgeGUI
       dsSanPham = new List<SanPhamDTO>();
       dsDanhMuc = new List<DanhMucDTO>();
       dsHangSanXuat = new List<HangSanXuatDTO>();
-            dsNhaCungCap = new List<NhaCungCapDTO>();
+      dsNhaCungCap = new List<NhaCungCapDTO>();
 
       // Map data to DTOs
       dsSanPham = ds.Tables["SANPHAM"].AsEnumerable().Select(row => new SanPhamDTO()
@@ -109,29 +128,18 @@ namespace TechForgeGUI
     sealed protected override void LoadData()
     {
       dgvMainList.BindingData(dsSanPham);
-      
-      // Add summary cards with product statistics
-    summaryCards.Add(new SummaryCard[] { 
-        new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-        new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
-        new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
-        new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
-      });
     }
-    
     // Calculate number of products with low stock (less than 10 items)
     private int GetLowStockCount()
     {
       return dsSanPham.Count(p => p.SoLuong < 10 && p.TrangThai);
     }
-    
     // Calculate total inventory value (quantity * price for all products)
     private decimal GetTotalInventoryValue()
     {
       return dsSanPham.Where(p => p.TrangThai)
-                       .Sum(p => p.SoLuong * p.Gia);
+                      .Sum(p => p.SoLuong * p.Gia);
     }
-
     // Modify DataGridView columns
     private void ModifyData()
     {
@@ -283,14 +291,17 @@ namespace TechForgeGUI
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           SanPhamDTO sanPham = dsSanPham.Find(sp => sp.MaSP == (int)selectedRow.Cells[0].Value);
 
-          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus);
+          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus, dsNhaCungCap);
           detailsForm.parentForm = this;
+
+          permissions.ApplyToForm(detailsForm);
 
           detailsForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
           detailsForm.AddSubmit += DetailsForm_AddSubmit;
           detailsForm.EditSubmit += DetailsForm_EditSubmit;
+          detailsForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }
@@ -311,6 +322,21 @@ namespace TechForgeGUI
     }
     // Handle edit submit event
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
+    {
+      GetData();
+      LoadData();
+
+      // Update summary cards when products are edited
+      summaryCards.Update(new SummaryCard[]
+      {
+        new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
+      });
+    }
+    // Handle delete submit event
+    private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
     {
       GetData();
       LoadData();
