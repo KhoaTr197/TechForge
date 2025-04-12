@@ -47,6 +47,7 @@ namespace TechForgeGUI.BaseForm
               }
             },
             new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+            new SidebarTabItem{ Id="CreateInvoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Tạo Đơn Hàng" },
             new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
             new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
           };
@@ -72,8 +73,8 @@ namespace TechForgeGUI.BaseForm
       }
 
       //Set up sidebar
-      sideBar1.Init(tabs);
       sideBar1.SelectedTabChanged += OpenSubForm;
+      sideBar1.Init(tabs);
     }
     protected void OpenSubForm(object sender, SidebarSelectedTabChangedEventArgs e)
     {
@@ -84,6 +85,12 @@ namespace TechForgeGUI.BaseForm
 
       switch (sideBar1.SelectedTab.Id)
       {
+        case "Homepage":
+          {
+            currentPage = new HomePageGUI();
+            panelMain.Controls.Add(currentPage);
+            break;
+          }
         case "Product":
           {
             currentPage = new ProductManagePageGUI();
@@ -111,6 +118,13 @@ namespace TechForgeGUI.BaseForm
             break;
           }
         case "Invoice":
+          {
+            currentPage = new InvoiceManagePageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "CreateInvoice":
           {
             currentPage = new InvoiceTransactionPageGUI();
             panelMain.Controls.Add(currentPage);

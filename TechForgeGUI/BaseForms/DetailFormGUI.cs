@@ -20,6 +20,7 @@ namespace TechForgeGUI.BaseForms
     protected Button btnAdd;
     protected Button btnEdit;
     protected Button btnDelete;
+    public UserControl parentForm;
 
     protected string DefaultFontName = "Segoe UI";
 

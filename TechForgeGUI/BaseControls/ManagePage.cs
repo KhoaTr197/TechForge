@@ -24,7 +24,7 @@ namespace TechForgeGUI.BaseForms
     
     // Summary cards section
     private FlowLayoutPanel flpSummaryCards;
-    private List<SummaryCard> summaryCards = new List<SummaryCard>();
+    protected SummaryCards summaryCards;
 
     protected readonly string connStr = "Data Source=.;Initial Catalog=TECHFORGE;Integrated Security=True;";
 
@@ -74,6 +74,8 @@ namespace TechForgeGUI.BaseForms
         Margin = new Padding(4),
       };
       
+      summaryCards = new SummaryCards(flpSummaryCards, 4);
+
       tlpMain.Controls.Add(flpSummaryCards, 0, 0);
       tlpMain.SetColumnSpan(flpSummaryCards, 2);
     }
@@ -224,125 +226,6 @@ namespace TechForgeGUI.BaseForms
     protected virtual string GenerateSearchFilter(string searchText)
     {
       return string.Empty;
-    }
-
-    // Method to add summary cards
-    protected void AddSummaryCards(SummaryCard[] cards)
-    {
-      // Clear existing cards
-      flpSummaryCards.Controls.Clear();
-      summaryCards.Clear();
-
-      // Limit to maximum 4 cards
-      int cardCount = Math.Min(cards.Length, 4);
-      if (cardCount == 0) return;
-
-      // Calculate width percentage for each card
-      int widthPercentage = 100 / cardCount;
-      int cardWidth = (flpSummaryCards.Width - 20) / cardCount;
-
-      // Create and add cards
-      for (int i = 0; i < cardCount; i++)
-      {
-        var cardInfo = cards[i];
-        var card = new SummaryCard(cardInfo)
-        {
-          Width = cardWidth,
-          Height = 80,
-          Margin = new Padding(5),
-        };
-        summaryCards.Add(card);
-        flpSummaryCards.Controls.Add(card);
-      }
-    }
-    // Method to update summary cards
-    protected void UpdateSummaryCards(SummaryCard[] cards)
-    {
-      int count = Math.Min(cards.Length, summaryCards.Count);
-      for (int i = 0; i < count; i++)
-      {
-        summaryCards[i] = cards[i];
-      }
-    }
-    // Resize cards when container resizes
-    protected override void OnResize(EventArgs e)
-    {
-      base.OnResize(e);
-      ResizeSummaryCards();
-    }
-
-    private void ResizeSummaryCards()
-    {
-      if (flpSummaryCards == null || flpSummaryCards.Controls.Count == 0) return;
-
-      int cardCount = flpSummaryCards.Controls.Count;
-      int cardWidth = (flpSummaryCards.Width - (cardCount * 10)) / cardCount;
-
-      foreach (Control card in flpSummaryCards.Controls)
-      {
-        card.Width = cardWidth;
-      }
-    }
-  }
- 
-  // Class for summary card UI
-  public class SummaryCard : Panel
-  {
-    private Label lblTitle;
-    private Label lblValue;
-
-    public string Title { get; set; }
-    public string Value { get; set; }
-    public string Icon { get; set; }
-    public SummaryCard(string title, string value, string icon, Color cardColor)
-    {
-      Title = title;
-      Value = value;
-      Icon = icon;
-      BackColor = cardColor;
-
-      InitalizeSummaryCard();    
-    }
-    public SummaryCard(SummaryCard card)
-    {
-      Title = card.Title;
-      Value = card.Value;
-      Icon = card.Icon;
-      BackColor = card.BackColor;
-
-      InitalizeSummaryCard();
-    }
-
-    private void InitalizeSummaryCard()
-    {
-      // Configure panel
-      this.Padding = new Padding(10);
-      this.BorderStyle = BorderStyle.None;
-      
-      // Value label
-      lblValue = new Label
-      {
-        Text = Value,
-        Font = new Font("Segoe UI", 18, FontStyle.Bold),
-        ForeColor = Color.White,
-        AutoSize = true,
-        TextAlign = ContentAlignment.MiddleLeft,
-        Location = new Point(10, 10)
-      };
-      
-      // Title label
-      lblTitle = new Label
-      {
-        Text = Title,
-        Font = new Font("Segoe UI", 10),
-        ForeColor = Color.WhiteSmoke,
-        AutoSize = true,
-        TextAlign = ContentAlignment.MiddleLeft,
-        Location = new Point(10, 45)
-      };
-      
-      this.Controls.Add(lblValue);
-      this.Controls.Add(lblTitle);
     }
   }
 }
