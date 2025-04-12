@@ -304,10 +304,15 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(thongTinSanPham, updatedSanPham))
         {
-            alert = new AlertForm("Cap nhat thanh cong");
+            alert = new AlertForm("Cập nhật thành công!");
             alert.Show();
             OnEditSubmit(new DetailFormEditSubmitEventArgs());
         }
+            else
+            {
+                alert = new AlertForm("Có lỗi xảy ra, vui lòng thử lại sau!", AlertType.error);
+                alert.Show();
+            }
         
     }
   }

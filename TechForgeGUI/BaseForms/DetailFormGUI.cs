@@ -143,14 +143,20 @@ namespace TechForgeGUI.BaseForms
     private void ParentForm_SizeChanged(object sender, EventArgs e)
     {
 
-      overlay.Size = Form.ActiveForm.ClientSize;
-      this.Size = new Size(Form.ActiveForm.Width / 100 * 70, Form.ActiveForm.Height / 100 * 70);
-      this.Location = Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2));
+      if(overlay != null && !overlay.IsDisposed)
+        {
+            overlay.Size = Form.ActiveForm.ClientSize;
+            this.Size = new Size(Form.ActiveForm.Width / 100 * 70, Form.ActiveForm.Height / 100 * 70);
+            this.Location = Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2));
+        }
     }
     private void ParentForm_LocationChanged(object sender, EventArgs e)
     {
-      overlay.Location = Form.ActiveForm.PointToScreen(new Point(0, 0));
-      this.Location = Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2));
+        if (overlay != null && !overlay.IsDisposed)
+        {
+            overlay.Location = Form.ActiveForm.PointToScreen(new Point(0, 0));
+            this.Location = Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2));
+        }
     }
   }
   // Event arguments for edit submit event
