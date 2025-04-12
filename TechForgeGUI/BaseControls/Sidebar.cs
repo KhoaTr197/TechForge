@@ -262,17 +262,20 @@ namespace TechForgeGUI.BaseControls
         tabItem.BackColor = this.Style.BgColor;
       }
     }
+    public void UpdateSpacerHeight()
+    {
+      if (Tabs.Count > 0)
+        spacer.Height = this.Height - this.panelLogo.Height - (this.Tabs[0].Size.Height * this.Tabs.Count);
+    }
     //Event Handlers when Qty Item changed
     private void Sidebar_ItemsChanged(object sender, EventArgs e)
     {
-      if (Tabs.Count > 0)
-        spacer.Height = this.Height - this.panelLogo.Height - (this.Tabs[0].Size.Height * this.Tabs.Count + 1);
+      UpdateSpacerHeight();
     }
     //Event Handlers when Dock changed
     private void Sidebar_DockChanged(object sender, EventArgs e)
     {
-      if (Tabs.Count > 0)
-        spacer.Height = this.Height - this.panelLogo.Height - (this.Tabs[0].Height * this.Tabs.Count + 1);
+      UpdateSpacerHeight();
     }
   }
 }

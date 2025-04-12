@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -72,17 +73,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseControls\ActivityLog.cs" />
+    <Compile Include="BaseControls\ActivityLog.Designer.cs">
+      <DependentUpon>ActivityLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseControls\CustomDataGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BaseControls\CustomDataGridView.Designer.cs">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseControls\Notification.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\Notification.Designer.cs">
+      <DependentUpon>Notification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseControls\Page.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\Page.Designer.cs">
+      <DependentUpon>Page.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseControls\Sidebar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BaseControls\Sidebar.Designer.cs">
       <DependentUpon>Sidebar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseControls\SummaryCards.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BaseForms\AuthFormGUI.cs">
       <SubType>Form</SubType>
@@ -132,6 +152,36 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\CustomerDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\CustomerDetailFormGUI.Designer.cs">
+      <DependentUpon>CustomerDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\CustomerManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\CustomerManagePageGUI.Designer.cs">
+      <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\HomePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\HomePageGUI.Designer.cs">
+      <DependentUpon>HomePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\InvoiceManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\InvoiceManagePageGUI.Designer.cs">
+      <DependentUpon>InvoiceManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\InvoiceTransactionPageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\InvoiceTransactionPageGUI.Designer.cs">
+      <DependentUpon>InvoiceTransactionPageGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,7 +208,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SubPages\StatisticPageGUI.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SubPages\StatisticPageGUI.Designer.cs">
       <DependentUpon>StatisticPageGUI.cs</DependentUpon>
@@ -180,6 +230,9 @@
     <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BaseControls\Page.resx">
+      <DependentUpon>Page.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\AuthFormGUI.resx">
       <DependentUpon>AuthFormGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -197,6 +250,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ManagerFormGUI.resx">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\CustomerManagePageGUI.resx">
+      <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
       <DependentUpon>ProductManagePageGUI.cs</DependentUpon>
@@ -242,6 +298,9 @@
     <Content Include="Resources\box_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\circle_check_icon.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\homepage_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -271,6 +330,9 @@
       <Project>{a8f30338-cc58-4999-a70d-f4c44c288de0}</Project>
       <Name>TechForgeDTO</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ProductImages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

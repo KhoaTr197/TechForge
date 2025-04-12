@@ -11,6 +11,7 @@ using TechForgeBUS;
 using TechForgeDTO;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
+using TechForgeGUI.Utils;
 
 namespace TechForgeGUI.SubPages
 {
@@ -21,15 +22,18 @@ namespace TechForgeGUI.SubPages
     private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
     private SanPhamBUS BUS { get; set; }
     private FlowLayoutPanel flpInfoPanel;
+    private Notification notify;
     public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat, SanPhamBUS _BUS)
     {
       InitializeComponent();
 
-      thongTinSanPham = _thongTinSanPham;
-      dsDanhMuc = _dsDanhMuc;
-      dsHangSanXuat = _dsHangSanXuat;
-      BUS = _BUS;
-      Text = "Chi tiết sản phẩm";
+      this.thongTinSanPham = _thongTinSanPham;
+      this.dsDanhMuc = _dsDanhMuc;
+      this.dsHangSanXuat = _dsHangSanXuat;
+      this.BUS = _BUS;
+      this.Text = "Chi tiết sản phẩm";
+      this.btnAdd.Visible = false;
+      this.btnAdd.Enabled = false;
 
       flpInfoPanel = new FlowLayoutPanel
       {
@@ -45,7 +49,6 @@ namespace TechForgeGUI.SubPages
 
       btnEdit.Click += btnEdit_Click;
     }
-
     private void LoadInfo()
     {
       Dictionary<string, string> displayNames = new Dictionary<string, string>
@@ -82,7 +85,11 @@ namespace TechForgeGUI.SubPages
 
         Control control;
 
-        if (prop.Name == "MaSP")
+        if (prop.Name == "TrangThai")
+        {
+          continue;
+        }
+        else if (prop.Name == "MaSP")
         {
           control = new TextBox
           {
@@ -121,18 +128,6 @@ namespace TechForgeGUI.SubPages
             Font = new Font(DefaultFontName, 10),
             Format = DateTimePickerFormat.Custom,
             CustomFormat = "dd/MM/yyyy",
-          };
-        }
-        else if (prop.PropertyType == typeof(bool))
-        {
-          control = new ComboBox
-          {
-            Name = "cbo" + prop.Name,
-            Width = 160,
-            Font = new Font(DefaultFontName, 10),
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            Items = { "Đang kinh doanh", "Ngừng kinh doanh" },
-            SelectedItem = (bool)prop.GetValue(thongTinSanPham) ? "Đang kinh doanh" : "Ngừng kinh doanh",
           };
         }
         else if (prop.PropertyType == typeof(decimal))
@@ -184,9 +179,9 @@ namespace TechForgeGUI.SubPages
         flpInfoPanel.Controls.Add(panel);
       }
     }
-    private void btnEdit_Click(object sender, EventArgs e)
+    private void btnAdd_Click(object sender, EventArgs e)
     {
-      SanPhamDTO updatedInfo = new SanPhamDTO()
+      SanPhamDTO newSanPham = new SanPhamDTO()
       {
         MaSP = thongTinSanPham.MaSP,
         TenSP = ((TextBox)GetControlByName(flpInfoPanel, "txtTenSP")).Text,
@@ -198,11 +193,35 @@ namespace TechForgeGUI.SubPages
         DanhMuc = dsDanhMuc[((ComboBox)GetControlByName(flpInfoPanel, "cboDanhMuc")).SelectedIndex].MaDM,
         Hsx = dsHangSanXuat[((ComboBox)GetControlByName(flpInfoPanel, "cboHsx")).SelectedIndex].MaHSX,
         NgSx = ((DateTimePicker)GetControlByName(flpInfoPanel, "dtpNgSx")).Value,
-        TrangThai = ((ComboBox)GetControlByName(flpInfoPanel, "cboTrangThai")).SelectedItem.ToString() == "Đang kinh doanh",
+        TrangThai = true,
       };
 
-      if (BUS.Update(thongTinSanPham, updatedInfo))
+      if (BUS.Add(newSanPham) != -1)
+        OnAddSubmit(new DetailFormAddSubmitEventArgs());
+    }
+    private void btnEdit_Click(object sender, EventArgs e)
+    {
+      SanPhamDTO updatedSanPham = new SanPhamDTO()
+      {
+        MaSP = thongTinSanPham.MaSP,
+        TenSP = ((TextBox)GetControlByName(flpInfoPanel, "txtTenSP")).Text,
+        GiaNhap = (decimal)((NumericUpDown)GetControlByName(flpInfoPanel, "nudGiaNhap")).Value,
+        Gia = (decimal)((NumericUpDown)GetControlByName(flpInfoPanel, "nudGia")).Value,
+        KhuyenMai = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudKhuyenMai")).Value,
+        MoTa = ((TextBox)GetControlByName(flpInfoPanel, "txtMoTa")).Text,
+        SoLuong = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudSoLuong")).Value,
+        DanhMuc = dsDanhMuc[((ComboBox)GetControlByName(flpInfoPanel, "cboDanhMuc")).SelectedIndex].MaDM,
+        Hsx = dsHangSanXuat[((ComboBox)GetControlByName(flpInfoPanel, "cboHsx")).SelectedIndex].MaHSX,
+        NgSx = ((DateTimePicker)GetControlByName(flpInfoPanel, "dtpNgSx")).Value,
+        TrangThai = true,
+      };
+
+      if (BUS.Update(thongTinSanPham, updatedSanPham))
+      {
+        notify = new Notification("Cap nhat thanh cong");
+        notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
+      }
     }
   }
 }

@@ -38,7 +38,7 @@
       this.panelMain.Location = new System.Drawing.Point(160, 0);
       this.panelMain.Margin = new System.Windows.Forms.Padding(0);
       this.panelMain.Name = "panelMain";
-      this.panelMain.Size = new System.Drawing.Size(1190, 729);
+      this.panelMain.Size = new System.Drawing.Size(1190, 771);
       this.panelMain.TabIndex = 5;
       // 
       // sideBar1
@@ -47,17 +47,18 @@
       this.sideBar1.Dock = System.Windows.Forms.DockStyle.Left;
       this.sideBar1.Location = new System.Drawing.Point(0, 0);
       this.sideBar1.Name = "sideBar1";
-      this.sideBar1.Size = new System.Drawing.Size(160, 729);
+      this.sideBar1.Size = new System.Drawing.Size(160, 771);
       this.sideBar1.TabIndex = 1;
       // 
       // DashboardFormGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1350, 729);
+      this.ClientSize = new System.Drawing.Size(1350, 771);
       this.Controls.Add(this.panelMain);
       this.Controls.Add(this.sideBar1);
       this.Name = "DashboardFormGUI";
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "DashboardForm";
       this.ResumeLayout(false);
 

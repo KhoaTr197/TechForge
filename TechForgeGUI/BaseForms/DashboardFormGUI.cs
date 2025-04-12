@@ -26,6 +26,9 @@ namespace TechForgeGUI.BaseForm
     public DashboardFormGUI()
     {
       InitializeComponent();
+
+      this.StartPosition = FormStartPosition.CenterScreen;
+      this.SizeChanged += DashboardFormGUI_SizeChanged;
     }
     public void SetUpSidebar(string job = "Cashier")
     {
@@ -44,7 +47,7 @@ namespace TechForgeGUI.BaseForm
               }
             },
             new SidebarTabItem{ Id="Invoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
-            new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
+            new SidebarTabItem{ Id="CreateInvoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Tạo Đơn Hàng" },
             new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
             new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
           };
@@ -70,17 +73,24 @@ namespace TechForgeGUI.BaseForm
       }
 
       //Set up sidebar
-      sideBar1.Init(tabs);
       sideBar1.SelectedTabChanged += OpenSubForm;
+      sideBar1.Init(tabs);
     }
-    protected void OpenSubForm(object sender, SidebarSelectedTabChangedEventArgs e) {
-      if(currentPage != null)
+    protected void OpenSubForm(object sender, SidebarSelectedTabChangedEventArgs e)
+    {
+      if (currentPage != null)
       {
         panelMain.Controls.Remove(currentPage);
       }
 
       switch (sideBar1.SelectedTab.Id)
       {
+        case "Homepage":
+          {
+            currentPage = new HomePageGUI();
+            panelMain.Controls.Add(currentPage);
+            break;
+          }
         case "Product":
           {
             currentPage = new ProductManagePageGUI();
@@ -100,17 +110,41 @@ namespace TechForgeGUI.BaseForm
             currentPage.Show();
             break;
           }
-                case "Statistic":
-                    {
-                        currentPage = new StatisticPageGUI();
-                        panelMain.Controls.Add(currentPage);
-                        currentPage.Show();
-                        break;
-                    }
+        case "Statistic":
+          {
+            currentPage = new StatisticPageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "Invoice":
+          {
+            currentPage = new InvoiceManagePageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "CreateInvoice":
+          {
+            currentPage = new InvoiceTransactionPageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "Customer":
+          {
+            currentPage = new CustomerManagePageGUI();
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
         default:
           break;
       }
     }
-
+    private void DashboardFormGUI_SizeChanged(object sender, EventArgs e)
+    {
+      sideBar1.UpdateSpacerHeight();
+    }
   }
 }

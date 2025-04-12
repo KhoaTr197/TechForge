@@ -35,7 +35,7 @@ namespace TechForgeGUI
       ModifyData();
 
       // Attach event handler for cell click
-      dgvMainListRef.dgvList.CellClick += dgvList_CellClick;
+      dgvMainList.dgvList.CellClick += dgvList_CellClick;
     }
 
     // Initialize business logic components
@@ -91,7 +91,28 @@ namespace TechForgeGUI
     // Load data into the DataGridView
     sealed protected override void LoadData()
     {
-      dgvMainListRef.BindingData(dsSanPham);
+      dgvMainList.BindingData(dsSanPham);
+      
+      // Add summary cards with product statistics
+    summaryCards.Add(new SummaryCard[] { 
+        new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
+      });
+    }
+    
+    // Calculate number of products with low stock (less than 10 items)
+    private int GetLowStockCount()
+    {
+      return dsSanPham.Count(p => p.SoLuong < 10 && p.TrangThai);
+    }
+    
+    // Calculate total inventory value (quantity * price for all products)
+    private decimal GetTotalInventoryValue()
+    {
+      return dsSanPham.Where(p => p.TrangThai)
+                       .Sum(p => p.SoLuong * p.Gia);
     }
 
     // Modify DataGridView columns
@@ -100,40 +121,40 @@ namespace TechForgeGUI
       this.SuspendLayout();
 
       // Add columns to DataGridView
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "MASP",
         DataPropertyName = "MaSP",
         HeaderText = "Mã",
         FillWeight = 48,
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "TENSP",
         DataPropertyName = "TenSP",
         HeaderText = "Tên sản phẩm",
         FillWeight = 240,
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "GIANHAP",
         DataPropertyName = "GiaNhap",
         HeaderText = "Giá nhập"
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "GIA",
         DataPropertyName = "Gia",
         HeaderText = "Giá"
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "KHUYENMAI",
         DataPropertyName = "KhuyenMai",
         HeaderText = "Khuyến mãi (%)",
         FillWeight = 64,
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "MOTA",
         DataPropertyName = "MoTa",
@@ -141,14 +162,14 @@ namespace TechForgeGUI
         FillWeight = 64,
         Visible = false,
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "SL",
         DataPropertyName = "SoLuong",
         HeaderText = "Số lượng",
         FillWeight = 64,
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewComboBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewComboBoxColumn
       {
         Name = "DANHMUC",
         DataPropertyName = "DanhMuc",
@@ -157,7 +178,7 @@ namespace TechForgeGUI
         DisplayMember = "TENDM",
         ValueMember = "MADM",
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewComboBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewComboBoxColumn
       {
         Name = "HANGSANXUAT",
         DataPropertyName = "Hsx",
@@ -166,14 +187,14 @@ namespace TechForgeGUI
         DisplayMember = "TENHSX",
         ValueMember = "MAHSX",
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "NGSX",
         DataPropertyName = "Ngsx",
         HeaderText = "Ngày sản xuất",
         Visible = false,
       });
-      dgvMainListRef.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "TRANGTHAI",
         DataPropertyName = "TrangThai",
@@ -181,7 +202,7 @@ namespace TechForgeGUI
       });
 
       // Attach event handler for cell formatting
-      dgvMainListRef.dgvList.CellFormatting += dgvList_CellFormatting;
+      dgvMainList.dgvList.CellFormatting += dgvList_CellFormatting;
 
       this.ResumeLayout();
     }
@@ -191,7 +212,7 @@ namespace TechForgeGUI
     {
       if (e.Value != null)
       {
-        if (dgvMainListRef.dgvList.Columns[e.ColumnIndex].Name == "TRANGTHAI")
+        if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "TRANGTHAI")
         {
           bool status = (bool)e.Value;
           if (status)
@@ -207,8 +228,8 @@ namespace TechForgeGUI
             e.Value = "Ngừng kinh doanh";
           }
         }
-        else if (dgvMainListRef.dgvList.Columns[e.ColumnIndex].Name == "GIANHAP" ||
-                 dgvMainListRef.dgvList.Columns[e.ColumnIndex].Name == "GIA")
+        else if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "GIANHAP" ||
+                 dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "GIA")
         {
           decimal price = (decimal)e.Value;
           e.Value = price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
@@ -223,25 +244,52 @@ namespace TechForgeGUI
       if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
       {
         DataGridView dgvMainList = (DataGridView)sender;
+
         if (dgvMainList.SelectedRows.Count > 0)
         {
-          SanPhamDTO sanPham = dsSanPham.ElementAt(e.RowIndex);
+          DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
+          SanPhamDTO sanPham = dsSanPham.Find(sp => sp.MaSP == (int)selectedRow.Cells[0].Value);
 
           ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus);
+          detailsForm.parentForm = this;
 
           detailsForm.Show(Form.ActiveForm);
 
-          // Attach event handler for edit submit
+          // Assign event handler for submits
+          detailsForm.AddSubmit += DetailsForm_AddSubmit;
           detailsForm.EditSubmit += DetailsForm_EditSubmit;
         }
       }
     }
+    // Handle add submit event
+    private void DetailsForm_AddSubmit(object sender, DetailFormAddSubmitEventArgs e)
+    {
+      GetData();
+      LoadData();
 
+      // Update summary cards when new products are added
+      summaryCards.Update(new SummaryCard[]
+      {
+        new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
+      });
+    }
     // Handle edit submit event
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
     {
       GetData();
       LoadData();
+
+      // Update summary cards when products are edited
+      summaryCards.Update(new SummaryCard[]
+      {
+        new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
+      });
     }
   }
 }
