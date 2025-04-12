@@ -38,10 +38,13 @@ namespace TechForgeDAO
                 KhuyenMai = reader.GetDecimal(4),
                 MoTa = reader.GetString(5),
                 SoLuong = reader.GetInt32(6),
-                DanhMuc = reader.GetInt32(7),
-                Hsx = reader.GetInt32(8),
-                NgSx = reader.GetDateTime(9),
-                TrangThai = reader.GetBoolean(10)
+                DonViTinh = reader.GetString(7),
+                HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                DanhMuc = reader.GetInt32(9),
+                Hsx = reader.GetInt32(10),
+                Ncc = reader.GetInt32(11),
+                NgSx = reader.GetDateTime(12),
+                TrangThai = reader.GetBoolean(13)
               });
             }
           }
@@ -117,7 +120,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE SANPHAM SET TENSP = @TENSP, GIANHAP = @GIANHAP, GIA = @GIA, KHUYENMAI = @KHUYENMAI, MOTA = @MOTA, SL = @SL, DANHMUC = @DANHMUC, HSX = @HSX, NGSX = @NGSX, TRANGTHAI = @TRANGTHAI WHERE MASP = @MASP", conn);
+          SqlCommand cmd = new SqlCommand("UPDATE SANPHAM SET TENSP = @TENSP, GIANHAP = @GIANHAP, GIA = @GIA, KHUYENMAI = @KHUYENMAI, MOTA = @MOTA, SL = @SL, DONVITINH = @DONVITINH, HINHANH = @HINHANH, DANHMUC = @DANHMUC, HSX = @HSX, NCC = @NCC, NGSX = @NGSX, TRANGTHAI = @TRANGTHAI WHERE MASP = @MASP", conn);
           cmd.Parameters.AddWithValue("@MASP", updatedProduct.MaSP);
           cmd.Parameters.AddWithValue("@TENSP", updatedProduct.TenSP);
           cmd.Parameters.AddWithValue("@GIANHAP", updatedProduct.GiaNhap);
@@ -125,8 +128,11 @@ namespace TechForgeDAO
           cmd.Parameters.AddWithValue("@KHUYENMAI", updatedProduct.KhuyenMai);
           cmd.Parameters.AddWithValue("@MOTA", updatedProduct.MoTa);
           cmd.Parameters.AddWithValue("@SL", updatedProduct.SoLuong);
+          cmd.Parameters.AddWithValue("@DONVITINH", updatedProduct.DonViTinh);
+          cmd.Parameters.AddWithValue("@HINHANH", updatedProduct.HinhAnh);
           cmd.Parameters.AddWithValue("@DANHMUC", updatedProduct.DanhMuc);
           cmd.Parameters.AddWithValue("@HSX", updatedProduct.Hsx);
+          cmd.Parameters.AddWithValue("@NCC", updatedProduct.Ncc);
           cmd.Parameters.AddWithValue("@NGSX", updatedProduct.NgSx);
           cmd.Parameters.AddWithValue("@TRANGTHAI", updatedProduct.TrangThai);
 

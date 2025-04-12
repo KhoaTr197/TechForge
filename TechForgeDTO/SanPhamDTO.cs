@@ -8,27 +8,35 @@ namespace TechForgeDTO
 {
     public class SanPhamDTO
     {
-      //[MASP] INT NOT NULL PRIMARY KEY,
-      //[TENSP] NVARCHAR(100),
-      //[GIANHAP] DECIMAL CHECK([GIANHAP] > 0),
-      //[GIA] DECIMAL CHECK([GIA] > 0),
-      //[KHUYENMAI] DECIMAL(2),
-      //[MOTA] nvarchar(max),
-      //[SL] INT DEFAULT(0),
-      //[DANHMUC] INT,
-      //[HSX] INT,
-      //[NGSX] date,
-      //[TRANGTHAI] bit
-      public int MaSP { get; set; }
-      public string TenSP { get; set; }
-      public decimal GiaNhap { get; set; }
-      public decimal Gia { get; set; }
-      public decimal KhuyenMai { get; set; }
-      public string MoTa { get; set; }
-      public int SoLuong { get; set; } = 0;
-      public int DanhMuc { get; set; }
-      public int Hsx { get; set; }
-      public DateTime NgSx { get; set; }
-      public bool TrangThai { get; set; }
+        /*
+        [MASP] INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+        [TENSP] NVARCHAR(100),
+        [GIANHAP] DECIMAL DEFAULT 0,
+        [GIA] DECIMAL DEFAULT 0,
+        [KHUYENMAI] DECIMAL(2),
+        [MOTA] nvarchar(max),
+        [SL] INT DEFAULT (0),
+        [DONVITINH] nvarchar(20), 
+        [HINHANH] nvarchar(max),
+        [DANHMUC] INT,
+        [HSX] INT,
+        [NCC] INT, 
+        [NGSX] date,
+        [TRANGTHAI] bit
+         */
+        public int MaSP { get; set; }
+        public string TenSP { get; set; }
+        public decimal GiaNhap { get; set; } = 0;
+        public decimal Gia { get; set; } = 0;
+        public decimal KhuyenMai { get; set; }
+        public string MoTa { get; set; }
+        public int SoLuong { get; set; } = 0;
+        public string DonViTinh { get; set; }
+        public string HinhAnh {  get; set; }
+        public int DanhMuc { get; set; }
+        public int Hsx { get; set; }
+        public int Ncc { get; set; }
+        public DateTime NgSx { get; set; }
+        public bool TrangThai { get; set; }
   }
 }

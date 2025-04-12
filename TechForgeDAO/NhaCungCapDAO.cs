@@ -14,6 +14,23 @@ namespace TechForgeDAO
     public NhaCungCapDAO(string _connStr) : base(_connStr)
     {
     }
+    public DataSet GetAllDisconnected(DataSet ds)
+    {
+        try
+        {
+            using (SqlConnection conn = CreateConnection())
+            {
+                conn.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM NHACUNGCAP WHERE TRANGTHAI = 1", conn);
+                adapter.Fill(ds, "NHACUNGCAP");
+            }
+            return ds;
+        }
+        catch (Exception ex)
+        {
+            throw new DataException("An error occurred while getting data from the database.", ex);
+        }
+    }
     public List<NhaCungCapDTO> GetAllConnected()
     {
       try
