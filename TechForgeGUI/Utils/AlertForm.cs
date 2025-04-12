@@ -140,14 +140,17 @@ namespace TechForgeGUI.Utils
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            timer.Stop();
-            for (double opacity = 1.0; opacity >= 0; opacity -= 0.1)
+            if(this != null && !this.IsDisposed)
             {
-                this.Opacity = opacity;
-                this.Refresh();
-                System.Threading.Thread.Sleep(50);
+                timer.Stop();
+                for (double opacity = 1.0; opacity >= 0; opacity -= 0.1)
+                {
+                    this.Opacity = opacity;
+                    this.Refresh();
+                    System.Threading.Thread.Sleep(50);
+                }
+                this.Close();
             }
-            this.Close();
         }
     }
 }
