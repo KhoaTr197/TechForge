@@ -46,8 +46,11 @@ namespace TechForgeBUS
       if (spMoi.KhuyenMai != sp.KhuyenMai) fieldsToUpdate.Add("KhuyenMai");
       if (spMoi.MoTa != sp.MoTa) fieldsToUpdate.Add("MoTa");
       if (spMoi.SoLuong != sp.SoLuong) fieldsToUpdate.Add("SoLuong");
+            if (spMoi.DonViTinh != sp.DonViTinh) fieldsToUpdate.Add("DonViTinh");
+            if (spMoi.HinhAnh != sp.HinhAnh) fieldsToUpdate.Add("HinhAnh");
       if (spMoi.DanhMuc != sp.DanhMuc) fieldsToUpdate.Add("DanhMuc");
       if (spMoi.Hsx != sp.Hsx) fieldsToUpdate.Add("Hsx");
+      if (spMoi.Ncc != sp.Ncc) fieldsToUpdate.Add("Ncc");
       if (spMoi.NgSx != sp.NgSx) fieldsToUpdate.Add("NgSx");
       if (spMoi.TrangThai != sp.TrangThai) fieldsToUpdate.Add("TrangThai");
 

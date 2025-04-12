@@ -36,7 +36,7 @@ namespace TechForgeGUI.BaseForms
       this.TopMost = true;
       this.ControlBox = false;
       FormBorderStyle = FormBorderStyle.FixedDialog;
-      MinimumSize = new Size(Form.ActiveForm.Width / 100 * 70, Form.ActiveForm.Height / 100 * 70);
+      MinimumSize = new Size(Form.ActiveForm.Width / 100 * 70, Form.ActiveForm.Height / 100 * 80);
       StartPosition = FormStartPosition.Manual;
       Location = Form.ActiveForm != null ? Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2)) : new Point(0, 0);
 
@@ -96,24 +96,39 @@ namespace TechForgeGUI.BaseForms
       // Add action panel to form
       this.Controls.Add(flpActionsPanel);
     }
-    // Method to get a control by its name
-    protected Control GetControlByName(Control root, string name)
-    {
-      foreach (Control panel in root.Controls)
-      {
-        foreach (Control control in panel.Controls)
+        // Method to get a control by its name
+        /*protected Control GetControlByName(Control root, string name)
         {
-          if (control.Name == name)
+          foreach (Control panel in root.Controls)
           {
-            return control;
+            foreach (Control control in panel.Controls)
+            {
+              if (control.Name == name)
+              {
+                return control;
+              }
+            }
           }
-        }
-      }
-      return null;
-    }
+          return null;
+        }*/
+        protected Control GetControlByName(Control container, string name)
+        {
+            if (container == null || string.IsNullOrEmpty(name))
+                return null;
 
-    // Method to trigger the EditSubmit event
-    protected virtual void OnAddSubmit(DetailFormAddSubmitEventArgs e)
+            foreach (Control control in container.Controls)
+            {
+                if (control.Name == name)
+                    return control;
+                Control found = GetControlByName(control, name);
+                if (found != null)
+                    return found;
+            }
+            return null;
+        }
+
+        // Method to trigger the EditSubmit event
+        protected virtual void OnAddSubmit(DetailFormAddSubmitEventArgs e)
     {
       AddSubmit.Invoke(this, e);
     }

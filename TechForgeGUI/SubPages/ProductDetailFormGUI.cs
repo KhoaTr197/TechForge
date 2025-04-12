@@ -20,16 +20,19 @@ namespace TechForgeGUI.SubPages
     private SanPhamDTO thongTinSanPham { get; set; }
     private List<DanhMucDTO> dsDanhMuc { get; set; }
     private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
+        private List<NhaCungCapDTO> dsNhaCungCap { get; set; }
     private SanPhamBUS BUS { get; set; }
     private FlowLayoutPanel flpInfoPanel;
         private AlertForm alert;
-    public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat, SanPhamBUS _BUS)
+    public ProductDetailFormGUI(SanPhamDTO _thongTinSanPham, List<DanhMucDTO> _dsDanhMuc, List<HangSanXuatDTO> _dsHangSanXuat,
+        List<NhaCungCapDTO> _dsNhaCungCap, SanPhamBUS _BUS)
     {
       InitializeComponent();
 
       this.thongTinSanPham = _thongTinSanPham;
       this.dsDanhMuc = _dsDanhMuc;
       this.dsHangSanXuat = _dsHangSanXuat;
+      this.dsNhaCungCap = _dsNhaCungCap;
       this.BUS = _BUS;
       this.Text = "Chi tiết sản phẩm";
       this.btnAdd.Visible = false;
@@ -60,8 +63,11 @@ namespace TechForgeGUI.SubPages
             { "KhuyenMai", "Khuyến Mãi" },
             { "MoTa", "Mô Tả" },
             { "SoLuong", "Số Lượng" },
+            { "DonViTinh", "Đơn Vị Tính" },
+            { "HinhAnh", "Hình Ảnh" },
             { "DanhMuc", "Danh Mục" },
             { "Hsx", "Hãng Sản Xuất" },
+            { "Ncc", "Nhà Cung Cấp" },
             { "NgSx", "Ngày Sản Xuất" },
             { "TrangThai", "Trạng Thái" }
         };
@@ -99,26 +105,68 @@ namespace TechForgeGUI.SubPages
             Enabled = false,
           };
         }
-        else if (prop.Name == "DanhMuc" || prop.Name == "Hsx")
+        else if (prop.Name == "DanhMuc" || prop.Name == "Hsx" || prop.Name == "Ncc")
         {
           ComboBox comboBox = new ComboBox
           {
             Name = "cbo" + prop.Name,
             Font = new Font(DefaultFontName, 10),
             DropDownStyle = ComboBoxStyle.DropDownList,
+            Width = 320,
+            MaxDropDownItems = 5,
+            DropDownHeight = 200,
           };
           if (prop.Name == "DanhMuc")
           {
             comboBox.Items.AddRange(dsDanhMuc.Select(dm => dm.TenDM).ToArray());
             comboBox.SelectedItem = dsDanhMuc.FirstOrDefault(dm => dm.MaDM == (int)prop.GetValue(thongTinSanPham))?.TenDM;
           }
-          else
+          else if (prop.Name == "Hsx")
           {
             comboBox.Items.AddRange(dsHangSanXuat.Select(hsx => hsx.TenHSX).ToArray());
             comboBox.SelectedItem = dsHangSanXuat.FirstOrDefault(hsx => hsx.MaHSX == (int)prop.GetValue(thongTinSanPham))?.TenHSX;
           }
+            else
+            {
+                comboBox.Items.AddRange(dsNhaCungCap.Select(ncc => ncc.TenNCC).ToArray());
+                comboBox.SelectedItem = dsNhaCungCap.FirstOrDefault(ncc => ncc.MaNCC == (int)prop.GetValue(thongTinSanPham))?.TenNCC;
+                comboBox.DropDownWidth = 400;
+            }
           control = comboBox;
         }
+        else if (prop.Name == "HinhAnh")
+                {
+                    PictureBox picSelected = new PictureBox()
+                    {
+                        Name = "picSelected",
+                        SizeMode = PictureBoxSizeMode.Zoom,
+                        BorderStyle = BorderStyle.FixedSingle,
+                        Dock = DockStyle.Fill,
+                    };
+                    if (System.IO.File.Exists(thongTinSanPham.HinhAnh))
+                    {
+                        picSelected.Image = Image.FromFile(thongTinSanPham.HinhAnh);
+                        picSelected.Tag = thongTinSanPham.HinhAnh;
+                    }
+                    Button btnSelectImg = new Button() 
+                    {
+                        Name = "btnSelectImg",
+                        Text = "Chọn Hình Ảnh",
+                        Size = new Size(100, 30),
+                        Dock = DockStyle.Bottom,
+                    };
+                    Panel pnlSelectImg = new Panel() 
+                    {
+                        Name = "pnlSelectImg",
+                        Size = new Size(320, 230)
+                    };
+                    btnSelectImg.Tag = picSelected;
+                    btnSelectImg.Click += BtnSelectImg_Click;
+
+                    pnlSelectImg.Controls.Add(picSelected);
+                    pnlSelectImg.Controls.Add(btnSelectImg);
+                    control = pnlSelectImg;
+                }
         else if (prop.PropertyType == typeof(DateTime))
         {
           control = new DateTimePicker
@@ -179,7 +227,36 @@ namespace TechForgeGUI.SubPages
         flpInfoPanel.Controls.Add(panel);
       }
     }
-    private void btnAdd_Click(object sender, EventArgs e)
+
+        private void BtnSelectImg_Click(object sender, EventArgs e)
+        {
+            Button btn = sender as Button;
+            PictureBox picBox = btn.Tag as PictureBox;
+            if(picBox != null)
+            {
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                    openFileDialog.Title = "Chọn một hình ảnh";
+                    openFileDialog.Multiselect = false;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        try
+                        {
+                            picBox.Image = Image.FromFile(openFileDialog.FileName);
+                            picBox.Tag = openFileDialog.FileName;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Lỗi khi tải hình ảnh: " + ex.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
     {
       SanPhamDTO newSanPham = new SanPhamDTO()
       {
@@ -190,7 +267,10 @@ namespace TechForgeGUI.SubPages
         KhuyenMai = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudKhuyenMai")).Value,
         MoTa = ((TextBox)GetControlByName(flpInfoPanel, "txtMoTa")).Text,
         SoLuong = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudSoLuong")).Value,
-        DanhMuc = dsDanhMuc[((ComboBox)GetControlByName(flpInfoPanel, "cboDanhMuc")).SelectedIndex].MaDM,
+          DonViTinh = ((TextBox)GetControlByName(flpInfoPanel, "txtDonViTinh")).Text,
+          HinhAnh = ((PictureBox)GetControlByName(flpInfoPanel, "picSelected")).Tag?.ToString(),
+          DanhMuc = dsDanhMuc[((ComboBox)GetControlByName(flpInfoPanel, "cboDanhMuc")).SelectedIndex].MaDM,
+        Ncc = dsNhaCungCap[((ComboBox)GetControlByName(flpInfoPanel, "cboNcc")).SelectedIndex].MaNCC,
         Hsx = dsHangSanXuat[((ComboBox)GetControlByName(flpInfoPanel, "cboHsx")).SelectedIndex].MaHSX,
         NgSx = ((DateTimePicker)GetControlByName(flpInfoPanel, "dtpNgSx")).Value,
         TrangThai = true,
@@ -198,9 +278,12 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Add(newSanPham) != -1)
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
-    }
-    private void btnEdit_Click(object sender, EventArgs e)
+        }
+        
+        private void btnEdit_Click(object sender, EventArgs e)
     {
+           
+            
       SanPhamDTO updatedSanPham = new SanPhamDTO()
       {
         MaSP = thongTinSanPham.MaSP,
@@ -210,18 +293,21 @@ namespace TechForgeGUI.SubPages
         KhuyenMai = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudKhuyenMai")).Value,
         MoTa = ((TextBox)GetControlByName(flpInfoPanel, "txtMoTa")).Text,
         SoLuong = (int)((NumericUpDown)GetControlByName(flpInfoPanel, "nudSoLuong")).Value,
+        DonViTinh = ((TextBox)GetControlByName(flpInfoPanel, "txtDonViTinh")).Text,
+        HinhAnh = ((PictureBox)GetControlByName(flpInfoPanel, "picSelected")).Tag?.ToString(),
         DanhMuc = dsDanhMuc[((ComboBox)GetControlByName(flpInfoPanel, "cboDanhMuc")).SelectedIndex].MaDM,
         Hsx = dsHangSanXuat[((ComboBox)GetControlByName(flpInfoPanel, "cboHsx")).SelectedIndex].MaHSX,
+        Ncc = dsNhaCungCap[((ComboBox)GetControlByName(flpInfoPanel, "cboNcc")).SelectedIndex].MaNCC,
         NgSx = ((DateTimePicker)GetControlByName(flpInfoPanel, "dtpNgSx")).Value,
         TrangThai = true,
       };
 
-      if (BUS.Update(thongTinSanPham, updatedInfo))
-            {
-                alert = new AlertForm("Cap nhat thanh cong");
-                alert.Show();
-                OnEditSubmit(new DetailFormEditSubmitEventArgs());
-            }
+      if (BUS.Update(thongTinSanPham, updatedSanPham))
+        {
+            alert = new AlertForm("Cap nhat thanh cong");
+            alert.Show();
+            OnEditSubmit(new DetailFormEditSubmitEventArgs());
+        }
         
     }
   }

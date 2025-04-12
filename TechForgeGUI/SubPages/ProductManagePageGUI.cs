@@ -21,9 +21,11 @@ namespace TechForgeGUI
     private List<SanPhamDTO> dsSanPham { get; set; }
     private List<DanhMucDTO> dsDanhMuc { get; set; }
     private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
+    private List<NhaCungCapDTO>  dsNhaCungCap { get; set; }
     private SanPhamBUS sanPhamBus { get; set; }
     private HangSanXuatBUS hangSanXuatBus { get; set; }
     private DanhMucBUS danhMucBus { get; set; }
+    private NhaCungCapBUS nhaCungCapBus { get; set; }
 
     // Constructor
     public ProductManagePageGUI()
@@ -44,6 +46,7 @@ namespace TechForgeGUI
       sanPhamBus = new SanPhamBUS(this.connStr);
       hangSanXuatBus = new HangSanXuatBUS(this.connStr);
       danhMucBus = new DanhMucBUS(this.connStr);
+      nhaCungCapBus = new NhaCungCapBUS(this.connStr);
     }
 
     // Retrieve data from the database
@@ -54,10 +57,12 @@ namespace TechForgeGUI
       sanPhamBus.GetAllDisconnected(ds);
       hangSanXuatBus.GetAllDisconnected(ds);
       danhMucBus.GetAllDisconnected(ds);
+      nhaCungCapBus.GetAllDisconnected(ds);
 
       dsSanPham = new List<SanPhamDTO>();
       dsDanhMuc = new List<DanhMucDTO>();
       dsHangSanXuat = new List<HangSanXuatDTO>();
+            dsNhaCungCap = new List<NhaCungCapDTO>();
 
       // Map data to DTOs
       dsSanPham = ds.Tables["SANPHAM"].AsEnumerable().Select(row => new SanPhamDTO()
@@ -69,8 +74,11 @@ namespace TechForgeGUI
         KhuyenMai = row.Field<decimal>("KHUYENMAI"),
         MoTa = row.Field<string>("MOTA"),
         SoLuong = row.Field<int>("SL"),
+        DonViTinh = row.Field<string>("DONVITINH"),
+        HinhAnh = row.Field<string>("HINHANH"),
         DanhMuc = row.Field<int>("DANHMUC"),
         Hsx = row.Field<int>("HSX"),
+        Ncc = row.Field<int>("NCC"),
         NgSx = row.Field<DateTime>("NGSX"),
         TrangThai = row.Field<bool>("TRANGTHAI")
       }).ToList();
@@ -86,6 +94,15 @@ namespace TechForgeGUI
         MaHSX = row.Field<int>("MAHSX"),
         TenHSX = row.Field<string>("TENHSX")
       }).ToList();
+        dsNhaCungCap = ds.Tables["NHACUNGCAP"].AsEnumerable().Select(row => new NhaCungCapDTO()
+        {
+            MaNCC = row.Field<int>("MANCC"),
+            TenNCC = row.Field<string>("TENNCC"),
+            Ndd = row.Field<string>("NDD"),
+            Sdt = row.Field<string>("SDT"),
+            Email = row.Field<string>("EMAIL"),
+            TrangThai = row.Field<bool>("TRANGTHAI")
+        }).ToList();
     }
 
     // Load data into the DataGridView
@@ -169,6 +186,13 @@ namespace TechForgeGUI
         HeaderText = "Số lượng",
         FillWeight = 64,
       });
+      dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
+      {
+          Name = "DONVITINH",
+          DataPropertyName = "DonViTinh",
+          HeaderText = "Đơn vị tính",
+          FillWeight = 64,
+      });
       dgvMainList.dgvList.Columns.Add(new DataGridViewComboBoxColumn
       {
         Name = "DANHMUC",
@@ -187,6 +211,15 @@ namespace TechForgeGUI
         DisplayMember = "TENHSX",
         ValueMember = "MAHSX",
       });
+        dgvMainList.dgvList.Columns.Add(new DataGridViewComboBoxColumn
+        {
+            Name = "NHACUNGCAP",
+            DataPropertyName = "Ncc",
+            HeaderText = "Nhà cung cấp",
+            DataSource = dsNhaCungCap,
+            DisplayMember = "TENNCC",
+            ValueMember = "MANCC",
+        });
       dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "NGSX",
@@ -250,7 +283,7 @@ namespace TechForgeGUI
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           SanPhamDTO sanPham = dsSanPham.Find(sp => sp.MaSP == (int)selectedRow.Cells[0].Value);
 
-          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus);
+          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, dsNhaCungCap, sanPhamBus);
 
           detailsForm.Show(Form.ActiveForm);
 
