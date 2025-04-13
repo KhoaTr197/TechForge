@@ -195,6 +195,12 @@
     <Compile Include="SubPages\ManufacturerManagePageGUI.Designer.cs">
       <DependentUpon>ManufacturerManagePageGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\ReceiptDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\ReceiptDetailFormGUI.Designer.cs">
+      <DependentUpon>ReceiptDetailFormGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ReceiptManagePageGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -338,6 +344,36 @@
     <Content Include="Resources\logout_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\ProductImages\asus_rtx_3050.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\corsair_icue_3500x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\dell_p2723d.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\razer_viper_v3_pro.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\logitech_g512.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\amd_ryzen_7_8700g.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\kingston_fury_beast_8gb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\hp_victus_16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\kingston_nv2_250gb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\deepcool_pn850m.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\provider_icon.svg" />
     <Content Include="Resources\receipt_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -362,8 +398,6 @@
       <Name>TechForgeDTO</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProductImages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

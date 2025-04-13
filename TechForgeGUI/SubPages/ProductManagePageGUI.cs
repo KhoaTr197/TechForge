@@ -12,6 +12,7 @@ using TechForgeBUS;
 using TechForgeDTO;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.SubPages;
+using System.IO;
 
 namespace TechForgeGUI
 {
@@ -153,6 +154,25 @@ namespace TechForgeGUI
         HeaderText = "Mã",
         FillWeight = 48,
       });
+      
+      // Configure row height for images
+      dgvMainList.dgvList.RowTemplate.Height = 80;
+      
+      // Add image column
+      var imageColumn = new DataGridViewImageColumn
+      {
+        Name = "HINHANH",
+        DataPropertyName = "HinhAnh",
+        HeaderText = "Hình ảnh",
+        ImageLayout = DataGridViewImageCellLayout.Zoom,
+        Width = 100,
+      };
+      dgvMainList.dgvList.Columns.Add(imageColumn);
+
+      // Set default cell style for image column
+      imageColumn.DefaultCellStyle.NullValue = null;
+      imageColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
       dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
         Name = "TENSP",
@@ -275,6 +295,18 @@ namespace TechForgeGUI
           decimal price = (decimal)e.Value;
           e.Value = price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
           e.FormattingApplied = true;
+        }
+        else if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "HINHANH")
+        {      
+            string imageName = e.Value?.ToString();
+
+            string imagePath = Path.Combine(Application.StartupPath, "Resources", "ProductImages", $"{imageName}.png");
+
+            if (File.Exists(imagePath))
+            {
+              e.Value = Image.FromFile(imagePath);
+              e.FormattingApplied = true;
+            }
         }
       }
     }

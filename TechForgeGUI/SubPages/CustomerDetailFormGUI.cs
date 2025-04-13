@@ -57,7 +57,7 @@ namespace TechForgeGUI.SubPages
       }
       else
       {
-        this.Size = new Size(500, 400);
+        this.Size = new Size(500, 432);
 
         this.btnAdd.Visible = false;
         this.btnAdd.Enabled = false;
@@ -68,6 +68,7 @@ namespace TechForgeGUI.SubPages
 
       this.btnAdd.Click += btnAdd_Click;
       this.btnEdit.Click += btnEdit_Click;
+      this.btnDelete.Click += btnDelete_Click;
 
       this.Controls.Add(flpInfo);
     }
@@ -144,6 +145,18 @@ namespace TechForgeGUI.SubPages
           control.Controls.Add(radNam);
           control.Controls.Add(radNu);
         }
+        else if (controlName == "TrangThai")
+        {
+          control = new ComboBox()
+          {
+            Name = "cbo" + controlName,
+            Font = new Font(DefaultFontName, 12),
+            Width = 240,
+            DropDownStyle = ComboBoxStyle.DropDownList,
+          };
+          ((ComboBox)control).Items.AddRange(new string[] { "Hoạt động", "Không hoạt động" });
+          ((ComboBox)control).SelectedIndex = 0;
+        }
         else
         {
           control = new TextBox
@@ -181,11 +194,7 @@ namespace TechForgeGUI.SubPages
 
         Control control;
         
-        if (controlName == "TrangThai")
-        {
-          continue;
-        }
-        else if (controlName == "MaHV" || controlName == "HoTen" || controlName == "Sdt")
+        if (controlName == "MaHV" || controlName == "HoTen" || controlName == "Sdt")
         {
           control = new TextBox
           {
@@ -232,6 +241,18 @@ namespace TechForgeGUI.SubPages
           control.Controls.Add(radNam);
           control.Controls.Add(radNu);
         }
+        else if (controlName == "TrangThai")
+        {
+          control = new ComboBox()
+          {
+            Name = "cbo" + controlName,
+            Font = new Font(DefaultFontName, 12),
+            Width = 240,
+            DropDownStyle = ComboBoxStyle.DropDownList,
+          };
+          ((ComboBox)control).Items.AddRange(new string[] { "Hoạt động", "Không hoạt động" });
+          ((ComboBox)control).SelectedIndex = ((bool)prop.GetValue(thongTinHoiVien)) ? 0 : 1;
+        }
         else
         {
           control = new TextBox
@@ -259,7 +280,7 @@ namespace TechForgeGUI.SubPages
       };
 
       if (BUS.Add(newHoiVien) != -1)
-        OnAddSubmit(new DetailFormAddSubmitEventArgs());
+        OnAddSubmit(new DetailFormAddSubmitEventArgs(this));
     }
     private void btnEdit_Click(object sender, EventArgs e)
     {
@@ -274,7 +295,12 @@ namespace TechForgeGUI.SubPages
       };
 
       if (BUS.Update(thongTinHoiVien, updatedHoiVien))
-        OnEditSubmit(new DetailFormEditSubmitEventArgs());
+        OnEditSubmit(new DetailFormEditSubmitEventArgs(this));
+    }
+    private void btnDelete_Click(object sender, EventArgs e)
+    {
+      if (BUS.Delete(thongTinHoiVien.MaHV))
+        OnDeleteSubmit(new DetailFormDeleteSubmitEventArgs(this));
     }
   }
 }

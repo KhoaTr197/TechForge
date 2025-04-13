@@ -21,7 +21,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("SELECT * FROM HOIVIEN WHERE TRANGTHAI = 1", conn);
+          SqlCommand cmd = new SqlCommand("SELECT * FROM HOIVIEN ORDER BY TRANGTHAI DESC", conn);
           using (SqlDataReader reader = cmd.ExecuteReader())
           {
             while (reader.Read())
@@ -67,7 +67,7 @@ namespace TechForgeDAO
     {
       if (newCustomer == null)
       {
-        throw new ArgumentNullException("Product cannot be null.");
+        throw new ArgumentNullException("Customer cannot be null.");
       }
       try
       {
@@ -95,11 +95,11 @@ namespace TechForgeDAO
     {
       if (updatedCustomer == null)
       {
-        throw new ArgumentNullException("Product cannot be null.");
+        throw new ArgumentNullException("Customer cannot be null.");
       }
       if (updatedCustomer.MaHV <= 0)
       {
-        throw new ArgumentNullException("Product id must be a positive value.");
+        throw new ArgumentNullException("Customer ID must be a positive value.");
       }
       try
       {
@@ -126,7 +126,7 @@ namespace TechForgeDAO
     {
       if (id <= 0)
       {
-        throw new ArgumentException("Product ID must be a positive value.", nameof(id));
+        throw new ArgumentException("Customer ID must be a positive value.", nameof(id));
       }
       try
       {
@@ -134,7 +134,7 @@ namespace TechForgeDAO
         {
           conn.Open();
           SqlCommand cmd = new SqlCommand("UPDATE HOIVIEN SET TRANGTHAI = 0 WHERE MAHV = @MAHV", conn);
-          cmd.Parameters.AddWithValue("@MASP", id);
+          cmd.Parameters.AddWithValue("@MAHV", id);
 
           return cmd.ExecuteNonQuery() > 0;
         }

@@ -28,10 +28,10 @@ namespace TechForgeBUS
     public void GetQuantity()
     {
     }
-    //public DataSet GetSync()
-    //{
-    //  return this.DAO.GetSync();
-    //}
+    public List<SanPhamDTO> GetList(int[] ids)
+    {
+      return this.DAO.GetList(ids);
+    }
     public int Add(SanPhamDTO sp)
     {
       return this.DAO.Add(sp);

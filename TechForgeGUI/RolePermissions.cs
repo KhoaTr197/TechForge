@@ -143,7 +143,11 @@ namespace TechForgeGUI.BaseForms
           {
             foreach (Control control in infoPanel.Controls)
             {
-              if (control is TextBox textBox)
+              if (control is Label)
+              {
+                continue;
+              }
+              else if (control is TextBox textBox)
               {
                 textBox.ReadOnly = IsReadOnly;
                 textBox.Enabled = true;
