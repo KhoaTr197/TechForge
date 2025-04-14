@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -162,9 +163,10 @@ namespace TechForgeGUI.SubPages
             BorderStyle = BorderStyle.FixedSingle,
             Dock = DockStyle.Fill,
           };
-          if (System.IO.File.Exists(thongTinSanPham.HinhAnh))
+          string imagePath = Path.Combine(Application.StartupPath, "Resources", "ProductImages", $"{thongTinSanPham.HinhAnh}.png");
+          if (File.Exists(imagePath))
           {
-            picSelected.Image = Image.FromFile(thongTinSanPham.HinhAnh);
+            picSelected.Image = Image.FromFile(imagePath);
             picSelected.Tag = thongTinSanPham.HinhAnh;
           }
           Button btnSelectImg = new Button()

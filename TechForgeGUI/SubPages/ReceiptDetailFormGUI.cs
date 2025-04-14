@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace TechForgeGUI.SubPages
           new RowStyle(SizeType.Absolute, 200F),
           new RowStyle(SizeType.Percent, 100F)
         },
-        Padding = new Padding(8),
+        Padding = new Padding(4, 32, 4, 32),
         BackColor = Color.White
       };
 
@@ -76,8 +77,6 @@ namespace TechForgeGUI.SubPages
         },
         Dock = DockStyle.Fill,
         AutoSize = true,
-        Margin = new Padding(5),
-        Padding = new Padding(10),
         CellBorderStyle = TableLayoutPanelCellBorderStyle.None
       };
 
@@ -454,23 +453,70 @@ namespace TechForgeGUI.SubPages
         BorderStyle = BorderStyle.Fixed3D,
         RowHeadersVisible = false,
         Font = new Font(DefaultFontName, 12),
-        RowTemplate = { Height = 32 }, // Increased from 30
+        RowTemplate = { Height = 80 },
         AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None,
-        ColumnHeadersHeight = 38 // Increased from 35
+        ColumnHeadersHeight = 38
       };
 
       // Add columns with adjusted widths
       dgv.Columns.AddRange(new DataGridViewColumn[]
       {
-        new DataGridViewTextBoxColumn { Name = "MaSP", DataPropertyName = "MaSP", HeaderText = "Mã SP", Width = 75 },
-        new DataGridViewImageColumn { Name = "Hinh", DataPropertyName = "Hinh", HeaderText = "Hình", Width = 100 },
-        new DataGridViewTextBoxColumn { Name = "TenSP", DataPropertyName = "TenSP", HeaderText = "Tên SP", Width = 190 },
-        new DataGridViewTextBoxColumn { Name = "Gia", DataPropertyName = "Gia", HeaderText = "Giá gốc", Width = 110 },
-        new DataGridViewTextBoxColumn { Name = "KhuyenMai", DataPropertyName = "KhuyenMai", HeaderText = "KM", Width = 75 },
-        new DataGridViewTextBoxColumn { Name = "SoTienKm", DataPropertyName = "SoTienKm", HeaderText = "Tiền KM", Width = 110 },
-        new DataGridViewTextBoxColumn { Name = "GiaCuoiCung", DataPropertyName = "GiaCuoiCung", HeaderText = "Giá cuối", Width = 110 },
-        new DataGridViewTextBoxColumn { Name = "SoLuong", DataPropertyName = "SoLuong", HeaderText = "SL", Width = 60 },
-        new DataGridViewTextBoxColumn { Name = "ThanhTien", DataPropertyName = "ThanhTien", HeaderText = "T.Tiền", Width = 110 }
+        new DataGridViewTextBoxColumn { 
+          Name = "MaSP",
+          DataPropertyName =
+          "MaSP",
+          HeaderText = "Mã SP",
+          Width = 75
+        },
+        new DataGridViewImageColumn { 
+          Name = "HinhAnh",
+          DataPropertyName = "HinhAnh",
+          HeaderText = "Hình",
+          Width = 100,
+          ImageLayout = DataGridViewImageCellLayout.Zoom 
+        },
+        new DataGridViewTextBoxColumn { 
+          Name = "TenSP", 
+          DataPropertyName = "TenSP", 
+          HeaderText = "Tên SP", 
+          Width = 190 
+        },
+        new DataGridViewTextBoxColumn {
+          Name = "Gia", 
+          DataPropertyName = "Gia", 
+          HeaderText = "Giá gốc", 
+          Width = 110 
+        },
+        new DataGridViewTextBoxColumn { 
+          Name = "KhuyenMai", 
+          DataPropertyName = "KhuyenMai", 
+          HeaderText = "KM", 
+          Width = 75 
+        },
+        new DataGridViewTextBoxColumn { 
+          Name = "SoTienKm", 
+          DataPropertyName = "SoTienKm", 
+          HeaderText = "Tiền KM",
+          Width = 110 
+        },
+        new DataGridViewTextBoxColumn { 
+          Name = "GiaCuoiCung", 
+          DataPropertyName = "GiaCuoiCung", 
+          HeaderText = "Giá cuối", 
+          Width = 110 
+        },
+        new DataGridViewTextBoxColumn {
+          Name = "SoLuong", 
+          DataPropertyName = "SoLuong", 
+          HeaderText = "SL",
+          Width = 60
+        },
+        new DataGridViewTextBoxColumn { 
+          Name = "ThanhTien", 
+          DataPropertyName = "ThanhTien", 
+          HeaderText = "T.Tiền", 
+          Width = 110
+        }
       });
 
       // Format currency columns
@@ -482,7 +528,7 @@ namespace TechForgeGUI.SubPages
       pnlGrid.Controls.Add(dgv);
       
       // Load data
-      dgv.DataSource = BUS.GetDetailWithProducts(thongTinHoaDon);
+      dgv.DataSource = thongTinHoaDon.Cthd;
     }
 
     private void Dgv_SelectionChanged(object sender, EventArgs e)
@@ -508,6 +554,16 @@ namespace TechForgeGUI.SubPages
         {
           e.Value = string.Format("{0:N0} đ", Convert.ToDecimal(e.Value));
           e.FormattingApplied = true;
+        }
+        else if (columnName == "HinhAnh")
+        {
+          string imagePath = Path.Combine(Application.StartupPath, "Resources", "ProductImages", $"{e.Value}.png");
+
+          if (File.Exists(imagePath))
+          {
+            e.Value = Image.FromFile(imagePath);
+            e.FormattingApplied = true;
+          }
         }
       }
     }

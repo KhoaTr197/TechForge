@@ -146,6 +146,10 @@ namespace TechForgeGUI
     {
       this.SuspendLayout();
 
+      // Configure row height for images
+      dgvMainList.dgvList.RowTemplate.Height = 80;
+
+
       // Add columns to DataGridView
       dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
       {
@@ -154,10 +158,7 @@ namespace TechForgeGUI
         HeaderText = "Mã",
         FillWeight = 48,
       });
-      
-      // Configure row height for images
-      dgvMainList.dgvList.RowTemplate.Height = 80;
-      
+       
       // Add image column
       var imageColumn = new DataGridViewImageColumn
       {

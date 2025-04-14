@@ -88,6 +88,50 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
+    public List<ChiTietHoaDonDTO> GetDetailWithProducts(int id)
+    {
+      try
+      {
+        List<ChiTietHoaDonDTO> receiptDetails = new List<ChiTietHoaDonDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"SELECT CTHD.*, SP.TENSP, SP.HINHANH, SP.KHUYENMAI 
+                          FROM CTHD 
+                          INNER JOIN SANPHAM SP ON SP.MASP = CTHD.MASP 
+                          WHERE CTHD.MAHD = @MAHD";
+          SqlCommand cmd = new SqlCommand(query, conn);
+          cmd.Parameters.AddWithValue("@MAHD", id);
+
+          using (SqlDataReader reader = cmd.ExecuteReader())
+          {
+            while (reader.Read())
+            {
+              receiptDetails.Add(new ChiTietHoaDonDTO()
+              {
+                MaHD = reader.GetInt32(0),
+                MaSP = reader.GetInt32(1),
+                Gia = reader.GetDecimal(2),
+                SoTienKm = reader.GetDecimal(3),
+                GiaCuoiCung = reader.GetDecimal(4),
+                SoLuong = reader.GetInt32(5),
+                ThanhTien = reader.GetDecimal(6),
+                TenSP = reader.GetString(7),
+                HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                KhuyenMai = reader.GetDecimal(9)
+              });
+            }
+          }
+        }
+
+        return receiptDetails;
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting receipt details with products from the database.", ex);
+      }
+    }
     public int Add(HoaDonDTO newReceipt)
     {
       if (newReceipt == null)
@@ -164,50 +208,6 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An error occurred while deleting data from the database.", ex);
-      }
-    }
-    public List<ChiTietHoaDonDTO> GetDetailWithProducts(int id)
-    {
-      try
-      {
-        List<ChiTietHoaDonDTO> receiptDetails = new List<ChiTietHoaDonDTO>();
-
-        using (SqlConnection conn = CreateConnection())
-        {
-          conn.Open();
-          string query = @"SELECT CTHD.*, SP.TENSP, SP.HINHANH, SP.KHUYENMAI 
-                          FROM CTHD 
-                          INNER JOIN SANPHAM SP ON SP.MASP = CTHD.MASP 
-                          WHERE CTHD.MAHD = @MAHD";
-          SqlCommand cmd = new SqlCommand(query, conn);
-          cmd.Parameters.AddWithValue("@MAHD", id);
-
-          using (SqlDataReader reader = cmd.ExecuteReader())
-          {
-            while (reader.Read())
-            {
-              receiptDetails.Add(new ChiTietHoaDonDTO()
-              {
-                MaHD = reader.GetInt32(0),
-                MaSP = reader.GetInt32(1),
-                Gia = reader.GetDecimal(2),
-                SoTienKm = reader.GetDecimal(3),
-                GiaCuoiCung = reader.GetDecimal(4),
-                SoLuong = reader.GetInt32(5),
-                ThanhTien = reader.GetDecimal(6),
-                TenSP = reader.GetString(7),
-                HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
-                KhuyenMai = reader.GetDecimal(9)
-              });
-            }
-          }
-        }
-
-        return receiptDetails;
-      }
-      catch (Exception ex)
-      {
-        throw new DataException("An error occurred while getting receipt details with products from the database.", ex);
       }
     }
   }

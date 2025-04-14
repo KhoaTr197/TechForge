@@ -19,7 +19,7 @@ namespace TechForgeGUI.BaseForms
     public bool CanManageProducts { get; private set; }
     public bool CanManageCategories { get; private set; }
     public bool CanManageManufacturers { get; private set; }
-    public bool CanManageOrders { get; private set; }
+    public bool CanManageReceipts { get; private set; }
 
     private static readonly Dictionary<string, RolePermissions> RoleDefaults = new Dictionary<string, RolePermissions>
     {
@@ -34,7 +34,7 @@ namespace TechForgeGUI.BaseForms
         CanManageProducts = true,
         CanManageCategories = true,
         CanManageManufacturers = true,
-        CanManageOrders = true
+        CanManageReceipts = true
       }},
       { "Manager", new RolePermissions { 
         Role = "Manager", 
@@ -47,7 +47,7 @@ namespace TechForgeGUI.BaseForms
         CanManageProducts = true,
         CanManageCategories = true,
         CanManageManufacturers = true,
-        CanManageOrders = true
+        CanManageReceipts = true
       }},
       { "Cashier", new RolePermissions { 
         Role = "Cashier", 
@@ -56,11 +56,11 @@ namespace TechForgeGUI.BaseForms
         CanDelete = false, 
         CanView = true, 
         IsReadOnly = true,
-        CanManageCustomers = true, // Cashiers can manage customers
+        CanManageCustomers = true,
         CanManageProducts = false,
         CanManageCategories = false,
         CanManageManufacturers = false,
-        CanManageOrders = true
+        CanManageReceipts = true
       }},
       { "WarehouseStaff", new RolePermissions { 
         Role = "WarehouseStaff", 
@@ -73,7 +73,7 @@ namespace TechForgeGUI.BaseForms
         CanManageProducts = true,
         CanManageCategories = true,
         CanManageManufacturers = true,
-        CanManageOrders = false
+        CanManageReceipts = false
       }}
     };
 
@@ -125,14 +125,14 @@ namespace TechForgeGUI.BaseForms
         form.btnDelete.Visible = CanManageCategories;
         form.btnDelete.Enabled = CanManageCategories;
       }
-      else if (form is ManufacturerDetailFormGUI)
+      else if (form is ReceiptDetailFormGUI)
       {
-        form.btnAdd.Visible = CanManageManufacturers;
-        form.btnAdd.Enabled = CanManageManufacturers;
-        form.btnEdit.Visible = CanManageManufacturers;
-        form.btnEdit.Enabled = CanManageManufacturers;
-        form.btnDelete.Visible = CanManageManufacturers;
-        form.btnDelete.Enabled = CanManageManufacturers;
+        form.btnAdd.Visible = false;
+        form.btnAdd.Enabled = false;
+        form.btnEdit.Visible = CanManageReceipts;
+        form.btnEdit.Enabled = CanManageReceipts;
+        form.btnDelete.Visible = CanManageReceipts;
+        form.btnDelete.Enabled = CanManageReceipts;
       }
 
       if (form.Controls["flpInfoPanel"] is FlowLayoutPanel flpInfoPanel)

@@ -109,7 +109,7 @@ namespace TechForgeGUI.SubPages
         {
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           HoaDonDTO hoaDon = dsHoaDon.Find(hd => hd.MaHD == (int)selectedRow.Cells[0].Value);
-          hoaDonBus.GetDetail(hoaDon);
+          hoaDonBus.GetDetailWithProducts(hoaDon);
 
           ReceiptDetailFormGUI detailsForm = new ReceiptDetailFormGUI(hoaDon, hoaDonBus);
           detailsForm.parentForm = this;
