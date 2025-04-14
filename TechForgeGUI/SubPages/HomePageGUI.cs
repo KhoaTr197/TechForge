@@ -20,8 +20,8 @@ namespace TechForgeGUI.SubPages
     private HoaDonBUS hoaDonBUS;
     private HoiVienBUS hoiVienBUS;
     private SanPhamBUS sanPhamBUS;
-        private TaiKhoanDTO currentAccount {  get; set; }
-        private NguoiDungDTO currentUser { get; set; }
+    private TaiKhoanDTO currentAccount {  get; set; }
+    private NguoiDungDTO currentUser { get; set; }
 
     // Main container panels
     private TableLayoutPanel tlpMain;
@@ -37,7 +37,7 @@ namespace TechForgeGUI.SubPages
     // Credential info section
     private Panel flpCredential;
     private Label lblUserRole;
-    private Label lblUserEmail;
+    private Label lblAccountName;
     private Button btnViewProfile;
 
     // Stats cards section
@@ -167,15 +167,15 @@ namespace TechForgeGUI.SubPages
 
       lblUserRole = new Label
       {
-        Text = "Vai trò: " + currentUser.VaiTro,
+        Text = "Vai trò: ---",
         AutoSize = true,
         Font = new Font(DefaultFontName, 10),
         ForeColor = Color.Gray,
       };
 
-      lblUserEmail = new Label
+      lblAccountName = new Label
       {
-        Text = "Tên đăng nhập: " + currentAccount.TenTK,
+        Text = "Tên đăng nhập: ---",
         AutoSize = true,
         Font = new Font(DefaultFontName, 10),
         ForeColor = Color.Gray,
@@ -198,7 +198,7 @@ namespace TechForgeGUI.SubPages
 
       flpCredential.Controls.AddRange(new Control[] { 
         lblUserRole,
-        lblUserEmail, 
+        lblAccountName, 
       });
 
       tlpWelcome.Controls.Add(flpCredential, 1, 0);
@@ -293,11 +293,11 @@ namespace TechForgeGUI.SubPages
     private void LoadData()
     {
       // Load user info
-      //var currentUser = nguoiDungBUS.GetAllConnected().FirstOrDefault();
       if (currentUser != null)
       {
         lblWelcome.Text = $"Chào mừng trở lại, {currentUser.HoTen}!";
         lblUserRole.Text = $"Vai trò: {currentUser.VaiTro}";
+        lblAccountName.Text = $"Tên đăng nhập: {currentAccount.TenTK}";
       }
 
       // Load stats data
