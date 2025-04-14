@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Svg;
+using TechForgeDTO;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 using TechForgeGUI.SubForms;
@@ -24,6 +25,8 @@ namespace TechForgeGUI.BaseForm
   {
     private Control currentPage;
     private string role;
+        private TaiKhoanDTO currentAccount;
+        private NguoiDungDTO currentUser;
     public DashboardFormGUI()
     {
       InitializeComponent();
@@ -31,9 +34,11 @@ namespace TechForgeGUI.BaseForm
       this.StartPosition = FormStartPosition.CenterScreen;
       this.SizeChanged += DashboardFormGUI_SizeChanged;
     }
-    public void SetUpForm(string _role)
+    public void SetUpForm(string _role, TaiKhoanDTO _currentAccount, NguoiDungDTO _currentUser)
     {
       role = _role;
+      currentAccount = _currentAccount;
+      currentUser = _currentUser;
     }
     public void SetUpSidebar()
     {
@@ -95,7 +100,7 @@ namespace TechForgeGUI.BaseForm
       {
         case "Homepage":
           {
-            currentPage = new HomePageGUI();
+            currentPage = new HomePageGUI(currentAccount, currentUser);
             panelMain.Controls.Add(currentPage);
             break;
           }

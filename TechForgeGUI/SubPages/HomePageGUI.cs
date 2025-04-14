@@ -20,6 +20,8 @@ namespace TechForgeGUI.SubPages
     private HoaDonBUS hoaDonBUS;
     private HoiVienBUS hoiVienBUS;
     private SanPhamBUS sanPhamBUS;
+        private TaiKhoanDTO currentAccount {  get; set; }
+        private NguoiDungDTO currentUser { get; set; }
 
     // Main container panels
     private TableLayoutPanel tlpMain;
@@ -42,8 +44,10 @@ namespace TechForgeGUI.SubPages
     private FlowLayoutPanel flpSummaryCards;
     private SummaryCards summaryCards;
 
-    public HomePageGUI()
+    public HomePageGUI(TaiKhoanDTO _currentAccount, NguoiDungDTO _currentUser)
     {
+      this.currentAccount = _currentAccount;
+      this.currentUser = _currentUser;
       InitializeComponent();
       InitializeBUS();
       InitializeLayout();
@@ -163,7 +167,7 @@ namespace TechForgeGUI.SubPages
 
       lblUserRole = new Label
       {
-        Text = "Vai trò: ---",
+        Text = "Vai trò: " + currentUser.VaiTro,
         AutoSize = true,
         Font = new Font(DefaultFontName, 10),
         ForeColor = Color.Gray,
@@ -171,7 +175,7 @@ namespace TechForgeGUI.SubPages
 
       lblUserEmail = new Label
       {
-        Text = "Tên đăng nhập: ---",
+        Text = "Tên đăng nhập: " + currentAccount.TenTK,
         AutoSize = true,
         Font = new Font(DefaultFontName, 10),
         ForeColor = Color.Gray,
@@ -289,7 +293,7 @@ namespace TechForgeGUI.SubPages
     private void LoadData()
     {
       // Load user info
-      var currentUser = nguoiDungBUS.GetAllConnected().FirstOrDefault();
+      //var currentUser = nguoiDungBUS.GetAllConnected().FirstOrDefault();
       if (currentUser != null)
       {
         lblWelcome.Text = $"Chào mừng trở lại, {currentUser.HoTen}!";

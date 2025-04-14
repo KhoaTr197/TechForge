@@ -52,6 +52,7 @@
     <Compile Include="NhaCungCapBUS.cs" />
     <Compile Include="SanPhamBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaiKhoanBUS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TechForgeDAO\TechForgeDAO.csproj">
