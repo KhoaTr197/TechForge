@@ -181,6 +181,10 @@ namespace TechForgeGUI.BaseControls
       {
         UpdateDataGridView(dataList5);
       }
+      else if(bindSrc.DataSource is List<HoaDonDTO> dataList6)
+      {
+        UpdateDataGridView(dataList6);
+      }
       else if (bindSrc.DataSource is DataTable table)
       {
         UpdateDataGridView(table);

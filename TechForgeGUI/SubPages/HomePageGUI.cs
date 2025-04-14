@@ -155,7 +155,7 @@ namespace TechForgeGUI.SubPages
 
       lblDateTime = new Label
       {
-        Text = DateTime.Now.ToString("dddd, dd MMMM yyyy"),
+        Text = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
         AutoSize = true,
         Font = new Font(DefaultFontName, 12),
         Margin = new Padding(0, 4, 0, 4)
