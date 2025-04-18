@@ -28,6 +28,7 @@ namespace TechForgeGUI.SubPages
       this.thongTinHangSanXuat = _thongTinHangSanXuat;
       this.BUS = _BUS;
       this.Text = "Chi tiết hãng sản xuất";
+      this.Size = new Size(400, 200);
 
       // Create table layout panel
       pnlFields = new TableLayoutPanel
@@ -44,7 +45,7 @@ namespace TechForgeGUI.SubPages
       pnlFields.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
 
       // Add columns
-      pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
+      pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160));
       pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
       // Create controls
@@ -52,19 +53,30 @@ namespace TechForgeGUI.SubPages
       {
         Text = thongTinHangSanXuat.MaHSX.ToString(),
         Dock = DockStyle.Fill,
-        ReadOnly = true
+        ReadOnly = true,
+        Font = new Font(DefaultFontName, 12)
       };
 
       txtTenHSX = new TextBox
       {
         Text = thongTinHangSanXuat.TenHSX,
         Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12)
       };
 
       // Add controls to table layout
-      pnlFields.Controls.Add(new Label { Text = "Mã hãng:", Dock = DockStyle.Fill }, 0, 0);
+      pnlFields.Controls.Add(new Label {
+        Text = "Mã hãng:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12) 
+      }, 0, 0);
       pnlFields.Controls.Add(txtMaHSX, 1, 0);
-      pnlFields.Controls.Add(new Label { Text = "Tên hãng:", Dock = DockStyle.Fill }, 0, 1);
+      pnlFields.Controls.Add(new Label {
+        Text = "Tên hãng:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+        Padding = new Padding(0, 4, 0, 0)
+      }, 0, 1);
       pnlFields.Controls.Add(txtTenHSX, 1, 1);
 
       // Add table layout to form

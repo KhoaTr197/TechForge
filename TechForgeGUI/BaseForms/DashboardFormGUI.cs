@@ -74,8 +74,16 @@ namespace TechForgeGUI.BaseForm
           tabs = new List<SidebarTabItem>
           {
             new SidebarTabItem { Id = "Homepage", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Trang Chủ" },
-            new SidebarTabItem { Id = "Product", ImageList = GlobalStatics.iconList, ImageKey = "box_icon", Text = "Sản Phẩm" },
-            new SidebarTabItem { Id = "Warehouse", ImageList = GlobalStatics.iconList, ImageKey = "warehouse_icon", Text = "Kho" },
+            new SidebarTabItem {
+              Id = "Product", ImageList = GlobalStatics.iconList, ImageKey = "box_icon", Text = "Sản Phẩm",
+              SubSidebarItems = new List<SidebarTabItem>
+              {
+                new SidebarTabItem{ Id="Manufacturer", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Hãng" },
+                new SidebarTabItem{ Id="Category", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Danh Mục" },
+              }
+            },
+            new SidebarTabItem { Id = "Import/Export", ImageList = GlobalStatics.iconList, ImageKey = "warehouse_icon", Text = "Nhập/Xuất" },
+            new SidebarTabItem { Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" }
           };
           break;
       }
@@ -154,6 +162,13 @@ namespace TechForgeGUI.BaseForm
         case "Customer":
           {
             currentPage = new CustomerManagePageGUI(role);
+            panelMain.Controls.Add(currentPage);
+            currentPage.Show();
+            break;
+          }
+        case "Import/Export":
+          {
+            currentPage = new ImportExportManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
             break;

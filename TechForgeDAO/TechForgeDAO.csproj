@@ -48,6 +48,7 @@
     <Compile Include="HangSanXuatDAO.cs" />
     <Compile Include="HoaDonDAO.cs" />
     <Compile Include="HoiVienDAO.cs" />
+    <Compile Include="LichSuKhoDAO.cs" />
     <Compile Include="NguoiDungDAO.cs" />
     <Compile Include="NhaCungCapDAO.cs" />
     <Compile Include="SanPhamDAO.cs" />

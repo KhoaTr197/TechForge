@@ -111,7 +111,7 @@ namespace TechForgeGUI.SubPages
         Text = "Tìm kiếm sản phẩm..."
       };
 
-      txtSearch.TextChanged += TxtSearch_TextChanged;
+      txtSearch.TextChanged += txtSearch_TextChanged;
 
       // Search results list
       lstSearchResults = new ListBox
@@ -124,7 +124,7 @@ namespace TechForgeGUI.SubPages
         ScrollAlwaysVisible = true
       };
 
-      lstSearchResults.SelectedIndexChanged += LstSearchResults_SelectedIndexChanged;
+      lstSearchResults.SelectedIndexChanged += lstSearchResults_SelectedIndexChanged;
 
       pnlSearch.Controls.Add(txtSearch);
 
@@ -280,12 +280,12 @@ namespace TechForgeGUI.SubPages
       };
     }
 
-    private void TxtSearch_TextChanged(object sender, EventArgs e)
+    private void txtSearch_TextChanged(object sender, EventArgs e)
     {
       //TODO
     }
 
-    private void LstSearchResults_SelectedIndexChanged(object sender, EventArgs e)
+    private void lstSearchResults_SelectedIndexChanged(object sender, EventArgs e)
     {
       //TODO
     }
@@ -347,7 +347,6 @@ namespace TechForgeGUI.SubPages
 
       foreach (var prop in thongTinHoaDon.GetType().GetProperties())
       {
-        if (prop.Name == "Cthd") continue;
         if (!inputLabels.ContainsKey(prop.Name)) continue;
 
         Label lbl = new Label
@@ -360,7 +359,8 @@ namespace TechForgeGUI.SubPages
         };
 
         Control control;
-        if (prop.Name == "MaHD" || prop.Name == "NvLapHD")
+        if (prop.Name == "Cthd") continue;
+        else if (prop.Name == "MaHD" || prop.Name == "NvLapHD")
         {
           control = new TextBox
           {

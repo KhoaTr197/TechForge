@@ -51,43 +51,6 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
-    public List<ChiTietHoaDonDTO> GetDetail(int id)
-    {
-      try
-      {
-        List<ChiTietHoaDonDTO> receiptDetails = new List<ChiTietHoaDonDTO>();
-
-        using (SqlConnection conn = CreateConnection())
-        {
-          conn.Open();
-          SqlCommand cmd = new SqlCommand("SELECT * FROM CTHD WHERE MAHD = @MAHD", conn);
-          cmd.Parameters.AddWithValue("@MAHD", id);
-
-          using (SqlDataReader reader = cmd.ExecuteReader())
-          {
-            while (reader.Read())
-            {
-              receiptDetails.Add(new ChiTietHoaDonDTO()
-              {
-                MaHD = reader.GetInt32(0),
-                MaSP = reader.GetInt32(1),
-                Gia = reader.GetDecimal(2),
-                SoTienKm = reader.GetDecimal(3),
-                GiaCuoiCung = reader.GetDecimal(4),
-                SoLuong = reader.GetInt32(5),
-                ThanhTien = reader.GetDecimal(6)
-              });
-            }
-          }
-        }
-
-        return receiptDetails;
-      }
-      catch (Exception ex)
-      {
-        throw new DataException("An error occurred while getting data from the database.", ex);
-      }
-    }
     public List<ChiTietHoaDonDTO> GetDetailWithProducts(int id)
     {
       try

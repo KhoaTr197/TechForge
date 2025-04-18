@@ -131,8 +131,8 @@ namespace TechForgeGUI.BaseForms
         form.btnAdd.Enabled = false;
         form.btnEdit.Visible = CanManageReceipts;
         form.btnEdit.Enabled = CanManageReceipts;
-        form.btnDelete.Visible = CanManageReceipts;
-        form.btnDelete.Enabled = CanManageReceipts;
+        form.btnDelete.Visible = false;
+        form.btnDelete.Enabled = false;
       }
 
       if (form.Controls["flpInfoPanel"] is FlowLayoutPanel flpInfoPanel)

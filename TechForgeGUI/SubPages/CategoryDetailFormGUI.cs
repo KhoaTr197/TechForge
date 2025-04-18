@@ -44,7 +44,7 @@ namespace TechForgeGUI.SubPages
       pnlFields.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
 
       // Add columns
-      pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100));
+      pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160));
       pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
       // Create controls
@@ -52,19 +52,30 @@ namespace TechForgeGUI.SubPages
       {
         Text = thongTinDanhMuc.MaDM.ToString(),
         Dock = DockStyle.Fill,
-        ReadOnly = true
+        ReadOnly = true,
+        Font = new Font(DefaultFontName, 12),
       };
 
       txtTenDM = new TextBox
       {
         Text = thongTinDanhMuc.TenDM,
         Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
       };
 
       // Add controls to table layout
-      pnlFields.Controls.Add(new Label { Text = "Mã danh mục:", Dock = DockStyle.Fill }, 0, 0);
+      pnlFields.Controls.Add(new Label {
+        Text = "Mã danh mục:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+      }, 0, 0);
       pnlFields.Controls.Add(txtMaDM, 1, 0);
-      pnlFields.Controls.Add(new Label { Text = "Tên danh mục:", Dock = DockStyle.Fill }, 0, 1);
+      pnlFields.Controls.Add(new Label {
+        Text = "Tên danh mục:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+        Padding = new Padding(0, 4, 0, 0)
+      }, 0, 1);
       pnlFields.Controls.Add(txtTenDM, 1, 1);
 
       // Add table layout to form

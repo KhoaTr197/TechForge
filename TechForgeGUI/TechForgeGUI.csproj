@@ -137,6 +137,9 @@
     <Compile Include="ManagerFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ManagerFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ManagerFormGUI.Designer.cs">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </Compile>
@@ -183,6 +186,18 @@
     <Compile Include="SubPages\HomePageGUI.Designer.cs">
       <DependentUpon>HomePageGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\ImportExportDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\ImportExportDetailFormGUI.Designer.cs">
+      <DependentUpon>ImportExportDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ImportExportManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\ImportExportManagePageGUI.Designer.cs">
+      <DependentUpon>ImportExportManagePageGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\ManufacturerDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,9 +229,6 @@
       <DependentUpon>InvoiceTransactionPageGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ManagerFormGUI.Designer.cs">
@@ -258,6 +270,12 @@
     </Compile>
     <Compile Include="Utils\GlobalImageList.cs" />
     <Compile Include="Utils\SVGIconHandler.cs" />
+    <Compile Include="WarehouseStaffFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WarehouseStaffFormGUI.Designer.cs">
+      <DependentUpon>WarehouseStaffFormGUI.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </EmbeddedResource>
