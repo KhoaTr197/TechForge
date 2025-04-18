@@ -19,5 +19,9 @@ namespace TechForgeBUS
     {
       return this.DAO.GetAllConnected();
     }
+    public NguoiDungDTO GetByID(string id)
+    {
+        return this.DAO.GetById(id);
+    }
   }
 }

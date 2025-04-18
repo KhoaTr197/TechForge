@@ -53,6 +53,7 @@
     <Compile Include="NhaCungCapDAO.cs" />
     <Compile Include="SanPhamDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaiKhoanDAO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TechForgeDTO\TechForgeDTO.csproj">

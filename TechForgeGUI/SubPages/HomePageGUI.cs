@@ -20,6 +20,8 @@ namespace TechForgeGUI.SubPages
     private HoaDonBUS hoaDonBUS;
     private HoiVienBUS hoiVienBUS;
     private SanPhamBUS sanPhamBUS;
+    private TaiKhoanDTO currentAccount {  get; set; }
+    private NguoiDungDTO currentUser { get; set; }
 
     // Main container panels
     private TableLayoutPanel tlpMain;
@@ -35,15 +37,17 @@ namespace TechForgeGUI.SubPages
     // Credential info section
     private Panel flpCredential;
     private Label lblUserRole;
-    private Label lblUserEmail;
+    private Label lblAccountName;
     private Button btnViewProfile;
 
     // Stats cards section
     private FlowLayoutPanel flpSummaryCards;
     private SummaryCards summaryCards;
 
-    public HomePageGUI()
+    public HomePageGUI(TaiKhoanDTO _currentAccount, NguoiDungDTO _currentUser)
     {
+      this.currentAccount = _currentAccount;
+      this.currentUser = _currentUser;
       InitializeComponent();
       InitializeBUS();
       InitializeLayout();
@@ -155,7 +159,7 @@ namespace TechForgeGUI.SubPages
 
       lblDateTime = new Label
       {
-        Text = DateTime.Now.ToString("dddd, dd MMMM yyyy"),
+        Text = DateTime.Now.ToString("dddd, dd MMMM yyyy HH:mm:ss"),
         AutoSize = true,
         Font = new Font(DefaultFontName, 12),
         Margin = new Padding(0, 4, 0, 4)
@@ -169,7 +173,7 @@ namespace TechForgeGUI.SubPages
         ForeColor = Color.Gray,
       };
 
-      lblUserEmail = new Label
+      lblAccountName = new Label
       {
         Text = "Tên đăng nhập: ---",
         AutoSize = true,
@@ -194,7 +198,7 @@ namespace TechForgeGUI.SubPages
 
       flpCredential.Controls.AddRange(new Control[] { 
         lblUserRole,
-        lblUserEmail, 
+        lblAccountName, 
       });
 
       tlpWelcome.Controls.Add(flpCredential, 1, 0);
@@ -289,11 +293,11 @@ namespace TechForgeGUI.SubPages
     private void LoadData()
     {
       // Load user info
-      var currentUser = nguoiDungBUS.GetAllConnected().FirstOrDefault();
       if (currentUser != null)
       {
         lblWelcome.Text = $"Chào mừng trở lại, {currentUser.HoTen}!";
         lblUserRole.Text = $"Vai trò: {currentUser.VaiTro}";
+        lblAccountName.Text = $"Tên đăng nhập: {currentAccount.TenTK}";
       }
 
       // Load stats data

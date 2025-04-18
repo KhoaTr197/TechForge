@@ -52,5 +52,43 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
+        public NguoiDungDTO GetById(string id)
+        {
+            try
+            {
+                NguoiDungDTO user = null;
+
+                using (SqlConnection conn = CreateConnection())
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM NGUOIDUNG WHERE MAND = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            user = new NguoiDungDTO()
+                            {
+                                MaND = reader.GetString(0),
+                                HoTen = reader.GetString(1),
+                                NgSinh = reader.GetDateTime(2),
+                                GioiTinh = reader.GetBoolean(3),
+                                Cccd = reader.GetString(4),
+                                Sdt = reader.GetString(5),
+                                Dchi = reader.GetString(6),
+                                VaiTro = reader.GetString(7),
+                                NgVaoLam = reader.GetDateTime(8)
+                            };
+                        }
+                    }
+                }
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("An error occurred while getting data from the database.", ex);
+            }
+        }
   }
 }
