@@ -52,9 +52,6 @@ namespace TechForgeGUI.SubPages
       this.Size = new Size(1150, 700);
       this.MinimumSize = new Size(1000, 600);
 
-      this.btnAdd.Visible = false;
-      this.btnAdd.Enabled = false;
-
       InitializeMainLayout();
       GetData();
       InitializeDetailList();
@@ -84,16 +81,38 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Visible = false;
         this.btnDelete.Enabled = false;
 
+        thongTinLichSu = new LichSuKhoDTO
+        {
+          MaLS = bus.GetNextId(),
+          HoatDong = true,
+          TongTien = 0,
+          ThoiGian = DateTime.Now,
+          Ctlsk = new List<ChiTietLichSuKhoDTO>()
+        };
 
         LoadAddForm(inputLabels);
+
+        btnAdd.Click += btnAdd_Click;
       }
       else
       {
-        LoadDetailForm(inputLabels);
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
 
-        // Load data
-        dgv.DataSource = thongTinLichSu.Ctlsk;
+        LoadDetailForm(inputLabels);
       }
+
+      dgv.DataSource = thongTinLichSu.Ctlsk;
+    }
+
+    private void btnAdd_Click(object sender, EventArgs e)
+    {
+      thongTinLichSu.TongTien = ((NumericUpDown)GetControlByName(tlpInfo, "nudTongTien")).Value;
+      thongTinLichSu.MaND = ((TextBox)GetControlByName(tlpInfo, "txtMaND")).Text;
+      thongTinLichSu.HoatDong = ((ComboBox)GetControlByName(tlpInfo, "cboHoatDong")).SelectedItem == "Xuất";
+
+      if (bus.Add(thongTinLichSu) != -1)
+        OnAddSubmit(new DetailFormAddSubmitEventArgs(this));
     }
 
     private void InitializeInfoPanel()
@@ -374,10 +393,22 @@ namespace TechForgeGUI.SubPages
       if (selectedProduct != null)
       {
         var newDetailList = thongTinLichSu.Ctlsk.ToList();
+
+        if (newDetailList.Any(sp => sp.MaSP == selectedProduct.MaSP))
+        {
+          MessageBox.Show("Sản phẩm đã có trong danh sách!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          return;
+        }
+
         selectedProduct.SoLuong = (int)nudQuantity.Value;
         selectedProduct.ThanhTien = selectedProduct.Gia * (int)nudQuantity.Value;
         newDetailList.Add(selectedProduct);
+
+        ((NumericUpDown)GetControlByName(tlpInfo, "nudTongTien")).Value += (decimal)selectedProduct.ThanhTien;
+
         dgv.DataSource = newDetailList;
+        thongTinLichSu.Ctlsk = newDetailList;
+
         btnAddToLog.Enabled = false;
         btnAddToLog.BackColor = Color.Gray;
         btnUpdateToLog.Enabled = true;
@@ -465,6 +496,15 @@ namespace TechForgeGUI.SubPages
 
           comboBox.Items.AddRange(new string[] { "Nhập", "Xuất" });
           comboBox.SelectedItem = thongTinLichSu != null && (bool)thongTinLichSu.GetType().GetProperty(propName)?.GetValue(thongTinLichSu) ? "Xuất" : "Nhập";
+
+          comboBox.ValueMemberChanged += (s, e) =>
+          {
+            if (comboBox.SelectedItem != null)
+            {
+              bool isExport = comboBox.SelectedItem.ToString() == "Xuất";
+              thongTinLichSu.HoatDong = isExport;
+            }
+          };
 
           control = comboBox;
         }
@@ -742,6 +782,7 @@ namespace TechForgeGUI.SubPages
       dgv.SelectionChanged += Dgv_SelectionChanged;
 
       pnlGrid.Controls.Add(dgv);
+
     }
     private void nudQuantity_ValueChanged(object sender, EventArgs e)
     {

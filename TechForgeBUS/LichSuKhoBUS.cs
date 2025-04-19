@@ -26,19 +26,24 @@ namespace TechForgeBUS
       return this.DAO.GetDetail(hoaDonId);
     }
 
-    public int AddNewReceipt(LichSuKhoDTO newLog)
+    public int Add(LichSuKhoDTO newLog)
     {
       return this.DAO.Add(newLog);
     }
 
-    public bool UpdateReceipt(LichSuKhoDTO updatedLog)
+    public bool Update(LichSuKhoDTO updatedLog)
     {
       return this.DAO.Update(updatedLog);
     }
 
-    public bool DeleteReceipt(int hoaDonId)
+    public bool Delete(int hoaDonId)
     {
       return this.DAO.Delete(hoaDonId);
+    }
+
+    public int GetNextId()
+    {
+      return this.DAO.GetNextId();
     }
   }
 }

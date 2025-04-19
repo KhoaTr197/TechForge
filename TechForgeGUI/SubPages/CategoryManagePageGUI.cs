@@ -36,8 +36,9 @@ namespace TechForgeGUI.SubPages
 
       // Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
-    }
 
+      btnAdd.Click += BtnAdd_Click;
+    }
     private void SetUpFeature()
     {
       if (permissions.Role == "Cashier")
@@ -110,6 +111,15 @@ namespace TechForgeGUI.SubPages
         }
       }
     }
+
+    private void BtnAdd_Click(object sender, EventArgs e)
+    {
+      CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(bus);
+
+      detailsForm.Show();
+
+      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+    }
     private void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
     {
       if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -121,7 +131,7 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           DanhMucDTO danhMuc = dsDanhMuc.Find(sp => sp.MaDM == (int)selectedRow.Cells[0].Value);
 
-          CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(danhMuc, bus);
+          CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(bus, danhMuc);
           detailsForm.parentForm = this;
 
           permissions.ApplyToForm(detailsForm);

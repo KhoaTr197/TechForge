@@ -21,7 +21,7 @@ namespace TechForgeGUI.SubPages
     private TextBox txtMaDM;
     private TextBox txtTenDM;
 
-    public CategoryDetailFormGUI(DanhMucDTO _thongTinDanhMuc, DanhMucBUS _BUS)
+    public CategoryDetailFormGUI(DanhMucBUS _BUS, DanhMucDTO _thongTinDanhMuc = null)
     {
       InitializeComponent();
 
@@ -80,6 +80,19 @@ namespace TechForgeGUI.SubPages
 
       // Add table layout to form
       this.Controls.Add(pnlFields);
+
+      if(thongTinDanhMuc == null)
+      {
+        this.btnEdit.Visible = false;
+        this.btnEdit.Enabled = false;
+        this.btnDelete.Visible = false;
+        this.btnDelete.Enabled = false;
+      }
+      else
+      {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+      }
 
       // Set up event handlers
       btnAdd.Click += BtnAdd_Click;

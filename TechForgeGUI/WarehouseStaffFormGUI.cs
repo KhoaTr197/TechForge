@@ -7,16 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TechForgeDTO;
 using TechForgeGUI.BaseForm;
 
 namespace TechForgeGUI
 {
   public partial class WarehouseStaffFormGUI : DashboardFormGUI
   {
-    public WarehouseStaffFormGUI()
+    public WarehouseStaffFormGUI(TaiKhoanDTO _currentAccount, NguoiDungDTO _currentUser)
     {
       this.Text = "TechForge - Warehouse Staff";
-      this.SetUpForm("WarehouseStaff");
+      this.SetUpForm("WarehouseStaff", _currentAccount, _currentUser);
       this.SetUpSidebar();
     }
   }

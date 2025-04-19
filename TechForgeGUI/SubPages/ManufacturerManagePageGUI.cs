@@ -36,6 +36,8 @@ namespace TechForgeGUI.SubPages
 
       // Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
+
+      btnAdd.Click += BtnAdd_Click;
     }
     private void SetUpFeature()
     {
@@ -99,6 +101,14 @@ namespace TechForgeGUI.SubPages
     protected void dgvList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {   
     }
+    private void BtnAdd_Click(object sender, EventArgs e)
+    {
+      ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(bus);
+
+      detailsForm.Show();
+
+      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+    }
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
     {
@@ -111,7 +121,7 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           HangSanXuatDTO hangSanXuat = dsHangSanXuat.Find(sp => sp.MaHSX == (int)selectedRow.Cells[0].Value);
 
-          ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(hangSanXuat, bus);
+          ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(bus, hangSanXuat);
           detailsForm.parentForm = this;
 
           permissions.ApplyToForm(detailsForm);

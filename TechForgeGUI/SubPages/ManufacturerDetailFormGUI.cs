@@ -21,7 +21,7 @@ namespace TechForgeGUI.SubPages
     private TextBox txtMaHSX;
     private TextBox txtTenHSX;
 
-    public ManufacturerDetailFormGUI(HangSanXuatDTO _thongTinHangSanXuat, HangSanXuatBUS _BUS)
+    public ManufacturerDetailFormGUI(HangSanXuatBUS _BUS, HangSanXuatDTO _thongTinHangSanXuat = null)
     {
       InitializeComponent();
 
@@ -48,6 +48,68 @@ namespace TechForgeGUI.SubPages
       pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160));
       pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
 
+      // Add table layout to form
+      this.Controls.Add(pnlFields);
+
+      if (thongTinHangSanXuat == null)
+      {
+        this.btnEdit.Visible = false;
+        this.btnEdit.Enabled = false;
+        this.btnDelete.Visible = false;
+        this.btnDelete.Enabled = false;
+
+        LoadAddForm();
+      }
+      else
+      {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+
+        LoadDetailForm();
+      }
+
+      // Set up event handlers
+      btnAdd.Click += BtnAdd_Click;
+      btnEdit.Click += BtnEdit_Click;
+      btnDelete.Click += BtnDelete_Click;
+    }
+    private void LoadAddForm()
+    {
+      // Create controls
+      txtMaHSX = new TextBox
+      {
+        Text = BUS.GetNextId().ToString(),
+        Dock = DockStyle.Fill,
+        ReadOnly = true,
+        Font = new Font(DefaultFontName, 12)
+      };
+
+      txtTenHSX = new TextBox
+      {
+        Text = "",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12)
+      };
+
+      // Add controls to table layout
+      pnlFields.Controls.Add(new Label
+      {
+        Text = "Mã hãng:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12)
+      }, 0, 0);
+      pnlFields.Controls.Add(txtMaHSX, 1, 0);
+      pnlFields.Controls.Add(new Label
+      {
+        Text = "Tên hãng:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+        Padding = new Padding(0, 4, 0, 0)
+      }, 0, 1);
+      pnlFields.Controls.Add(txtTenHSX, 1, 1);
+    }
+    private void LoadDetailForm()
+    {
       // Create controls
       txtMaHSX = new TextBox
       {
@@ -65,29 +127,22 @@ namespace TechForgeGUI.SubPages
       };
 
       // Add controls to table layout
-      pnlFields.Controls.Add(new Label {
+      pnlFields.Controls.Add(new Label
+      {
         Text = "Mã hãng:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12) 
+        Font = new Font(DefaultFontName, 12)
       }, 0, 0);
       pnlFields.Controls.Add(txtMaHSX, 1, 0);
-      pnlFields.Controls.Add(new Label {
+      pnlFields.Controls.Add(new Label
+      {
         Text = "Tên hãng:",
         Dock = DockStyle.Fill,
         Font = new Font(DefaultFontName, 12),
         Padding = new Padding(0, 4, 0, 0)
       }, 0, 1);
       pnlFields.Controls.Add(txtTenHSX, 1, 1);
-
-      // Add table layout to form
-      this.Controls.Add(pnlFields);
-
-      // Set up event handlers
-      btnAdd.Click += BtnAdd_Click;
-      btnEdit.Click += BtnEdit_Click;
-      btnDelete.Click += BtnDelete_Click;
     }
-
     private void BtnAdd_Click(object sender, EventArgs e)
     {
       // Get values from form fields

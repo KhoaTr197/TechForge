@@ -97,8 +97,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO LICHSUKHO (MALS, TONGTIEN, THOIGIAN, MAND, HOATDONG) VALUES (@MALS, @TONGTIEN, @THOIGIAN, @MAND, @HOATDONG)", conn);
-          cmd.Parameters.AddWithValue("@MALS", newLog.MaLS);
+          SqlCommand cmd = new SqlCommand("INSERT INTO LSKHO (TONGTIEN, THOIGIAN, MAND, HOATDONG) VALUES (@TONGTIEN, @THOIGIAN, @MAND, @HOATDONG)", conn);
           cmd.Parameters.AddWithValue("@TONGTIEN", newLog.TongTien);
           cmd.Parameters.AddWithValue("@THOIGIAN", newLog.ThoiGian);
           cmd.Parameters.AddWithValue("@MAND", newLog.MaND);
@@ -125,7 +124,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE LICHSUKHO SET TONGTIEN = @TONGTIEN, THOIGIAN = @THOIGIAN, MAND = @MAND, HOATDONG = @HOATDONG WHERE MALS = @MALS", conn);
+          SqlCommand cmd = new SqlCommand("UPDATE LSKHO SET TONGTIEN = @TONGTIEN, THOIGIAN = @THOIGIAN, MAND = @MAND, HOATDONG = @HOATDONG WHERE MALS = @MALS", conn);
           cmd.Parameters.AddWithValue("@MALS", updatedLog.MaLS);
           cmd.Parameters.AddWithValue("@TONGTIEN", updatedLog.TongTien);
           cmd.Parameters.AddWithValue("@THOIGIAN", updatedLog.ThoiGian);
@@ -160,6 +159,28 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An error occurred while deleting data from the database.", ex);
+      }
+    }
+
+    public int GetNextId()
+    {
+      try
+      {
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT IDENT_CURRENT('LSKHO') + 1", conn);
+          object result = cmd.ExecuteScalar();
+          if (result != null && result != DBNull.Value)
+          {
+            return Convert.ToInt32(result);
+          }
+          return 0;
+        }
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting the next ID from the database.", ex);
       }
     }
   }

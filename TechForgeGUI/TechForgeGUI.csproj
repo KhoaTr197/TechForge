@@ -173,14 +173,7 @@
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reports\ReceiptDetailReportFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Reports\ReceiptDetailReportFormGUI.Designer.cs">
-      <DependentUpon>ReceiptDetailReportFormGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="RolePermissions.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="SubPages\CategoryDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,9 +318,6 @@
     <EmbeddedResource Include="ManagerFormGUI.resx">
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ReceiptDetailReportFormGUI.resx">
-      <DependentUpon>ReceiptDetailReportFormGUI.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SubPages\CategoryManagePageGUI.resx">
       <DependentUpon>CategoryManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -430,19 +420,6 @@
     <Content Include="Resources\warehouse_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <None Include="Resources\app_icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -457,6 +434,8 @@
       <Name>TechForgeDTO</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Reports\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
