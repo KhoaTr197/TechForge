@@ -47,6 +47,15 @@ namespace TechForgeGUI.SubPages
         summaryCards.Add(new SummaryCard[] {
           new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
         });
+      } else
+      {
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Danh mục đang dùng", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Danh mục trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Danh mục mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
+        });
       }
     }
     sealed protected override void InitializeBUS()
@@ -133,8 +142,6 @@ namespace TechForgeGUI.SubPages
 
           CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(bus, danhMuc);
           detailsForm.parentForm = this;
-
-          permissions.ApplyToForm(detailsForm);
 
           detailsForm.Show(Form.ActiveForm);
 

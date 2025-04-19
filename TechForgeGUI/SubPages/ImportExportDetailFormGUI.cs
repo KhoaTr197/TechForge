@@ -18,7 +18,7 @@ namespace TechForgeGUI.SubPages
   public partial class ImportExportDetailFormGUI : DetailFormGUI
   {
     private LichSuKhoDTO thongTinLichSu { get; set; }
-    private LichSuKhoBUS bus { get; set; }
+    private LichSuKhoBUS BUS { get; set; }
     private SanPhamBUS busSanPham { get; set; }
     private List<SanPhamDTO> dsSanPham { get; set; }
     private TableLayoutPanel mainLayout;
@@ -41,12 +41,12 @@ namespace TechForgeGUI.SubPages
     private ChiTietLichSuKhoDTO selectedProduct;
     private ListBox lstSearchResults;
 
-    public ImportExportDetailFormGUI(LichSuKhoBUS _bus, SanPhamBUS _busSanPham, LichSuKhoDTO _thongTinLichSu = null)
+    public ImportExportDetailFormGUI(LichSuKhoBUS _BUS, SanPhamBUS _busSanPham, LichSuKhoDTO _thongTinLichSu = null)
     {
       InitializeComponent();
 
       this.thongTinLichSu = _thongTinLichSu;
-      this.bus = _bus;
+      this.BUS = _BUS;
       this.busSanPham = _busSanPham;
       this.Text = "Chi tiết lịch sử";
       this.Size = new Size(1150, 700);
@@ -83,7 +83,7 @@ namespace TechForgeGUI.SubPages
 
         thongTinLichSu = new LichSuKhoDTO
         {
-          MaLS = bus.GetNextId(),
+          MaLS = BUS.GetNextId(),
           HoatDong = true,
           TongTien = 0,
           ThoiGian = DateTime.Now,
@@ -91,8 +91,6 @@ namespace TechForgeGUI.SubPages
         };
 
         LoadAddForm(inputLabels);
-
-        btnAdd.Click += btnAdd_Click;
       }
       else
       {
@@ -102,17 +100,35 @@ namespace TechForgeGUI.SubPages
         LoadDetailForm(inputLabels);
       }
 
+      btnAdd.Click += BtnAdd_Click;
+      btnEdit.Click += BtnEdit_Click;
+      btnDelete.Click += BtnDelete_Click;
+
       dgv.DataSource = thongTinLichSu.Ctlsk;
     }
 
-    private void btnAdd_Click(object sender, EventArgs e)
+    private void BtnAdd_Click(object sender, EventArgs e)
     {
       thongTinLichSu.TongTien = ((NumericUpDown)GetControlByName(tlpInfo, "nudTongTien")).Value;
       thongTinLichSu.MaND = ((TextBox)GetControlByName(tlpInfo, "txtMaND")).Text;
       thongTinLichSu.HoatDong = ((ComboBox)GetControlByName(tlpInfo, "cboHoatDong")).SelectedItem == "Xuất";
 
-      if (bus.Add(thongTinLichSu) != -1)
+      if (BUS.Add(thongTinLichSu) != -1)
         OnAddSubmit(new DetailFormAddSubmitEventArgs(this));
+    }
+    private void BtnEdit_Click(object sender, EventArgs e)
+    {
+      if (BUS.Update(thongTinLichSu))
+      {
+        OnEditSubmit(new DetailFormEditSubmitEventArgs(this));
+      }
+    }
+    private void BtnDelete_Click(object sender, EventArgs e)
+    {
+      //if (BUS.Delete(thongTinLichSu.MaLS))
+      //{
+      //  OnDeleteSubmit(new DetailFormDeleteSubmitEventArgs(this));
+      //}
     }
 
     private void InitializeInfoPanel()
@@ -427,6 +443,10 @@ namespace TechForgeGUI.SubPages
         }
       });
       dgv.DataSource = newDetailList;
+      thongTinLichSu.Ctlsk = newDetailList;
+
+      ((NumericUpDown)GetControlByName(tlpInfo, "nudTongTien")).Value = (decimal)newDetailList.Sum(sp => sp.ThanhTien);
+
 
       btnUpdateToLog.Enabled = false;
       btnUpdateToLog.BackColor = Color.Gray;

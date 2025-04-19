@@ -95,8 +95,8 @@ namespace TechForgeDAO
           conn.Open();
           string queryStr = "select count(MAHD) from [HOADON] where NGLAPHD between @fromDate and @toDate";
           SqlCommand cmd = new SqlCommand(queryStr, conn);
-          cmd.Parameters.Add(new SqlParameter("@fromDate", doanhThuDTO.NgBatDau));
-          cmd.Parameters.Add(new SqlParameter("@toDate", doanhThuDTO.NgKetThuc));
+          cmd.Parameters.AddWithValue("@fromDate", doanhThuDTO.NgBatDau);
+          cmd.Parameters.AddWithValue("@toDate", doanhThuDTO.NgKetThuc);
 
           return (int)cmd.ExecuteScalar();
         }
@@ -128,8 +128,8 @@ namespace TechForgeDAO
                                         order by SOLUONG desc";
           SqlCommand cmd = new SqlCommand(queryStr, conn);
 
-          cmd.Parameters.Add(new SqlParameter("@fromDate", doanhThuDTO.NgBatDau));
-          cmd.Parameters.Add(new SqlParameter("@toDate", doanhThuDTO.NgKetThuc));
+          cmd.Parameters.AddWithValue("@fromDate", doanhThuDTO.NgBatDau);
+          cmd.Parameters.AddWithValue("@toDate", doanhThuDTO.NgKetThuc);
           SqlDataReader reader = cmd.ExecuteReader();
           while (reader.Read())
           {
@@ -189,8 +189,8 @@ namespace TechForgeDAO
                                         where NGLAPHD between @fromDate and @toDate
                                         group by NGLAPHD";
           SqlCommand cmd = new SqlCommand(queryStr, conn);
-          cmd.Parameters.Add("@fromDate", SqlDbType.DateTime).Value = doanhThuDTO.NgBatDau;
-          cmd.Parameters.Add("@toDate", SqlDbType.DateTime).Value = doanhThuDTO.NgKetThuc;
+          cmd.Parameters.AddWithValue("@fromDate", SqlDbType.DateTime).Value = doanhThuDTO.NgBatDau;
+          cmd.Parameters.AddWithValue("@toDate", SqlDbType.DateTime).Value = doanhThuDTO.NgKetThuc;
 
           SqlDataReader reader = cmd.ExecuteReader();
           var resultTable = new List<KeyValuePair<DateTime, decimal>>();

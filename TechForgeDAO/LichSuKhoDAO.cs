@@ -97,15 +97,52 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO LSKHO (TONGTIEN, THOIGIAN, MAND, HOATDONG) VALUES (@TONGTIEN, @THOIGIAN, @MAND, @HOATDONG)", conn);
-          cmd.Parameters.AddWithValue("@TONGTIEN", newLog.TongTien);
-          cmd.Parameters.AddWithValue("@THOIGIAN", newLog.ThoiGian);
-          cmd.Parameters.AddWithValue("@MAND", newLog.MaND);
-          cmd.Parameters.AddWithValue("@HOATDONG", newLog.HoatDong);
+          // Start a transaction (ensure that both interactions need to be succeed in applying)
+          using (SqlTransaction transaction = conn.BeginTransaction())
+          {
+            try
+            {
+              // Insert into LSKHO and get the new ID
+              using (SqlCommand cmd = new SqlCommand(
+                  "INSERT INTO LSKHO (TONGTIEN, THOIGIAN, MAND, HOATDONG) " +
+                  "VALUES (@TONGTIEN, @THOIGIAN, @MAND, @HOATDONG); SELECT SCOPE_IDENTITY();", conn, transaction))
+              {
+                cmd.Parameters.AddWithValue("@TONGTIEN", newLog.TongTien);
+                cmd.Parameters.AddWithValue("@THOIGIAN", newLog.ThoiGian);
+                cmd.Parameters.AddWithValue("@MAND", newLog.MaND);
+                cmd.Parameters.AddWithValue("@HOATDONG", newLog.HoatDong);
 
-          int newId = Convert.ToInt32(cmd.ExecuteScalar());
-          newLog.MaLS = newId;
-          return newId;
+                int newId = Convert.ToInt32(cmd.ExecuteScalar());
+                newLog.MaLS = newId;
+
+                // Insert into CTLSKHO
+                foreach (var item in newLog.Ctlsk)
+                {
+                  using (SqlCommand cmdDetail = new SqlCommand(
+                      "INSERT INTO CTLSKHO (MALS, MASP, GIA, HOATDONG, SL, THANHTIEN) " +
+                      "VALUES (@MALS, @MASP, @GIA, @HOATDONG, @SL, @THANHTIEN)", conn, transaction))
+                  {
+                    cmdDetail.Parameters.AddWithValue("@MALS", newId);
+                    cmdDetail.Parameters.AddWithValue("@MASP", item.MaSP);
+                    cmdDetail.Parameters.AddWithValue("@GIA", item.Gia);
+                    cmdDetail.Parameters.AddWithValue("@HOATDONG", item.HoatDong);
+                    cmdDetail.Parameters.AddWithValue("@SL", item.SoLuong);
+                    cmdDetail.Parameters.AddWithValue("@THANHTIEN", item.ThanhTien);
+
+                    cmdDetail.ExecuteNonQuery();
+                  }
+                }
+
+                transaction.Commit();
+                return newId;
+              }
+            }
+            catch (Exception ex)
+            {
+              transaction.Rollback();
+              throw new DataException("Failed to insert log entry and details into the database.", ex);
+            }
+          }
         }
       }
       catch (Exception ex)
@@ -124,14 +161,59 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE LSKHO SET TONGTIEN = @TONGTIEN, THOIGIAN = @THOIGIAN, MAND = @MAND, HOATDONG = @HOATDONG WHERE MALS = @MALS", conn);
-          cmd.Parameters.AddWithValue("@MALS", updatedLog.MaLS);
-          cmd.Parameters.AddWithValue("@TONGTIEN", updatedLog.TongTien);
-          cmd.Parameters.AddWithValue("@THOIGIAN", updatedLog.ThoiGian);
-          cmd.Parameters.AddWithValue("@MAND", updatedLog.MaND);
-          cmd.Parameters.AddWithValue("@HOATDONG", updatedLog.HoatDong);
+          using (SqlTransaction transaction = conn.BeginTransaction())
+          {
+            try
+            {
+              // Update LSKHO
+              using (SqlCommand cmd = new SqlCommand(
+                  "UPDATE LSKHO SET TONGTIEN = @TONGTIEN, THOIGIAN = @THOIGIAN, MAND = @MAND, HOATDONG = @HOATDONG " +
+                  "WHERE MALS = @MALS", conn, transaction))
+              {
+                cmd.Parameters.AddWithValue("@TONGTIEN", updatedLog.TongTien);
+                cmd.Parameters.AddWithValue("@THOIGIAN", updatedLog.ThoiGian);
+                cmd.Parameters.AddWithValue("@MAND", updatedLog.MaND);
+                cmd.Parameters.AddWithValue("@HOATDONG", updatedLog.HoatDong);
+                cmd.Parameters.AddWithValue("@MALS", updatedLog.MaLS);
 
-          return cmd.ExecuteNonQuery() > 0;
+                cmd.ExecuteNonQuery();
+              }
+
+              // Delete existing CTLSKHO records for this MALS
+              using (SqlCommand cmdDelete = new SqlCommand(
+                  "DELETE FROM CTLSKHO WHERE MALS = @MALS", conn, transaction))
+              {
+                cmdDelete.Parameters.AddWithValue("@MALS", updatedLog.MaLS);
+                cmdDelete.ExecuteNonQuery();
+              }
+
+              // Insert updated CTLSKHO records
+              foreach (var item in updatedLog.Ctlsk)
+              {
+                using (SqlCommand cmdDetail = new SqlCommand(
+                    "INSERT INTO CTLSKHO (MALS, MASP, GIA, HOATDONG, SL, THANHTIEN) " +
+                    "VALUES (@MALS, @MASP, @GIA, @HOATDONG, @SL, @THANHTIEN)", conn, transaction))
+                {
+                  cmdDetail.Parameters.AddWithValue("@MALS", updatedLog.MaLS);
+                  cmdDetail.Parameters.AddWithValue("@MASP", item.MaSP);
+                  cmdDetail.Parameters.AddWithValue("@GIA", item.Gia);
+                  cmdDetail.Parameters.AddWithValue("@HOATDONG", item.HoatDong);
+                  cmdDetail.Parameters.AddWithValue("@SL", item.SoLuong);
+                  cmdDetail.Parameters.AddWithValue("@THANHTIEN", item.ThanhTien);
+
+                  cmdDetail.ExecuteNonQuery();
+                }
+              }
+
+              transaction.Commit();
+              return true;
+            }
+            catch (Exception)
+            {
+              transaction.Rollback();
+              throw;
+            }
+          }
         }
       }
       catch (Exception ex)

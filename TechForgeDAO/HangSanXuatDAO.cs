@@ -74,7 +74,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO HANGSANXUAT (TENHSX) VALUES (@TENHSX)", conn);
+          SqlCommand cmd = new SqlCommand("INSERT INTO HANGSANXUAT (TENHSX) VALUES (@TENHSX); SELECT SCOPE_IDENTITY();", conn);
           cmd.Parameters.AddWithValue("@TENHSX", newManufacturer.TenHSX);
 
           int newId = Convert.ToInt32(cmd.ExecuteScalar());

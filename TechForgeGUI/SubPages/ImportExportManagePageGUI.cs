@@ -41,8 +41,8 @@ namespace TechForgeGUI.SubPages
     private void SetUpFeature()
     {
       summaryCards.Add(new SummaryCard[] {
-          new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
         });
     }
     protected void GetData()
@@ -172,8 +172,8 @@ namespace TechForgeGUI.SubPages
 
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
 
       e.Modal.Close();
@@ -186,8 +186,8 @@ namespace TechForgeGUI.SubPages
 
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
 
       e.Modal.Close();
@@ -200,8 +200,8 @@ namespace TechForgeGUI.SubPages
 
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
 
       e.Modal.Close();

@@ -39,6 +39,76 @@ namespace TechForgeGUI.SubPages
         CellBorderStyle = TableLayoutPanelCellBorderStyle.None
       };
 
+      // Add table layout to form
+      this.Controls.Add(pnlFields);
+
+      if(thongTinDanhMuc == null)
+      {
+        this.btnEdit.Visible = false;
+        this.btnEdit.Enabled = false;
+        this.btnDelete.Visible = false;
+        this.btnDelete.Enabled = false;
+
+        LoadAddForm();
+      }
+      else
+      {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+
+        LoadDetailForm();
+      }
+
+      // Set up event handlers
+      btnAdd.Click += BtnAdd_Click;
+      btnEdit.Click += BtnEdit_Click;
+      btnDelete.Click += BtnDelete_Click;
+    }
+    private void LoadAddForm()
+    { 
+      // Add rows
+      pnlFields.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
+      pnlFields.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
+
+      // Add columns
+      pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160));
+      pnlFields.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+
+      // Create controls
+      txtMaDM = new TextBox
+      {
+        Text = BUS.GetNextId().ToString(),
+        Dock = DockStyle.Fill,
+        ReadOnly = true,
+        Font = new Font(DefaultFontName, 12),
+      };
+
+      txtTenDM = new TextBox
+      {
+        Text = "",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+      };
+
+      // Add controls to table layout
+      pnlFields.Controls.Add(new Label
+      {
+        Text = "Mã danh mục:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+      }, 0, 0);
+      pnlFields.Controls.Add(txtMaDM, 1, 0);
+      pnlFields.Controls.Add(new Label
+      {
+        Text = "Tên danh mục:",
+        Dock = DockStyle.Fill,
+        Font = new Font(DefaultFontName, 12),
+        Padding = new Padding(0, 4, 0, 0)
+      }, 0, 1);
+      pnlFields.Controls.Add(txtTenDM, 1, 1);
+    }
+    private void LoadDetailForm()
+    {
       // Add rows
       pnlFields.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
       pnlFields.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
@@ -64,42 +134,22 @@ namespace TechForgeGUI.SubPages
       };
 
       // Add controls to table layout
-      pnlFields.Controls.Add(new Label {
+      pnlFields.Controls.Add(new Label
+      {
         Text = "Mã danh mục:",
         Dock = DockStyle.Fill,
         Font = new Font(DefaultFontName, 12),
       }, 0, 0);
       pnlFields.Controls.Add(txtMaDM, 1, 0);
-      pnlFields.Controls.Add(new Label {
+      pnlFields.Controls.Add(new Label
+      {
         Text = "Tên danh mục:",
         Dock = DockStyle.Fill,
         Font = new Font(DefaultFontName, 12),
         Padding = new Padding(0, 4, 0, 0)
       }, 0, 1);
       pnlFields.Controls.Add(txtTenDM, 1, 1);
-
-      // Add table layout to form
-      this.Controls.Add(pnlFields);
-
-      if(thongTinDanhMuc == null)
-      {
-        this.btnEdit.Visible = false;
-        this.btnEdit.Enabled = false;
-        this.btnDelete.Visible = false;
-        this.btnDelete.Enabled = false;
-      }
-      else
-      {
-        this.btnAdd.Visible = false;
-        this.btnAdd.Enabled = false;
-      }
-
-      // Set up event handlers
-      btnAdd.Click += BtnAdd_Click;
-      btnEdit.Click += BtnEdit_Click;
-      btnDelete.Click += BtnDelete_Click;
     }
-
     private void BtnAdd_Click(object sender, EventArgs e)
     {
       // Get values from form fields

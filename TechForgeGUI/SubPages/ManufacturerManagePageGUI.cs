@@ -48,7 +48,13 @@ namespace TechForgeGUI.SubPages
         });
       } else
       {
-
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Tổng hãng", dsHangSanXuat.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Hãng đang dùng", dsHangSanXuat.Count.ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Hãng trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Hãng mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
+        });
       }
     }
     sealed protected override void InitializeBUS()
@@ -123,8 +129,6 @@ namespace TechForgeGUI.SubPages
 
           ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(bus, hangSanXuat);
           detailsForm.parentForm = this;
-
-          permissions.ApplyToForm(detailsForm);
 
           detailsForm.Show(Form.ActiveForm);
 

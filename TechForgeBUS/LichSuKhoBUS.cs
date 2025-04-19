@@ -21,9 +21,9 @@ namespace TechForgeBUS
       return this.DAO.GetAllConnected();
     }
 
-    public List<ChiTietLichSuKhoDTO> GetDetail(int hoaDonId)
+    public List<ChiTietLichSuKhoDTO> GetDetail(int logId)
     {
-      return this.DAO.GetDetail(hoaDonId);
+      return this.DAO.GetDetail(logId);
     }
 
     public int Add(LichSuKhoDTO newLog)
@@ -31,14 +31,14 @@ namespace TechForgeBUS
       return this.DAO.Add(newLog);
     }
 
-    public bool Update(LichSuKhoDTO updatedLog)
+    public bool Update(LichSuKhoDTO newLog)
     {
-      return this.DAO.Update(updatedLog);
+      return this.DAO.Update(newLog);
     }
 
-    public bool Delete(int hoaDonId)
+    public bool Delete(int logId)
     {
-      return this.DAO.Delete(hoaDonId);
+      return this.DAO.Delete(logId);
     }
 
     public int GetNextId()
