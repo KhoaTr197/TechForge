@@ -41,6 +41,24 @@
     <Reference Include="ExCSS, Version=4.2.3.0, Culture=neutral, PublicKeyToken=bdbe16be9b936b9a, processorArchitecture=MSIL">
       <HintPath>..\packages\ExCSS.4.2.3\lib\netstandard2.0\ExCSS.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1652.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="Svg, Version=3.4.0.0, Culture=neutral, PublicKeyToken=12a0bac221edeae2, processorArchitecture=MSIL">
       <HintPath>..\packages\Svg.3.4.7\lib\net472\Svg.dll</HintPath>
     </Reference>
@@ -134,12 +152,6 @@
     <Compile Include="BaseForms\OverlayFormGUI.Designer.cs">
       <DependentUpon>OverlayFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManagerFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerFormGUI.Designer.cs">
-      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="CashierFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +163,25 @@
     </Compile>
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerFormGUI.Designer.cs">
+      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RolePermissions.cs" />
+    <Compile Include="SubPages\CategoryDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\CategoryDetailFormGUI.Designer.cs">
+      <DependentUpon>CategoryDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\CategoryManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\CategoryManagePageGUI.Designer.cs">
+      <DependentUpon>CategoryManagePageGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\CustomerDetailFormGUI.cs">
       <SubType>Form</SubType>
@@ -170,11 +201,41 @@
     <Compile Include="SubPages\HomePageGUI.Designer.cs">
       <DependentUpon>HomePageGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="SubPages\InvoiceManagePageGUI.cs">
+    <Compile Include="SubPages\ImportExportDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\ImportExportDetailFormGUI.Designer.cs">
+      <DependentUpon>ImportExportDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ImportExportManagePageGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="SubPages\InvoiceManagePageGUI.Designer.cs">
-      <DependentUpon>InvoiceManagePageGUI.cs</DependentUpon>
+    <Compile Include="SubPages\ImportExportManagePageGUI.Designer.cs">
+      <DependentUpon>ImportExportManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ManufacturerDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\ManufacturerDetailFormGUI.Designer.cs">
+      <DependentUpon>ManufacturerDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ManufacturerManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\ManufacturerManagePageGUI.Designer.cs">
+      <DependentUpon>ManufacturerManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ReceiptDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\ReceiptDetailFormGUI.Designer.cs">
+      <DependentUpon>ReceiptDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\ReceiptManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\ReceiptManagePageGUI.Designer.cs">
+      <DependentUpon>ReceiptManagePageGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\InvoiceTransactionPageGUI.cs">
       <SubType>UserControl</SubType>
@@ -184,12 +245,6 @@
     </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerFormGUI.Designer.cs">
-      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.Designer.cs">
       <DependentUpon>ProductDetailFormGUI.cs</DependentUpon>
@@ -213,11 +268,23 @@
     <Compile Include="SubPages\StatisticPageGUI.Designer.cs">
       <DependentUpon>StatisticPageGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\SupplierDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\SupplierDetailFormGUI.Designer.cs">
+      <DependentUpon>SupplierDetailFormGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\SupplierManagePageGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SubPages\SupplierManagePageGUI.Designer.cs">
       <DependentUpon>SupplierManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\UserDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\UserDetailFormGUI.Designer.cs">
+      <DependentUpon>UserDetailFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\UserManagePageGUI.cs">
       <SubType>UserControl</SubType>
@@ -227,6 +294,12 @@
     </Compile>
     <Compile Include="Utils\GlobalImageList.cs" />
     <Compile Include="Utils\SVGIconHandler.cs" />
+    <Compile Include="WarehouseStaffFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WarehouseStaffFormGUI.Designer.cs">
+      <DependentUpon>WarehouseStaffFormGUI.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </EmbeddedResource>
@@ -248,11 +321,14 @@
     <EmbeddedResource Include="LoginFormGUI.resx">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ManagerFormGUI.resx">
-      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
+    <EmbeddedResource Include="SubPages\CategoryManagePageGUI.resx">
+      <DependentUpon>CategoryManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\CustomerManagePageGUI.resx">
       <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\ManufacturerManagePageGUI.resx">
+      <DependentUpon>ManufacturerManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\ProductManagePageGUI.resx">
       <DependentUpon>ProductManagePageGUI.cs</DependentUpon>
@@ -307,8 +383,41 @@
     <Content Include="Resources\logout_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\ProductImages\asus_rtx_3050.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\corsair_icue_3500x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\dell_p2723d.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\razer_viper_v3_pro.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\logitech_g512.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\amd_ryzen_7_8700g.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\kingston_fury_beast_8gb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\hp_victus_16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\kingston_nv2_250gb.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ProductImages\deepcool_pn850m.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\provider_icon.svg" />
     <Content Include="Resources\receipt_icon.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\supplier_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\users_icon.svg">
@@ -332,7 +441,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ProductImages\" />
+    <Folder Include="Reports\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

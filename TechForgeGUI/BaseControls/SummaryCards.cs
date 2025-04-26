@@ -28,7 +28,7 @@ namespace TechForgeGUI.BaseControls
       if (container == null || container.Controls.Count == 0) return;
 
       int cardCount = container.Controls.Count;
-      int cardWidth = (container.Width - (cardCount * 10)) / cardCount;
+      int cardWidth = (container.Width - (cardCount * 8)) / cardCount;
 
       foreach (Control card in container.Controls)
       {
@@ -48,8 +48,7 @@ namespace TechForgeGUI.BaseControls
       if (cardCount == 0) return;
 
       // Calculate width percentage for each card
-      int widthPercentage = 100 / cardCount;
-      int cardWidth = (container.Width - 20) / cardCount;
+      int cardWidth = (container.Width - (cardCount * 8)) / cardCount;
 
       // Create and add cards
       for (int i = 0; i < cardCount; i++)

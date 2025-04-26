@@ -165,13 +165,33 @@ namespace TechForgeGUI.BaseControls
       {
         UpdateDataGridView(dataList1);
       }
-      else if (bindSrc.DataSource is List<HoiVienDTO> dataList2)
+      else if (bindSrc.DataSource is List<HangSanXuatDTO> dataList2)
       {
         UpdateDataGridView(dataList2);
       }
-      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList3)
+      else if (bindSrc.DataSource is List<DanhMucDTO> dataList3)
       {
         UpdateDataGridView(dataList3);
+      }
+      else if (bindSrc.DataSource is List<HoiVienDTO> dataList4)
+      {
+        UpdateDataGridView(dataList4);
+      }
+      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList5)
+      {
+        UpdateDataGridView(dataList5);
+      }
+      else if (bindSrc.DataSource is List<LichSuKhoDTO> dataList6)
+      {
+        UpdateDataGridView(dataList6);
+      }
+      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList7)
+      {
+        UpdateDataGridView(dataList7);
+      }
+      else if (bindSrc.DataSource is List<NhaCungCapDTO> dataList8)
+      {
+        UpdateDataGridView(dataList8);
       }
       else if (bindSrc.DataSource is DataTable table)
       {

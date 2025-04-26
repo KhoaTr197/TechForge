@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using TechForgeDTO;
@@ -38,10 +39,13 @@ namespace TechForgeDAO
                 KhuyenMai = reader.GetDecimal(4),
                 MoTa = reader.GetString(5),
                 SoLuong = reader.GetInt32(6),
-                DanhMuc = reader.GetInt32(7),
-                Hsx = reader.GetInt32(8),
-                NgSx = reader.GetDateTime(9),
-                TrangThai = reader.GetBoolean(10)
+                DonViTinh = reader.GetString(7),
+                HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                DanhMuc = reader.GetInt32(9),
+                Hsx = reader.GetInt32(10),
+                Ncc = reader.GetInt32(11),
+                NgSx = reader.GetDateTime(12),
+                TrangThai = reader.GetBoolean(13)
               });
             }
           }
@@ -64,6 +68,55 @@ namespace TechForgeDAO
         }
 
         return ds;
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting data from the database.", ex);
+      }
+    }
+    public List<SanPhamDTO> GetList(int[] ids)
+    {
+      try
+      {
+        List<SanPhamDTO> products = new List<SanPhamDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string parameterNames = string.Join(",", ids.Select((id, index) => $"@id{index}"));
+          SqlCommand cmd = new SqlCommand($"SELECT * FROM SANPHAM WHERE MASP IN ({parameterNames})", conn);
+
+          for (int i = 0; i < ids.Length; i++)
+          {
+            cmd.Parameters.AddWithValue($"@id{i}", ids[i]);
+          }
+
+          using (SqlDataReader reader = cmd.ExecuteReader())
+          {
+            while (reader.Read())
+            {
+              products.Add(new SanPhamDTO()
+              {
+                MaSP = reader.GetInt32(0),
+                TenSP = reader.GetString(1),
+                GiaNhap = reader.GetDecimal(2),
+                Gia = reader.GetDecimal(3),
+                KhuyenMai = reader.GetDecimal(4),
+                MoTa = reader.GetString(5),
+                SoLuong = reader.GetInt32(6),
+                DonViTinh = reader.GetString(7),
+                HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                DanhMuc = reader.GetInt32(9),
+                Hsx = reader.GetInt32(10),
+                Ncc = reader.GetInt32(11),
+                NgSx = reader.GetDateTime(12),
+                TrangThai = reader.GetBoolean(13)
+              });
+            }
+          }
+        }
+
+        return products;
       }
       catch (Exception ex)
       {
@@ -117,7 +170,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE SANPHAM SET TENSP = @TENSP, GIANHAP = @GIANHAP, GIA = @GIA, KHUYENMAI = @KHUYENMAI, MOTA = @MOTA, SL = @SL, DANHMUC = @DANHMUC, HSX = @HSX, NGSX = @NGSX, TRANGTHAI = @TRANGTHAI WHERE MASP = @MASP", conn);
+          SqlCommand cmd = new SqlCommand("UPDATE SANPHAM SET TENSP = @TENSP, GIANHAP = @GIANHAP, GIA = @GIA, KHUYENMAI = @KHUYENMAI, MOTA = @MOTA, SL = @SL, DONVITINH = @DONVITINH, HINHANH = @HINHANH, DANHMUC = @DANHMUC, HSX = @HSX, NCC = @NCC, NGSX = @NGSX, TRANGTHAI = @TRANGTHAI WHERE MASP = @MASP", conn);
           cmd.Parameters.AddWithValue("@MASP", updatedProduct.MaSP);
           cmd.Parameters.AddWithValue("@TENSP", updatedProduct.TenSP);
           cmd.Parameters.AddWithValue("@GIANHAP", updatedProduct.GiaNhap);
@@ -125,8 +178,11 @@ namespace TechForgeDAO
           cmd.Parameters.AddWithValue("@KHUYENMAI", updatedProduct.KhuyenMai);
           cmd.Parameters.AddWithValue("@MOTA", updatedProduct.MoTa);
           cmd.Parameters.AddWithValue("@SL", updatedProduct.SoLuong);
+          cmd.Parameters.AddWithValue("@DONVITINH", updatedProduct.DonViTinh);
+          cmd.Parameters.AddWithValue("@HINHANH", updatedProduct.HinhAnh);
           cmd.Parameters.AddWithValue("@DANHMUC", updatedProduct.DanhMuc);
           cmd.Parameters.AddWithValue("@HSX", updatedProduct.Hsx);
+          cmd.Parameters.AddWithValue("@NCC", updatedProduct.Ncc);
           cmd.Parameters.AddWithValue("@NGSX", updatedProduct.NgSx);
           cmd.Parameters.AddWithValue("@TRANGTHAI", updatedProduct.TrangThai);
 

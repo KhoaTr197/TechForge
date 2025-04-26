@@ -57,9 +57,9 @@ namespace TechForgeGUI.BaseControls
   public partial class Sidebar : UserControl
   {
     //Base Controls
+    private TableLayoutPanel tlpMain;
     protected Panel panelLogo;
     protected Panel flpTabs;
-    private Panel spacer;
     //Properties
     protected List<SidebarTabItem> Tabs;
     public SidebarTabItem SelectedTab;
@@ -78,9 +78,19 @@ namespace TechForgeGUI.BaseControls
       this.Style = new SidebarStyle();
       this.BackColor = this.Style.BgColor;
       this.Size = new Size(160, 1000);
-      this.DockChanged += Sidebar_DockChanged;
-      this.TabItemsChanged += Sidebar_ItemsChanged;
 
+      this.tlpMain = new TableLayoutPanel
+      {
+        Dock = DockStyle.Fill,
+        ColumnCount = 1,
+        RowCount = 3,
+        RowStyles =
+        {
+          new RowStyle(SizeType.Absolute, 64),
+          new RowStyle(SizeType.Percent, 100),
+          new RowStyle(SizeType.AutoSize),
+        }
+      };
       //Init a Panel for Logo 
       this.panelLogo = new Panel()
       {
@@ -96,26 +106,21 @@ namespace TechForgeGUI.BaseControls
         FlowDirection = FlowDirection.TopDown,
         Size = new Size(this.Width, this.Size.Height - panelLogo.Size.Height),
       };
-      //Init a Panel for Spacing
-      this.spacer = new Panel()
-      {
-        Dock = DockStyle.Fill,
-      };
 
       //Init Selected Tab as null
       this.SelectedTab = null;
 
       //Add 2 Panels into this Sidebar control
-      this.Controls.Add(panelLogo);
-      this.Controls.Add(flpTabs);
+      tlpMain.Controls.Add(panelLogo, 0, 0);
+      tlpMain.Controls.Add(flpTabs, 0, 1);
+
+      this.Controls.Add(tlpMain);
     }
     public void Init(List<SidebarTabItem> tabs)
     {
       this.Tabs = tabs;
 
       this.CreateTabItems();
-
-      TabItemsChanged.Invoke(this, new SidebarTabItemsChangedEventArgs());
     }
     private void CreateTabItems()
     {
@@ -148,10 +153,11 @@ namespace TechForgeGUI.BaseControls
 
         if (i == n - 1)
         {
-          flpTabs.Controls.Add(spacer);
+          tlpMain.Controls.Add(tab, 0, 2);
+        } else
+        {
+          flpTabs.Controls.Add(tab);
         }
-
-        flpTabs.Controls.Add(tab);
 
         if (tab.SubSidebarItems != null && tab.SubSidebarItems.Count > 0)
         {
@@ -261,21 +267,6 @@ namespace TechForgeGUI.BaseControls
       {
         tabItem.BackColor = this.Style.BgColor;
       }
-    }
-    public void UpdateSpacerHeight()
-    {
-      if (Tabs.Count > 0)
-        spacer.Height = this.Height - this.panelLogo.Height - (this.Tabs[0].Size.Height * this.Tabs.Count);
-    }
-    //Event Handlers when Qty Item changed
-    private void Sidebar_ItemsChanged(object sender, EventArgs e)
-    {
-      UpdateSpacerHeight();
-    }
-    //Event Handlers when Dock changed
-    private void Sidebar_DockChanged(object sender, EventArgs e)
-    {
-      UpdateSpacerHeight();
     }
   }
 }

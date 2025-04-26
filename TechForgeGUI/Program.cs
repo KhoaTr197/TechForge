@@ -17,11 +17,23 @@ namespace TechForgeGUI
     [STAThread]
     static void Main()
     {
-      GlobalStatics.SetUp();
-
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new CashierFormGUI());
+
+      GlobalStatics.SetUp();
+
+      LoginFormGUI loginForm = new LoginFormGUI();
+
+      Application.Run(loginForm);
+    }
+    private static void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
+    {
+      GlobalStatics.iconList.Dispose();
+
+      foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
+      {
+        form.Close();
+      }
     }
   }
 }

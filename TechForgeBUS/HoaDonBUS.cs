@@ -20,6 +20,11 @@ namespace TechForgeBUS
     {
       return this.DAO.GetAllConnected();
     }
+    public List<ChiTietHoaDonDTO> GetDetailWithProducts(HoaDonDTO receipt)
+    {
+      receipt.Cthd = this.DAO.GetDetailWithProducts(receipt.MaHD);
+      return receipt.Cthd;
+    }
     public int Add(HoaDonDTO newReiceipt)
     {
       return this.DAO.Add(newReiceipt);

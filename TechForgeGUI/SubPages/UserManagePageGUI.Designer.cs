@@ -29,12 +29,17 @@
     private void InitializeComponent()
     {
       this.SuspendLayout();
+      // 
+      // btnAdd
+      // 
+      this.btnAdd.FlatAppearance.BorderSize = 0;
+      // 
       // UserManagePageGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Name = "UserManagePageGUI";
-      this.Size = new System.Drawing.Size(1319, 641);
+      this.Size = new System.Drawing.Size(677, 641);
       this.ResumeLayout(false);
 
     }

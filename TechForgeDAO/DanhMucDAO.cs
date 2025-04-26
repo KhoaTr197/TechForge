@@ -127,5 +127,26 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while deleting data from the database.", ex);
       }
     }
+    public int GetNextId()
+    {
+      try
+      {
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT IDENT_CURRENT('DANHMUC') + 1", conn);
+          object result = cmd.ExecuteScalar();
+          if (result != null && result != DBNull.Value)
+          {
+            return Convert.ToInt32(result);
+          }
+          return 0;
+        }
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting the next ID from the database.", ex);
+      }
+    }
   }
 }

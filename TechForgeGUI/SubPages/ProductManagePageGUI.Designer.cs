@@ -33,7 +33,6 @@
       // btnAdd
       // 
       this.btnAdd.FlatAppearance.BorderSize = 0;
-      this.btnAdd.Location = new System.Drawing.Point(-232, -66);
       // 
       // ProductManagePageGUI
       // 
@@ -41,7 +40,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
       this.Name = "ProductManagePageGUI";
-      this.Size = new System.Drawing.Size(0, 0);
+      this.Size = new System.Drawing.Size(1368, 641);
       this.ResumeLayout(false);
 
     }
