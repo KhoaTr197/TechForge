@@ -26,7 +26,6 @@ namespace TechForgeGUI.SubPages
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-      permissions.ApplyToManagePage(this);
 
       InitializeBUS();
       GetData();
@@ -43,11 +42,31 @@ namespace TechForgeGUI.SubPages
     {
       if (permissions.Role == "Cashier")
       {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+
         summaryCards.Add(new SummaryCard[] {
           new SummaryCard("Tổng hãng", dsHangSanXuat.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         });
-      } else
+      }
+      else if (permissions.Role == "WarehouseStaff")
       {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Tổng hãng", dsHangSanXuat.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Hãng đang dùng", dsHangSanXuat.Count.ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Hãng trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Hãng mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
+        });
+      }
+      else if (permissions.Role == "Manager")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+
         summaryCards.Add(new SummaryCard[]
         {
           new SummaryCard("Tổng hãng", dsHangSanXuat.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
@@ -109,7 +128,7 @@ namespace TechForgeGUI.SubPages
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(bus);
+      ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(permissions, bus);
 
       detailsForm.Show();
 
@@ -127,7 +146,7 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           HangSanXuatDTO hangSanXuat = dsHangSanXuat.Find(sp => sp.MaHSX == (int)selectedRow.Cells[0].Value);
 
-          ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(bus, hangSanXuat);
+          ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(permissions, bus, hangSanXuat);
           detailsForm.parentForm = this;
 
           detailsForm.Show(Form.ActiveForm);

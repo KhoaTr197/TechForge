@@ -111,7 +111,7 @@ namespace TechForgeGUI.SubPages
     {
       thongTinLichSu.TongTien = ((NumericUpDown)GetControlByName(tlpInfo, "nudTongTien")).Value;
       thongTinLichSu.MaND = ((TextBox)GetControlByName(tlpInfo, "txtMaND")).Text;
-      thongTinLichSu.HoatDong = ((ComboBox)GetControlByName(tlpInfo, "cboHoatDong")).SelectedItem == "Xuất";
+      thongTinLichSu.HoatDong = ((ComboBox)GetControlByName(tlpInfo, "cboHoatDong")).SelectedItem.ToString() == "Xuất";
 
       if (BUS.Add(thongTinLichSu) != -1)
         OnAddSubmit(new DetailFormAddSubmitEventArgs(this));

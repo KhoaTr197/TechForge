@@ -11,14 +11,9 @@ namespace TechForgeGUI.BaseControls
     private Form notificationForm;
     private Timer fadeTimer;
     private Timer closeTimer;
-    private int fadeDuration = 500; //ms
-    private int showDuration = 3000; //ms
 
     public Notification(string message, string type = "success", int timeout = 3000)
     {
-      fadeDuration = 500;
-      showDuration = 3000;
-
       InitializeComponent();
       ShowNotification(message, type, timeout);
     }

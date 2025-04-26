@@ -20,13 +20,14 @@ namespace TechForgeGUI.SubPages
     private TableLayoutPanel pnlFields;
     private TextBox txtMaHSX;
     private TextBox txtTenHSX;
-
-    public ManufacturerDetailFormGUI(HangSanXuatBUS _BUS, HangSanXuatDTO _thongTinHangSanXuat = null)
+    private RolePermissions permissions { get; set; }
+    public ManufacturerDetailFormGUI(RolePermissions _permissions , HangSanXuatBUS _BUS, HangSanXuatDTO _thongTinHangSanXuat = null)
     {
       InitializeComponent();
 
       this.thongTinHangSanXuat = _thongTinHangSanXuat;
       this.BUS = _BUS;
+      this.permissions = _permissions;
       this.Text = "Chi tiết hãng sản xuất";
       this.Size = new Size(400, 200);
 
@@ -66,6 +67,34 @@ namespace TechForgeGUI.SubPages
         this.btnAdd.Enabled = false;
 
         LoadDetailForm();
+      }
+
+      if (permissions.Role == "Cashier")
+      {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+        this.btnEdit.Visible = false;
+        this.btnEdit.Enabled = false;
+        this.btnDelete.Visible = false;
+        this.btnDelete.Enabled = false;
+      }
+      else if (permissions.Role == "WarehouseStaff")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        this.btnEdit.Visible = true;
+        this.btnEdit.Enabled = true;
+        this.btnDelete.Visible = true;
+        this.btnDelete.Enabled = true;
+      }
+      else if (permissions.Role == "Manager")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        this.btnEdit.Visible = true;
+        this.btnEdit.Enabled = true;
+        this.btnDelete.Visible = true;
+        this.btnDelete.Enabled = true;
       }
 
       // Set up event handlers

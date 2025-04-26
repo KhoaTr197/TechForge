@@ -35,7 +35,6 @@ namespace TechForgeGUI
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-      permissions.ApplyToManagePage(this);
 
       InitializeBUS();
       GetData();
@@ -50,14 +49,38 @@ namespace TechForgeGUI
     {
       if (permissions.Role == "Cashier")
       {
+        btnAdd.Visible = false;
+        btnAdd.Enabled = false;
+
         summaryCards.Add(new SummaryCard[] {
           new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
           new SummaryCard("Tổng số lượng", dsSanPham.Where(p => p.TrangThai).Sum(p => p.SoLuong).ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
           new SummaryCard("Hàng sắp hết", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
         });
-      } else
+      } 
+      else if (permissions.Role == "Admin")
       {
+        btnAdd.Visible = true;
+        btnAdd.Enabled = true;
 
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
+        });
+      }
+      else if (permissions.Role == "WarehouseStaff")
+      {
+        btnAdd.Visible = true;
+        btnAdd.Enabled = true;
+
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng sản phẩm", dsSanPham.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Sắp hết hàng", GetLowStockCount().ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Giá trị kho", GetTotalInventoryValue().ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
+        });
       }
     }
     // Initialize business logic components
@@ -311,7 +334,14 @@ namespace TechForgeGUI
         }
       }
     }
+    private void BtnAdd_Click(object sender, EventArgs e)
+    {
+      ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(permissions, sanPhamBus);
 
+      detailsForm.Show();
+
+      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+    }
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
     {
@@ -324,10 +354,8 @@ namespace TechForgeGUI
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           SanPhamDTO sanPham = dsSanPham.Find(sp => sp.MaSP == (int)selectedRow.Cells[0].Value);
 
-          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(sanPham, dsDanhMuc, dsHangSanXuat, sanPhamBus, dsNhaCungCap);
+          ProductDetailFormGUI detailsForm = new ProductDetailFormGUI(permissions, sanPhamBus, sanPham, dsDanhMuc, dsHangSanXuat, dsNhaCungCap);
           detailsForm.parentForm = this;
-
-          permissions.ApplyToForm(detailsForm);
 
           detailsForm.Show(Form.ActiveForm);
 

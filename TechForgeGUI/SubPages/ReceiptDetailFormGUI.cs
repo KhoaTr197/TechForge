@@ -34,14 +34,17 @@ namespace TechForgeGUI.SubPages
     private Button btnAddToReceipt;
     private ChiTietHoaDonDTO selectedProduct;
     private ListBox lstSearchResults;
-
-    public ReceiptDetailFormGUI(HoaDonDTO _thongTinHoaDon, HoaDonBUS _BUS)
+    private RolePermissions permissions { get; set; }
+    public ReceiptDetailFormGUI(RolePermissions _permissions, HoaDonBUS _BUS, HoaDonDTO _thongTinHoaDon=null)
     {
       InitializeComponent();
 
       this.thongTinHoaDon = _thongTinHoaDon;
       this.BUS = _BUS;
+      this.permissions = _permissions;
       this.Text = "Chi tiết hóa đơn";
+
+      InitializeLayout();
 
       // Set up main layout with 2x2 grid
       mainLayout = new TableLayoutPanel
@@ -51,8 +54,8 @@ namespace TechForgeGUI.SubPages
         RowCount = 2,
         ColumnStyles =
         {
-          new ColumnStyle(SizeType.Percent, 65F), // Increased main content area
-          new ColumnStyle(SizeType.Percent, 35F)  // Decreased right panel width
+          new ColumnStyle(SizeType.Percent, 65F),
+          new ColumnStyle(SizeType.Percent, 35F)
         },
         RowStyles =
         {
@@ -266,6 +269,11 @@ namespace TechForgeGUI.SubPages
       this.Controls.Add(mainLayout);
       LoadDetailForm(inputLabels);
       InitializeDataGridView();
+    }
+
+    private void InitializeLayout()
+    {
+      throw new NotImplementedException();
     }
 
     private Label CreateInfoLabel(string text, float fontSize = 12)

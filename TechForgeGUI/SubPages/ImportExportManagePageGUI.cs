@@ -25,7 +25,6 @@ namespace TechForgeGUI.SubPages
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-      permissions.ApplyToManagePage(this);
 
       InitializeBUS();
       GetData();

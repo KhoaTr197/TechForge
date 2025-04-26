@@ -16,7 +16,6 @@ namespace TechForgeGUI.SubPages
 {
   public partial class CategoryManagePageGUI : ManagePage
   {
-    private DataSet ds;
     private List<DanhMucDTO> dsDanhMuc { get; set; }
     private DanhMucBUS bus { get; set; }
     private RolePermissions permissions;
@@ -26,7 +25,6 @@ namespace TechForgeGUI.SubPages
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-      permissions.ApplyToManagePage(this);
 
       InitializeBUS();
       GetData();
@@ -43,12 +41,32 @@ namespace TechForgeGUI.SubPages
     {
       if (permissions.Role == "Cashier")
       {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+
         // Add summary cards with category statistics
         summaryCards.Add(new SummaryCard[] {
           new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
         });
-      } else
+      }
+      else if (permissions.Role == "WarehouseStaff")
       {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Danh mục đang dùng", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Danh mục trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Danh mục mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
+        });
+      }
+      else if (permissions.Role == "Manager")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+
         summaryCards.Add(new SummaryCard[]
         {
           new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
@@ -64,8 +82,6 @@ namespace TechForgeGUI.SubPages
     }
     protected void GetData()
     {
-      ds = new DataSet();
-
       // Map data to DTOs
       dsDanhMuc = bus.GetAllConnected();
     }
@@ -123,7 +139,7 @@ namespace TechForgeGUI.SubPages
 
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(bus);
+      CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(permissions, bus);
 
       detailsForm.Show();
 
@@ -140,7 +156,7 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           DanhMucDTO danhMuc = dsDanhMuc.Find(sp => sp.MaDM == (int)selectedRow.Cells[0].Value);
 
-          CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(bus, danhMuc);
+          CategoryDetailFormGUI detailsForm = new CategoryDetailFormGUI(permissions, bus, danhMuc);
           detailsForm.parentForm = this;
 
           detailsForm.Show(Form.ActiveForm);

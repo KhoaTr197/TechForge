@@ -20,13 +20,14 @@ namespace TechForgeGUI.SubPages
     private TableLayoutPanel pnlFields;
     private TextBox txtMaDM;
     private TextBox txtTenDM;
-
-    public CategoryDetailFormGUI(DanhMucBUS _BUS, DanhMucDTO _thongTinDanhMuc = null)
+    private RolePermissions permissions { get; set; }
+    public CategoryDetailFormGUI(RolePermissions _permissions, DanhMucBUS _BUS, DanhMucDTO _thongTinDanhMuc = null)
     {
       InitializeComponent();
 
       this.thongTinDanhMuc = _thongTinDanhMuc;
       this.BUS = _BUS;
+      this.permissions = _permissions;
       this.Text = "Chi tiết danh mục";
 
       // Create table layout panel
@@ -57,6 +58,34 @@ namespace TechForgeGUI.SubPages
         this.btnAdd.Enabled = false;
 
         LoadDetailForm();
+      }
+
+      if (permissions.Role == "Cashier")
+      {
+        this.btnAdd.Visible = false;
+        this.btnAdd.Enabled = false;
+        this.btnEdit.Visible = false;
+        this.btnEdit.Enabled = false;
+        this.btnDelete.Visible = false;
+        this.btnDelete.Enabled = false;
+      }
+      else if (permissions.Role == "WarehouseStaff")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        this.btnEdit.Visible = true;
+        this.btnEdit.Enabled = true;
+        this.btnDelete.Visible = true;
+        this.btnDelete.Enabled = true;
+      }
+      else if (permissions.Role == "Manager")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        this.btnEdit.Visible = true;
+        this.btnEdit.Enabled = true;
+        this.btnDelete.Visible = true;
+        this.btnDelete.Enabled = true;
       }
 
       // Set up event handlers

@@ -1,6 +1,6 @@
-﻿namespace TechForgeGUI
+﻿namespace TechForgeGUI.SubPages
 {
-  partial class ProductManagePageGUI
+  partial class UserDetailFormGUI
   {
     /// <summary>
     /// Required designer variable.
@@ -28,21 +28,10 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.SuspendLayout();
-      // 
-      // btnAdd
-      // 
-      this.btnAdd.FlatAppearance.BorderSize = 0;
-      // 
-      // ProductManagePageGUI
-      // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+      this.components = new System.ComponentModel.Container();
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-      this.Name = "ProductManagePageGUI";
-      this.Size = new System.Drawing.Size(1368, 641);
-      this.ResumeLayout(false);
-
+      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Text = "UserDetailFormGUI";
     }
 
     #endregion

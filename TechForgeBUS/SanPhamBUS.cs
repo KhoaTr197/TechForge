@@ -61,7 +61,6 @@ namespace TechForgeBUS
       }
 
       if (this.DAO.Update(spMoi)) {
-        //MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         return true;
       } else
       {

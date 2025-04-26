@@ -27,7 +27,6 @@ namespace TechForgeGUI.SubPages
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-      permissions.ApplyToManagePage(this);
 
       InitializeBUS();
       GetData();
@@ -41,6 +40,18 @@ namespace TechForgeGUI.SubPages
     private void SetUpFeature()
     {
       if (permissions.Role == "Cashier")
+      {
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        });
+      }
+      else if (permissions.Role == "WarehouseStaff")
+      {
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        });
+      }
+      else if (permissions.Role == "Manager")
       {
         summaryCards.Add(new SummaryCard[] {
           new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
@@ -111,10 +122,8 @@ namespace TechForgeGUI.SubPages
           HoaDonDTO hoaDon = dsHoaDon.Find(hd => hd.MaHD == (int)selectedRow.Cells[0].Value);
           hoaDonBus.GetDetailWithProducts(hoaDon);
 
-          ReceiptDetailFormGUI detailsForm = new ReceiptDetailFormGUI(hoaDon, hoaDonBus);
+          ReceiptDetailFormGUI detailsForm = new ReceiptDetailFormGUI(permissions, hoaDonBus, hoaDon);
           detailsForm.parentForm = this;
-
-          permissions.ApplyToForm(detailsForm);
 
           detailsForm.Show(Form.ActiveForm);
 

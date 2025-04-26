@@ -25,12 +25,11 @@ namespace TechForgeGUI
       LoginFormGUI loginForm = new LoginFormGUI();
 
       Application.Run(loginForm);
-
-      loginForm.FormClosing += LoginForm_FormClosing;
     }
-
     private static void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
     {
+      GlobalStatics.iconList.Dispose();
+
       foreach (Form form in Application.OpenForms.Cast<Form>().ToList())
       {
         form.Close();

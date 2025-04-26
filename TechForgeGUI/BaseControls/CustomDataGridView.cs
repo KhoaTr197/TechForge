@@ -185,6 +185,14 @@ namespace TechForgeGUI.BaseControls
       {
         UpdateDataGridView(dataList6);
       }
+      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList7)
+      {
+        UpdateDataGridView(dataList7);
+      }
+      else if (bindSrc.DataSource is List<NhaCungCapDTO> dataList8)
+      {
+        UpdateDataGridView(dataList8);
+      }
       else if (bindSrc.DataSource is DataTable table)
       {
         UpdateDataGridView(table);

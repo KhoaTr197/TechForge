@@ -27,7 +27,6 @@ namespace TechForgeGUI.SubPages
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-      permissions.ApplyToManagePage(this);
 
       InitializeBUS();
       GetData();
@@ -45,6 +44,26 @@ namespace TechForgeGUI.SubPages
       if (permissions.Role == "Cashier")
       {
         summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Số khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        });
+      }
+      else if (permissions.Role == "WarehouseStaff")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Số khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        });
+      }
+      else if (permissions.Role == "Manager")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        summaryCards.Add(new SummaryCard[]
+        {
           new SummaryCard("Số khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
           new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
         });

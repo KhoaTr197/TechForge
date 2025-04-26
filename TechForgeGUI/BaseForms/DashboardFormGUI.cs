@@ -32,7 +32,6 @@ namespace TechForgeGUI.BaseForm
       InitializeComponent();
 
       this.StartPosition = FormStartPosition.CenterScreen;
-      this.SizeChanged += DashboardFormGUI_SizeChanged;
     }
     public void SetUpForm(string _role, TaiKhoanDTO _currentAccount, NguoiDungDTO _currentUser)
     {
@@ -70,8 +69,18 @@ namespace TechForgeGUI.BaseForm
           {
             new SidebarTabItem { Id = "Homepage", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Trang Chủ" },
             new SidebarTabItem { Id = "Statistic", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Thống Kê" },
-            new SidebarTabItem { Id = "Product", ImageList = GlobalStatics.iconList, ImageKey = "box_icon", Text = "Sản Phẩm" },
+            new SidebarTabItem {
+              Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm",
+              SubSidebarItems = new List<SidebarTabItem>
+              {
+                new SidebarTabItem{ Id="Manufacturer", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Hãng" },
+                new SidebarTabItem{ Id="Category", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Danh Mục" },
+              }
+            },
             new SidebarTabItem { Id = "Supplier", ImageList = GlobalStatics.iconList, ImageKey = "supplier_icon", Text = "Nhà cung cấp" },
+            new SidebarTabItem{ Id="Receipt", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
+            new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
+            new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
             new SidebarTabItem { Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" }
           };
           break;
@@ -132,13 +141,13 @@ namespace TechForgeGUI.BaseForm
           }
         case "Users":
           {
-            currentPage = new UserManagePageGUI();
+            currentPage = new UserManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             break;
           }
         case "Supplier":
           {
-            currentPage = new SupplierManagePageGUI();
+            currentPage = new SupplierManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
             break;
@@ -181,10 +190,6 @@ namespace TechForgeGUI.BaseForm
         default:
           break;
       }
-    }
-    private void DashboardFormGUI_SizeChanged(object sender, EventArgs e)
-    {
-      sideBar1.UpdateSpacerHeight();
     }
   }
 }

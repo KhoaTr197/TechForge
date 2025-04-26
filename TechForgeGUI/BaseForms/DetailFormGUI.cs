@@ -12,6 +12,8 @@ namespace TechForgeGUI.BaseForms
 {
   public partial class DetailFormGUI : Form
   {
+    protected string type; //add or detail
+
     // Overlay form to create a transparent background effect
     public OverlayFormGUI overlay;
 

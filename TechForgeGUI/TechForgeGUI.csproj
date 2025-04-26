@@ -152,15 +152,6 @@
     <Compile Include="BaseForms\OverlayFormGUI.Designer.cs">
       <DependentUpon>OverlayFormGUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManagerFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerFormGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ManagerFormGUI.Designer.cs">
-      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="CashierFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +163,12 @@
     </Compile>
     <Compile Include="LoginFormGUI.Designer.cs">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManagerFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerFormGUI.Designer.cs">
+      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="RolePermissions.cs" />
     <Compile Include="SubPages\CategoryDetailFormGUI.cs">
@@ -249,9 +246,6 @@
     <Compile Include="SubPages\ProductDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ManagerFormGUI.Designer.cs">
-      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
-    </Compile>
     <Compile Include="SubPages\ProductDetailFormGUI.Designer.cs">
       <DependentUpon>ProductDetailFormGUI.cs</DependentUpon>
     </Compile>
@@ -274,11 +268,23 @@
     <Compile Include="SubPages\StatisticPageGUI.Designer.cs">
       <DependentUpon>StatisticPageGUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubPages\SupplierDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\SupplierDetailFormGUI.Designer.cs">
+      <DependentUpon>SupplierDetailFormGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\SupplierManagePageGUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SubPages\SupplierManagePageGUI.Designer.cs">
       <DependentUpon>SupplierManagePageGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\UserDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\UserDetailFormGUI.Designer.cs">
+      <DependentUpon>UserDetailFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="SubPages\UserManagePageGUI.cs">
       <SubType>UserControl</SubType>
@@ -314,9 +320,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginFormGUI.resx">
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ManagerFormGUI.resx">
-      <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\CategoryManagePageGUI.resx">
       <DependentUpon>CategoryManagePageGUI.cs</DependentUpon>
@@ -412,6 +415,9 @@
     </Content>
     <Content Include="Resources\provider_icon.svg" />
     <Content Include="Resources\receipt_icon.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\supplier_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\users_icon.svg">
