@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Svg;
+using TechForgeBUS;
 using TechForgeDTO;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
@@ -25,8 +26,8 @@ namespace TechForgeGUI.BaseForm
   {
     private Control currentPage;
     private string role;
-        private TaiKhoanDTO currentAccount;
-        private NguoiDungDTO currentUser;
+    private TaiKhoanDTO currentAccount;
+    private NguoiDungDTO currentUser;
     public DashboardFormGUI()
     {
       InitializeComponent();
@@ -185,6 +186,21 @@ namespace TechForgeGUI.BaseForm
             currentPage = new ImportExportManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
             currentPage.Show();
+            break;
+          }
+        case "Logout":
+          {
+            if(MessageBox.Show("Bạn có chắc chắn không?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
+              new LichSuHoatDongBUS("Data Source=.;Initial Catalog=TECHFORGE;Integrated Security=True;").Add(new LichSuHoatDongDTO
+              {
+                MaND = currentUser.MaND,
+                NoiDung = "Đã đăng xuất",
+                ThoiGian = DateTime.Now,
+                VaiTro = currentUser.VaiTro
+              });
+              Application.Exit();
+            }
             break;
           }
         default:

@@ -66,7 +66,6 @@ namespace TechForgeGUI.BaseControls
     protected SidebarStyle Style { get; set; }
     protected string DefaultFontName = "Segoe UI";
     //Custom Events
-    public event EventHandler<SidebarTabItemsChangedEventArgs> TabItemsChanged;
     public event EventHandler<SidebarSelectedTabChangedEventArgs> SelectedTabChanged;
     public Sidebar()
     {

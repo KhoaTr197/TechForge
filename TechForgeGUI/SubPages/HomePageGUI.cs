@@ -20,14 +20,16 @@ namespace TechForgeGUI.SubPages
     private HoaDonBUS hoaDonBUS;
     private HoiVienBUS hoiVienBUS;
     private SanPhamBUS sanPhamBUS;
+    private LichSuHoatDongBUS lichSuHoatDongBUS;
     private TaiKhoanDTO currentAccount {  get; set; }
     private NguoiDungDTO currentUser { get; set; }
 
     // Main container panels
     private TableLayoutPanel tlpMain;
     private TableLayoutPanel tlpTop;
-    private Panel pnlLeft;
-    private Panel pnlRight;
+    private TableLayoutPanel flpLeft;
+    private TableLayoutPanel flpRight;
+    private FlowLayoutPanel flpActivityList;
 
     // Welcome section
     private TableLayoutPanel tlpWelcome;
@@ -61,6 +63,7 @@ namespace TechForgeGUI.SubPages
       hoaDonBUS = new HoaDonBUS(connStr);
       hoiVienBUS = new HoiVienBUS(connStr);
       sanPhamBUS = new SanPhamBUS(connStr);
+      lichSuHoatDongBUS = new LichSuHoatDongBUS(connStr);
     }
 
     private void InitializeLayout()
@@ -100,25 +103,47 @@ namespace TechForgeGUI.SubPages
       tlpMain.Controls.Add(tlpTop, 0, 0);
       tlpMain.SetColumnSpan(tlpTop, 2);
 
-      pnlLeft = new Panel
+      flpLeft = new TableLayoutPanel
       {
         Dock = DockStyle.Fill,
-        BackColor = Color.White
+        BackColor = Color.White,
+        RowCount = 2,
+        RowStyles =
+        {
+          new RowStyle(SizeType.Absolute, 48),
+          new RowStyle(SizeType.Percent, 100)
+        }
       };
-      tlpMain.Controls.Add(pnlLeft, 1, 1);
+      tlpMain.Controls.Add(flpLeft, 0, 1);
 
-      pnlRight = new Panel
+      flpRight = new TableLayoutPanel
       {
         Dock = DockStyle.Fill,
-        BackColor = Color.White
+        BackColor = Color.White,
+        RowCount = 2,
+        RowStyles =
+        {
+          new RowStyle(SizeType.Absolute, 48),
+          new RowStyle(SizeType.Percent, 100)
+        }
       };
-      tlpMain.Controls.Add(pnlRight, 0, 1);
+      tlpMain.Controls.Add(flpRight, 0, 1);
 
       // Initialize sections
       InitializeWelcomeSection();
       InitializeStatsCards();
-      InitializeOrderStatus();
-      InitializeSalesChart();
+      InitializeActivityLog();
+
+      flpLeft.Controls.Add(new Label
+      {
+        Text = "Đang phát triển",
+        Dock = DockStyle.Top,
+        Font = new Font(DefaultFontName, 14, FontStyle.Bold),
+        Height = 30,
+        TextAlign = ContentAlignment.MiddleLeft
+      });
+
+      LoadActivityLog();
     }
     private void InitializeWelcomeSection()
     {
@@ -233,63 +258,80 @@ namespace TechForgeGUI.SubPages
 
       tlpTop.Controls.Add(flpSummaryCards);
     }
-
-    private void InitializeOrderStatus()
+    private void InitializeActivityLog()
     {
-      Panel pnlOrderStatus = new Panel
-      {
-        Dock = DockStyle.Fill,
-        Padding = new Padding(20),
-        BackColor = Color.White
-      };
 
-      Label lblOrderStatus = new Label
+      Label lblActivity = new Label
       {
-        Text = "Trạng thái đơn hàng",
+        Text = "Lịch sử hoạt động",
         Dock = DockStyle.Top,
         Font = new Font(DefaultFontName, 14, FontStyle.Bold),
-        Height = 30
+        Height = 30,
+        TextAlign = ContentAlignment.MiddleLeft
       };
 
-      // Here you would add your circular chart control
-      Panel pnlChart = new Panel
+      flpActivityList = new FlowLayoutPanel
       {
         Dock = DockStyle.Fill,
-        BackColor = Color.White
+        BackColor = Color.Gray,
+        AutoScroll = true,
+      };
+      flpActivityList.Resize += (s, e) =>
+      {
+        foreach (Control card in flpActivityList.Controls)
+        {
+          card.Width = flpActivityList.ClientSize.Width - 20;
+        }
       };
 
-      pnlOrderStatus.Controls.AddRange(new Control[] { lblOrderStatus, pnlChart });
-      pnlLeft.Controls.Add(pnlOrderStatus);
+      flpRight.Controls.Add(lblActivity, 0, 0);
+      flpRight.Controls.Add(flpActivityList, 0, 1);
     }
+    private void LoadActivityLog() {
+      List<LichSuHoatDongDTO> logs = lichSuHoatDongBUS.GetRecentAllConnected(currentUser.MaND);
 
-    private void InitializeSalesChart()
-    {
-      Panel pnlSalesChart = new Panel
+      foreach (LichSuHoatDongDTO log in logs)
       {
-        Dock = DockStyle.Fill,
-        Padding = new Padding(20),
-        BackColor = Color.White
-      };
+        TableLayoutPanel logCard = new TableLayoutPanel
+        {
+          Width = flpActivityList.ClientSize.Width - 8,
+          Height = 80,
+          Margin = new Padding(4),
+          BorderStyle = BorderStyle.FixedSingle,
+          BackColor = Color.White,
+          ColumnCount = 1,
+          RowCount = 2,
+          RowStyles =
+          {
+            new RowStyle(SizeType.Percent, 50F),
+            new RowStyle(SizeType.Percent, 50F),
+          }
+        };
 
-      Label lblSalesChart = new Label
-      {
-        Text = "Doanh số",
-        Dock = DockStyle.Top,
-        Font = new Font(DefaultFontName, 14, FontStyle.Bold),
-        Height = 30
-      };
+        Label lblTime = new Label
+        {
+          Text = log.ThoiGian.ToString("dd/MM/yyyy HH:mm:ss"),
+          AutoSize = true,
+          Font = new Font("Segoe UI", 10),
+          ForeColor = Color.Black,
+          TextAlign = ContentAlignment.MiddleLeft
+        };
 
-      // Here you would add your bar chart control
-      Panel pnlChart = new Panel
-      {
-        Dock = DockStyle.Fill,
-        BackColor = Color.White
-      };
+        Label lblDetails = new Label
+        {
+          Text = log.NoiDung,
+          AutoSize = true,
+          Font = new Font("Segoe UI", 10, FontStyle.Bold),
+          ForeColor = Color.Black,
+          TextAlign = ContentAlignment.MiddleLeft
+        };
 
-      pnlSalesChart.Controls.AddRange(new Control[] { lblSalesChart, pnlChart });
-      pnlRight.Controls.Add(pnlSalesChart);
+        logCard.Controls.Add(lblTime, 0, 0);
+        logCard.Controls.Add(lblDetails, 0, 1);
+
+        flpActivityList.Controls.Add(logCard);
+      }
     }
-
     private void LoadData()
     {
       // Load user info

@@ -28,6 +28,7 @@ namespace TechForgeGUI
     protected TaiKhoanBUS taiKhoanBus;
     protected NguoiDungBUS nguoiDungBus;
     protected NguoiDungDTO nguoiDungDto;
+    protected LichSuHoatDongBUS logBUS;
     protected Form frmMain;
     public AuthFormGUI()
     {
@@ -40,6 +41,7 @@ namespace TechForgeGUI
       //Init bus
       taiKhoanBus = new TaiKhoanBUS(this.connStr);
       nguoiDungBus = new NguoiDungBUS(this.connStr);
+      logBUS = new LichSuHoatDongBUS(this.connStr);
       //Init DTO
       taiKhoanDto = new TaiKhoanDTO();
       nguoiDungDto = new NguoiDungDTO();
@@ -102,7 +104,6 @@ namespace TechForgeGUI
         Size = new Size(100, 30),
         Location = new Point((panelMain.ClientSize.Width - 100) / 2, 180)
       };
-      btnSubmit.Click += BtnSubmit_Click;
 
       panelForm.Controls.AddRange(new Control[] {
         lblTitle,
@@ -143,50 +144,6 @@ namespace TechForgeGUI
       }
 
       return true;
-    }
-    protected void BtnSubmit_Click(object sender, EventArgs e)
-    {
-      string username = txtUsername.Text.Trim();
-      string password = txtPassword.Text.Trim();
-      if (ValidateAccount(username, password, out string message))
-      {
-        taiKhoanDto = taiKhoanBus.Login(username, password);
-        if (taiKhoanDto == null)
-        {
-          MessageBox.Show("khong co tai khoan");
-        }
-        else
-        {
-          nguoiDungDto = nguoiDungBus.GetByID(taiKhoanDto.MaND);
-
-          switch (nguoiDungDto.VaiTro)
-          {
-            case "ADMIN":
-              {
-                frmMain = new ManagerFormGUI(taiKhoanDto, nguoiDungDto);
-                frmMain.Show();
-                break;
-              }
-            case "Quản Lý Kho":
-              {
-                frmMain = new WarehouseStaffFormGUI(taiKhoanDto, nguoiDungDto);
-                frmMain.Show();
-                break;
-              }
-            case "Thu Ngân":
-              {
-                frmMain = new CashierFormGUI(taiKhoanDto, nguoiDungDto);
-                frmMain.Show();
-                break;
-              }
-          }
-          this.Hide();
-        }
-      }
-      else
-      {
-        MessageBox.Show(message);
-      }
     }
   }
 }
