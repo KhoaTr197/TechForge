@@ -37,7 +37,6 @@ namespace TechForgeGUI
 
       this.StartPosition = FormStartPosition.CenterScreen;
       this.AcceptButton = btnSubmit;
-      this.Icon = Properties.Resources.AppIcon;
       //Init bus
       taiKhoanBus = new TaiKhoanBUS(this.connStr);
       nguoiDungBus = new NguoiDungBUS(this.connStr);

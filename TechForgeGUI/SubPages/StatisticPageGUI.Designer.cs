@@ -178,7 +178,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Margin = new System.Windows.Forms.Padding(4, 7, 4, 7);
       this.Name = "StatisticPageGUI";
-      this.Size = new System.Drawing.Size(1293, 641);
+      this.Size = new System.Drawing.Size(1343, 641);
       this.panel7.ResumeLayout(false);
       this.panel8.ResumeLayout(false);
       this.panel10.ResumeLayout(false);

@@ -31,8 +31,6 @@ namespace TechForgeGUI.BaseForm
     public DashboardFormGUI()
     {
       InitializeComponent();
-
-      this.StartPosition = FormStartPosition.CenterScreen;
     }
     public void SetUpForm(string _role, TaiKhoanDTO _currentAccount, NguoiDungDTO _currentUser)
     {
@@ -150,42 +148,36 @@ namespace TechForgeGUI.BaseForm
           {
             currentPage = new SupplierManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
-            currentPage.Show();
             break;
           }
         case "Statistic":
           {
             currentPage = new StatisticPageGUI();
             panelMain.Controls.Add(currentPage);
-            currentPage.Show();
             break;
           }
         case "Receipt":
           {
             currentPage = new ReceiptManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
-            currentPage.Show();
             break;
           }
         case "CreateInvoice":
           {
             currentPage = new InvoiceTransactionPageGUI();
             panelMain.Controls.Add(currentPage);
-            currentPage.Show();
             break;
           }
         case "Customer":
           {
             currentPage = new CustomerManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
-            currentPage.Show();
             break;
           }
         case "Import/Export":
           {
             currentPage = new ImportExportManagePageGUI(role);
             panelMain.Controls.Add(currentPage);
-            currentPage.Show();
             break;
           }
         case "Logout":

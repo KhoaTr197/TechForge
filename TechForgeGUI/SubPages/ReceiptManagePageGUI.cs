@@ -122,15 +122,15 @@ namespace TechForgeGUI.SubPages
           HoaDonDTO hoaDon = dsHoaDon.Find(hd => hd.MaHD == (int)selectedRow.Cells[0].Value);
           hoaDonBus.GetDetailWithProducts(hoaDon);
 
-          ReceiptDetailFormGUI detailsForm = new ReceiptDetailFormGUI(permissions, hoaDonBus, hoaDon);
-          detailsForm.parentForm = this;
+          ReceiptDetailFormGUI DetailForm = new ReceiptDetailFormGUI(permissions, hoaDonBus, hoaDon);
+          OverlayFormGUI overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          detailsForm.Show(Form.ActiveForm);
+          DetailForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
-          detailsForm.AddSubmit += DetailsForm_AddSubmit;
-          detailsForm.EditSubmit += DetailsForm_EditSubmit;
-          detailsForm.DeleteSubmit += DetailsForm_DeleteSubmit;
+          DetailForm.AddSubmit += DetailsForm_AddSubmit;
+          DetailForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }

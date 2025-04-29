@@ -114,11 +114,13 @@ namespace TechForgeGUI.SubForms
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      UserDetailFormGUI detailsForm = new UserDetailFormGUI(permissions, bus, taiKhoanBus);
+      UserDetailFormGUI DetailForm = new UserDetailFormGUI(permissions, bus, taiKhoanBus);
+      OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-      detailsForm.Show();
+      Overlay.Show(Form.ActiveForm);
+      DetailForm.Show(Form.ActiveForm);
 
-      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+      DetailForm.AddSubmit += DetailsForm_AddSubmit;
     }
     private void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
     {
@@ -132,15 +134,16 @@ namespace TechForgeGUI.SubForms
           NguoiDungDTO nguoiDung = dsNguoiDung.Find(nd => nd.MaND == selectedRow.Cells[0].Value.ToString());
           TaiKhoanDTO taiKhoan = taiKhoanBus.GetCredential(nguoiDung.MaND);
 
-          UserDetailFormGUI detailsForm = new UserDetailFormGUI(permissions, bus, taiKhoanBus, nguoiDung, taiKhoan);
-          detailsForm.parentForm = this;
+          UserDetailFormGUI DetailForm = new UserDetailFormGUI(permissions, bus, taiKhoanBus, nguoiDung, taiKhoan);
+          OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          detailsForm.Show(Form.ActiveForm);
+          Overlay.Show(Form.ActiveForm);
+          DetailForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
-          detailsForm.AddSubmit += DetailsForm_AddSubmit;
-          detailsForm.EditSubmit += DetailsForm_EditSubmit;
-          detailsForm.DeleteSubmit += DetailsForm_DeleteSubmit;
+          DetailForm.AddSubmit += DetailsForm_AddSubmit;
+          DetailForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }

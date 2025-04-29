@@ -12,13 +12,7 @@ namespace TechForgeGUI.BaseForms
 {
   public partial class DetailFormGUI : Form
   {
-    protected string type; //add or detail
-
-    // Overlay form to create a transparent background effect
-    public OverlayFormGUI overlay;
-
-    public UserControl parentForm;
-
+    protected string Type; //add or detail
     protected string DefaultFontName = "Segoe UI";
 
     // Custom Events for button clicks
@@ -36,25 +30,7 @@ namespace TechForgeGUI.BaseForms
       this.FormBorderStyle = FormBorderStyle.FixedDialog;
       if (Form.ActiveForm != null) this.MinimumSize = new Size(Form.ActiveForm.Width / 100 * 70, Form.ActiveForm.Height / 100 * 80);
       this.StartPosition = FormStartPosition.Manual;
-      this.StartPosition = FormStartPosition.CenterScreen;
       Location = Form.ActiveForm != null ? Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2)) : new Point(0, 0);
-
-      if (Form.ActiveForm != null)
-      {
-        Form.ActiveForm.SizeChanged += ParentForm_SizeChanged;
-        Form.ActiveForm.LocationChanged += ParentForm_LocationChanged;
-        Form.ActiveForm.FormClosing += (s, e) =>
-        {
-          if (overlay != null && !overlay.IsDisposed)
-          {
-            overlay.Close();
-          }
-        };
-      }
-
-      // Set the form's background color to transparent
-      overlay = new OverlayFormGUI(this);
-      overlay.Show(Form.ActiveForm);
     }
 
     protected Control GetControlByName(Control container, string name)
@@ -84,19 +60,6 @@ namespace TechForgeGUI.BaseForms
     protected virtual void OnDeleteSubmit(DetailFormDeleteSubmitEventArgs e)
     {
       DeleteSubmit.Invoke(this, e);
-    }
-    private void ParentForm_SizeChanged(object sender, EventArgs e)
-    {
-      if (overlay == null || overlay.IsDisposed) return;
-      overlay.Size = Form.ActiveForm.ClientSize;
-      this.Size = new Size(Form.ActiveForm.Width / 100 * 70, Form.ActiveForm.Height / 100 * 70);
-      this.Location = Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2));
-    }
-    private void ParentForm_LocationChanged(object sender, EventArgs e)
-    {
-      if (overlay == null || overlay.IsDisposed) return;
-      overlay.Location = Form.ActiveForm.PointToScreen(new Point(0, 0));
-      this.Location = Form.ActiveForm.PointToScreen(new Point((Form.ActiveForm.Width - this.Width) / 2, (Form.ActiveForm.Height - this.Height) / 2));
     }
   }
   // Event arguments for edit submit event

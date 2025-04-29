@@ -12,13 +12,13 @@ namespace TechForgeGUI.BaseControls
     private Timer fadeTimer;
     private Timer closeTimer;
 
-    public Notification(string message, string type = "success", int timeout = 3000)
+    public Notification(string message, string Type = "success", int timeout = 3000)
     {
       InitializeComponent();
-      ShowNotification(message, type, timeout);
+      ShowNotification(message, Type, timeout);
     }
 
-    private void ShowNotification(string message, string type, int timeout)
+    private void ShowNotification(string message, string Type, int timeout)
     {
       // Create the notification form
       notificationForm = new Form
@@ -74,10 +74,10 @@ namespace TechForgeGUI.BaseControls
         ForeColor = Color.White,
       };
 
-      // Add title based on type
+      // Add title based on Type
       string title = "Notification";
       Color backgroundColor = Color.White;
-      switch (type.ToLower())
+      switch (Type.ToLower())
       {
         case "success":
           title = "Success";

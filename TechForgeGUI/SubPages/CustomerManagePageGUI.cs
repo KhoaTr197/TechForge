@@ -173,11 +173,13 @@ namespace TechForgeGUI.SubPages
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      CustomerDetailFormGUI detailsForm = new CustomerDetailFormGUI(bus);
+      CustomerDetailFormGUI DetailForm = new CustomerDetailFormGUI(bus);
+      OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-      detailsForm.Show();
+      Overlay.Show(Form.ActiveForm);
+      DetailForm.Show(Form.ActiveForm);
 
-      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+      DetailForm.AddSubmit += DetailsForm_AddSubmit;
     }
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -190,14 +192,16 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           HoiVienDTO hoiVien = dsHoiVien.Find(hv => hv.MaHV == (int)selectedRow.Cells[0].Value);
 
-          CustomerDetailFormGUI detailsForm = new CustomerDetailFormGUI(bus, hoiVien);
+          CustomerDetailFormGUI DetailForm = new CustomerDetailFormGUI(bus, hoiVien);
+          OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          detailsForm.Show(Form.ActiveForm);
+          Overlay.Show(Form.ActiveForm);
+          DetailForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
-          detailsForm.AddSubmit += DetailsForm_AddSubmit;
-          detailsForm.EditSubmit += DetailsForm_EditSubmit;
-          detailsForm.DeleteSubmit += DetailsForm_DeleteSubmit;
+          DetailForm.AddSubmit += DetailsForm_AddSubmit;
+          DetailForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }
@@ -210,9 +214,6 @@ namespace TechForgeGUI.SubPages
           new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
           new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
         });
-
-      e.Modal.Close();
-      e.Modal.overlay.Close();
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
     {
@@ -223,9 +224,6 @@ namespace TechForgeGUI.SubPages
           new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
           new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
       });
-
-      e.Modal.Close();
-      e.Modal.overlay.Close();
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
     {
@@ -236,9 +234,6 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
       });
-
-      e.Modal.Close();
-      e.Modal.overlay.Close();
     }
   }
 }

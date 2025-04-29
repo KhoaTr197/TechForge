@@ -174,9 +174,6 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
         new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
-
-      e.Modal.Close();
-      e.Modal.overlay.Close();
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
     {
@@ -188,9 +185,6 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
         new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
-
-      e.Modal.Close();
-      e.Modal.overlay.Close();
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
     {
@@ -202,9 +196,6 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
           new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
-
-      e.Modal.Close();
-      e.Modal.overlay.Close();
     }
   }
 }

@@ -88,5 +88,10 @@ namespace TechForgeBUS
     {
       return this.DAO.Delete(id);
     }
+
+    public int GetNextID()
+    {
+      return this.DAO.GetNextId();
+    }
   }
 }

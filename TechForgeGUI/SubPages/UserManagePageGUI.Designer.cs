@@ -39,7 +39,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Name = "UserManagePageGUI";
-      this.Size = new System.Drawing.Size(677, 641);
+      this.Size = new System.Drawing.Size(1343, 641);
       this.ResumeLayout(false);
 
     }

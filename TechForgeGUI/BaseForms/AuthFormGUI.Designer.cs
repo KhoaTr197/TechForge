@@ -48,7 +48,6 @@
       // 
       this.picFormImg.Dock = System.Windows.Forms.DockStyle.Fill;
       this.picFormImg.ErrorImage = null;
-      this.picFormImg.Image = global::TechForgeGUI.Properties.Resources.PlaceholderImg;
       this.picFormImg.Location = new System.Drawing.Point(0, 0);
       this.picFormImg.Name = "picFormImg";
       this.picFormImg.Size = new System.Drawing.Size(484, 461);

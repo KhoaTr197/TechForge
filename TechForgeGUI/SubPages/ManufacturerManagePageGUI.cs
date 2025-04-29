@@ -16,7 +16,6 @@ namespace TechForgeGUI.SubPages
 {
   public partial class ManufacturerManagePageGUI : ManagePage
   {
-    private DataSet ds;
     private List<HangSanXuatDTO> dsHangSanXuat { get; set; }
     private HangSanXuatBUS bus { get; set; }
     private RolePermissions permissions;
@@ -83,8 +82,6 @@ namespace TechForgeGUI.SubPages
 
     protected void GetData()
     {
-      ds = new DataSet();
-
       // Map data to DTOs
       dsHangSanXuat = bus.GetAllConnected();
     }
@@ -128,11 +125,13 @@ namespace TechForgeGUI.SubPages
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(permissions, bus);
+      ManufacturerDetailFormGUI DetailForm = new ManufacturerDetailFormGUI(permissions, bus);
+      OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-      detailsForm.Show();
+      Overlay.Show(Form.ActiveForm);
+      DetailForm.Show(Form.ActiveForm);
 
-      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+      DetailForm.AddSubmit += DetailsForm_AddSubmit;
     }
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -146,15 +145,16 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           HangSanXuatDTO hangSanXuat = dsHangSanXuat.Find(sp => sp.MaHSX == (int)selectedRow.Cells[0].Value);
 
-          ManufacturerDetailFormGUI detailsForm = new ManufacturerDetailFormGUI(permissions, bus, hangSanXuat);
-          detailsForm.parentForm = this;
+          ManufacturerDetailFormGUI DetailForm = new ManufacturerDetailFormGUI(permissions, bus, hangSanXuat);
+          OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          detailsForm.Show(Form.ActiveForm);
+          Overlay.Show(Form.ActiveForm);
+          DetailForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
-          detailsForm.AddSubmit += DetailsForm_AddSubmit;
-          detailsForm.EditSubmit += DetailsForm_EditSubmit;
-          detailsForm.DeleteSubmit += DetailsForm_DeleteSubmit;
+          DetailForm.AddSubmit += DetailsForm_AddSubmit;
+          DetailForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }
