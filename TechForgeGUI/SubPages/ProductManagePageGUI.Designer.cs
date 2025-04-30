@@ -30,15 +30,11 @@
     {
       this.SuspendLayout();
       // 
-      // btnAdd
-      // 
-      this.btnAdd.FlatAppearance.BorderSize = 0;
-      // 
       // ProductManagePageGUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+      this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
       this.Name = "ProductManagePageGUI";
       this.Size = new System.Drawing.Size(1368, 641);
       this.ResumeLayout(false);

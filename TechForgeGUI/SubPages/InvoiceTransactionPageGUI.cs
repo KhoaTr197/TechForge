@@ -51,9 +51,6 @@ namespace TechForgeGUI.SubPages
     private List<HoiVienDTO> dsHoiVien;
     private List<SanPhamDTO> dsCTHD; // Items added to invoice
     
-    // Font style
-    private string DefaultFontName = "Segoe UI";
-    
     public InvoiceTransactionPageGUI()
     {
       InitializeComponent();
@@ -65,6 +62,7 @@ namespace TechForgeGUI.SubPages
       InitializeInvoiceItemsGrid();
 
       this.Dock = DockStyle.Fill;
+      this.Font = new Font("Segoe UI", 10);
     }
     
     // Initialize BUS
@@ -142,7 +140,7 @@ namespace TechForgeGUI.SubPages
         Text = "Tìm kiếm sản phẩm",
         Dock = DockStyle.Fill,
         Height = 30,
-        Font = new Font(DefaultFontName, 16, FontStyle.Bold | FontStyle.Underline),
+        Font = new Font(this.Font.FontFamily, 16, FontStyle.Bold | FontStyle.Underline),
         TextAlign = ContentAlignment.MiddleLeft,
       };
 
@@ -150,14 +148,14 @@ namespace TechForgeGUI.SubPages
       {
         Location = new Point(10, 20),
         Size = new Size(300, 48),
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
       };
       
       btnProductSearch = new Button()
       {
         Text = "Tìm kiếm",
         Size = new Size(100, 32),
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
       };
       btnProductSearch.Click += BtnProductSearch_Click;
       
@@ -169,7 +167,7 @@ namespace TechForgeGUI.SubPages
         ColumnHeadersHeight = 32,
         ReadOnly = true,
         AllowUserToAddRows = false,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
       };
 
       FlowLayoutPanel flpButtons = new FlowLayoutPanel()
@@ -184,7 +182,7 @@ namespace TechForgeGUI.SubPages
         Size = new Size(160, 32),
         Margin = new Padding(0),
         Text = "Thêm vào hóa đơn",
-        Font = new Font(DefaultFontName, 12)
+        Font = new Font(this.Font.FontFamily, 12)
       };
       btnAddToInvoice.Click += btnAddToInvoice_Click;
 
@@ -211,7 +209,7 @@ namespace TechForgeGUI.SubPages
         Text = "Sản phẩm trong hóa đơn",
         Dock = DockStyle.Top,
         Height = 30,
-        Font = new Font(DefaultFontName, 16, FontStyle.Bold | FontStyle.Underline),
+        Font = new Font(this.Font.FontFamily, 16, FontStyle.Bold | FontStyle.Underline),
         TextAlign = ContentAlignment.MiddleLeft,
       };
       
@@ -225,7 +223,7 @@ namespace TechForgeGUI.SubPages
         RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders,
         ReadOnly = true,
         AllowUserToAddRows = false,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
       };
 
       // Add controls
@@ -281,7 +279,7 @@ namespace TechForgeGUI.SubPages
         Text = "Thông tin hóa đơn",
         Dock = DockStyle.Top,
         Height = 30,
-        Font = new Font(DefaultFontName, 16, FontStyle.Bold | FontStyle.Underline),
+        Font = new Font(this.Font.FontFamily, 16, FontStyle.Bold | FontStyle.Underline),
         TextAlign = ContentAlignment.MiddleLeft
       };
       
@@ -305,14 +303,14 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Tìm kiếm khách hàng:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         TextAlign = ContentAlignment.MiddleLeft
       };
       
       txtCustomerSearch = new TextBox()
       {
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         Text = "Nhập tên hoặc số điện thoại..."
       };
       txtCustomerSearch.TextChanged += txtCustomerSearch_TextChanged;
@@ -320,7 +318,7 @@ namespace TechForgeGUI.SubPages
       lstCustomerResults = new ListBox()
       {
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         BorderStyle = BorderStyle.FixedSingle,
         BackColor = Color.LightGray,
         Visible = true
@@ -350,7 +348,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Họ tên:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleLeft
       };
@@ -359,14 +357,14 @@ namespace TechForgeGUI.SubPages
       {
         Dock = DockStyle.Fill,
         Margin = new Padding(0, 8, 0, 8),
-        Font = new Font(DefaultFontName, 12)
+        Font = new Font(this.Font.FontFamily, 12)
       };
 
       Label lblCustomerPhone = new Label()
       {
         Text = "Số điện thoại:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleLeft
       };
@@ -375,14 +373,14 @@ namespace TechForgeGUI.SubPages
       {
         Dock = DockStyle.Fill,
         Margin = new Padding(0, 8, 0, 8),
-        Font = new Font(DefaultFontName, 12)
+        Font = new Font(this.Font.FontFamily, 12)
       };
 
       Label lblCustomerAddress = new Label()
       {
         Text = "Địa chỉ:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.TopLeft,
       };
@@ -391,7 +389,7 @@ namespace TechForgeGUI.SubPages
       {
         Dock = DockStyle.Fill,
         Height = 64,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         Multiline = true,
       };
@@ -400,7 +398,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Khách đưa:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 10),
+        Font = new Font(this.Font.FontFamily, 10),
         Margin = new Padding(0, 10, 0, 8),
         TextAlign = ContentAlignment.TopLeft,
       };
@@ -408,7 +406,7 @@ namespace TechForgeGUI.SubPages
       nudCustomerCashPaid = new NumericUpDown()
       {
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         Minimum = 0,
         ThousandsSeparator = true,
@@ -443,7 +441,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Tổng tiền hàng:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleLeft
       };
@@ -452,7 +450,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "0 đ",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 14),
+        Font = new Font(this.Font.FontFamily, 14),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleRight
       };
@@ -461,7 +459,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Giảm giá:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleLeft
       };
@@ -470,7 +468,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "0 đ",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 14),
+        Font = new Font(this.Font.FontFamily, 14),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleRight
       };
@@ -479,7 +477,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Thành tiền:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleLeft
       };
@@ -488,7 +486,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "0 đ",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 14),
+        Font = new Font(this.Font.FontFamily, 14),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleRight
       };
@@ -497,7 +495,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Tiền nhận:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.TopLeft,
       };
@@ -506,7 +504,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "0 đ",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 14),
+        Font = new Font(this.Font.FontFamily, 14),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleRight
       };
@@ -515,7 +513,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Tiền Thừa:",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleLeft
       };
@@ -524,7 +522,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "0 đ",
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 14),
+        Font = new Font(this.Font.FontFamily, 14),
         Margin = new Padding(0, 8, 0, 8),
         TextAlign = ContentAlignment.MiddleRight
       };
@@ -537,7 +535,7 @@ namespace TechForgeGUI.SubPages
         BackColor = Color.FromArgb(0, 120, 215),
         ForeColor = Color.White,
         Height = 48,
-        Font = new Font(DefaultFontName, 14, FontStyle.Bold),
+        Font = new Font(this.Font.FontFamily, 14, FontStyle.Bold),
       };
       btnCreateInvoice.Click += BtnCreateInvoice_Click;
 

@@ -13,8 +13,6 @@ namespace TechForgeGUI.BaseForms
   public partial class DetailFormGUI : Form
   {
     protected string Type; //add or detail
-    protected string DefaultFontName = "Segoe UI";
-
     // Custom Events for button clicks
     public event EventHandler<DetailFormAddSubmitEventArgs> AddSubmit;
     public event EventHandler<DetailFormEditSubmitEventArgs> EditSubmit;

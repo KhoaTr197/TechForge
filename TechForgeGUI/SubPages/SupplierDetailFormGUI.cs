@@ -43,7 +43,7 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Enabled = false;
 
 
-        LoadAddForm();
+        this.Load += SupplierDetailFormGUI_LoadAddForm;
       }
       else
       {
@@ -53,7 +53,7 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Enabled = false;
 
 
-        LoadDetailForm();
+        this.Load += SupplierDetailFormGUI_LoadDetailForm;
       }
 
       if (permissions.Role == "Cashier")
@@ -79,6 +79,8 @@ namespace TechForgeGUI.SubPages
           this.btnAdd.Enabled = false;
           this.btnEdit.Visible = true;
           this.btnEdit.Enabled = true;
+          this.btnDelete.Visible = true;
+          this.btnDelete.Enabled = true;
         }
         else
         {
@@ -92,22 +94,22 @@ namespace TechForgeGUI.SubPages
       btnAdd.Click += btnAdd_Click;
       btnEdit.Click += btnEdit_Click;
     }
-    private void LoadAddForm()
+    private void SupplierDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
-      cboTrangThai.Items.Add(new string[] { "Hợp tác", "Ngừng hợp tác" });
+      cboTrangThai.Items.AddRange(new string[] { "Hợp tác", "Ngừng hợp tác" });
       cboTrangThai.SelectedIndex = thongTinNcc.TrangThai ? 0 : 1;
     }
-    private void LoadDetailForm()
+    private void SupplierDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
       txtMaNCC.Text = thongTinNcc.MaNCC.ToString();
-      txtMaNCC.Enabled = false;
+      txtMaNCC.ReadOnly = true;
 
       txtTenNCC.Text = thongTinNcc.TenNCC.ToString();
       txtTenNDD.Text = thongTinNcc.Ndd.ToString();
       txtSdt.Text = thongTinNcc.Sdt.ToString();
       txtEmail.Text = thongTinNcc.Email.ToString();
 
-      cboTrangThai.Items.Add(new string[] { "Hợp tác", "Ngừng hợp tác" });
+      cboTrangThai.Items.AddRange(new string[] { "Hợp tác", "Ngừng hợp tác" });
       cboTrangThai.SelectedIndex = thongTinNcc.TrangThai ? 0 : 1;
     }
     private void btnAdd_Click(object sender, EventArgs e)

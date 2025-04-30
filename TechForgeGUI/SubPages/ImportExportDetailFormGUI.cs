@@ -153,7 +153,7 @@ namespace TechForgeGUI.SubPages
       txtSearch = new TextBox
       {
         Dock = DockStyle.Fill,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Text = "Tìm kiếm sản phẩm..."
       };
 
@@ -165,7 +165,7 @@ namespace TechForgeGUI.SubPages
         Dock = DockStyle.Top,
         Height = 100,
         DisplayMember = "TenSP",
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         BorderStyle = BorderStyle.FixedSingle,
         Visible = false,
         ScrollAlwaysVisible = true,
@@ -221,7 +221,7 @@ namespace TechForgeGUI.SubPages
         Minimum = 1,
         Maximum = 1000,
         Value = 1,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         Margin = new Padding(3, 8, 3, 3),
       };
       nudQuantity.ValueChanged += nudQuantity_ValueChanged;
@@ -231,7 +231,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Thêm vào lịch sử",
         Height = 35,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         BackColor = Color.FromArgb(0, 123, 255),
         ForeColor = Color.White,
         FlatStyle = FlatStyle.Flat,
@@ -244,7 +244,7 @@ namespace TechForgeGUI.SubPages
       {
         Text = "Cập nhật",
         Height = 35,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         BackColor = Color.Orange,
         ForeColor = Color.White,
         FlatStyle = FlatStyle.Flat,
@@ -289,7 +289,7 @@ namespace TechForgeGUI.SubPages
       {
         if (control is Label lbl)
         {
-          lbl.Font = new Font(DefaultFontName, 12);
+          lbl.Font = new Font(this.Font.FontFamily, 12);
           lbl.AutoSize = true;
           if (control.Name.EndsWith("Value"))
           {
@@ -358,7 +358,7 @@ namespace TechForgeGUI.SubPages
         AutoSize = true,
         Anchor = AnchorStyles.Left,
         Margin = new Padding(3, 8, 3, 3),
-        Font = new Font(DefaultFontName, fontSize)
+        Font = new Font(this.Font.FontFamily, fontSize)
       };
     }
     private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -467,7 +467,7 @@ namespace TechForgeGUI.SubPages
           AutoSize = true,
           Anchor = AnchorStyles.Left | AnchorStyles.Top,
           Margin = new Padding(3, 8, 3, 3),
-          Font = new Font(DefaultFontName, 12)
+          Font = new Font(this.Font.FontFamily, 12)
         };
 
         Control control;
@@ -478,7 +478,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "txt" + propName,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Text = thongTinLichSu?.GetType().GetProperty(propName)?.GetValue(thongTinLichSu)?.ToString(),
             Enabled = false,
             Margin = new Padding(3, 5, 15, 3),
@@ -491,7 +491,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "nud" + propName,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             ThousandsSeparator = true,
             Minimum = 0,
             Maximum = 1000000000,
@@ -507,7 +507,7 @@ namespace TechForgeGUI.SubPages
           ComboBox comboBox = new ComboBox
           {
             Name = "cbo" + propName,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Width = 320,
             Margin = new Padding(3, 5, 15, 3),
             Height = 30,
@@ -534,7 +534,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "dtp" + propName,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Format = DateTimePickerFormat.Custom,
             CustomFormat = "dd/MM/yyyy",
             Value = DateTime.Today,
@@ -548,7 +548,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "nud" + propName,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             ThousandsSeparator = true,
             Minimum = 0,
             Maximum = 1000000000,
@@ -563,7 +563,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "txt" + propName,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Text = thongTinLichSu?.GetType().GetProperty(propName)?.GetValue(thongTinLichSu)?.ToString(),
             Margin = new Padding(3, 5, 15, 3),
             Height = 30
@@ -606,7 +606,7 @@ namespace TechForgeGUI.SubPages
           AutoSize = true,
           Anchor = AnchorStyles.Left | AnchorStyles.Top,
           Margin = new Padding(3, 8, 3, 3),
-          Font = new Font(DefaultFontName, 12)
+          Font = new Font(this.Font.FontFamily, 12)
         };
 
         Control control;
@@ -617,7 +617,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "txt" + prop.Name,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Text = prop.GetValue(thongTinLichSu)?.ToString(),
             Enabled = false,
             Margin = new Padding(3, 5, 15, 3),
@@ -630,7 +630,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "nud" + prop.Name,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             ThousandsSeparator = true,
             Minimum = 0,
             Maximum = 1000000000,
@@ -646,7 +646,7 @@ namespace TechForgeGUI.SubPages
           ComboBox comboBox = new ComboBox
           {
             Name = "cbo" + prop.Name,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Width = 320,
             Margin = new Padding(3, 5, 15, 3),
             Height = 30,
@@ -664,7 +664,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "dtp" + prop.Name,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Format = DateTimePickerFormat.Custom,
             CustomFormat = "dd/MM/yyyy",
             Value = (DateTime)prop.GetValue(thongTinLichSu),
@@ -678,7 +678,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "nud" + prop.Name,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             ThousandsSeparator = true,
             Minimum = 0,
             Maximum = 1000000000,
@@ -693,7 +693,7 @@ namespace TechForgeGUI.SubPages
           {
             Name = "txt" + prop.Name,
             Dock = DockStyle.Fill,
-            Font = new Font(DefaultFontName, 12),
+            Font = new Font(this.Font.FontFamily, 12),
             Text = prop.GetValue(thongTinLichSu)?.ToString(),
             Margin = new Padding(3, 5, 15, 3),
             Height = 30
@@ -745,7 +745,7 @@ namespace TechForgeGUI.SubPages
         BackgroundColor = Color.White,
         BorderStyle = BorderStyle.Fixed3D,
         RowHeadersVisible = false,
-        Font = new Font(DefaultFontName, 12),
+        Font = new Font(this.Font.FontFamily, 12),
         RowTemplate = { Height = 80 },
         AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None,
         ColumnHeadersHeight = 64

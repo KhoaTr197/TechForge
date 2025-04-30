@@ -26,7 +26,6 @@ namespace TechForgeGUI.SubPages
       this.BUS = _BUS;
       this.permissions = _permissions;
       this.Text = "Chi tiết hãng sản xuất";
-      this.Size = new Size(400, 200);
 
       if (ThongTinHangSanXuat != null)
         Type = "Detail";
@@ -40,14 +39,14 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Visible = false;
         this.btnDelete.Enabled = false;
 
-        LoadAddForm();
+        this.Load += ManufacturerDetailFormGUI_LoadAddForm;
       }
       else
       {
         this.btnAdd.Visible = false;
         this.btnAdd.Enabled = false;
 
-        LoadDetailForm();
+        this.Load += ManufacturerDetailFormGUI_LoadDetailForm;
       }
 
       if (permissions.Role == "Cashier")
@@ -95,11 +94,12 @@ namespace TechForgeGUI.SubPages
       btnEdit.Click += BtnEdit_Click;
       btnDelete.Click += BtnDelete_Click;
     }
-    private void LoadAddForm()
+    private void ManufacturerDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
       txtMaHSX.Text = BUS.GetNextId().ToString();
+      txtMaHSX.ReadOnly = true;
     }
-    private void LoadDetailForm()
+    private void ManufacturerDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
       txtMaHSX.Text = ThongTinHangSanXuat.MaHSX.ToString();
       txtMaHSX.Enabled = false;

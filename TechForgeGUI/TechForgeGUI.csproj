@@ -101,6 +101,12 @@
     <Compile Include="BaseControls\CustomDataGridView.Designer.cs">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseControls\ManagePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\ManagePage.Designer.cs">
+      <DependentUpon>ManagePage.cs</DependentUpon>
+    </Compile>
     <Compile Include="BaseControls\Notification.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -139,12 +145,6 @@
     </Compile>
     <Compile Include="BaseForms\DetailFormGUI.Designer.cs">
       <DependentUpon>DetailFormGUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BaseControls\ManagePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BaseControls\ManagePage.Designer.cs">
-      <DependentUpon>ManagePage.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseForms\OverlayFormGUI.cs">
       <SubType>Form</SubType>
@@ -303,6 +303,9 @@
     <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BaseControls\ManagePage.resx">
+      <DependentUpon>ManagePage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseControls\Page.resx">
       <DependentUpon>Page.cs</DependentUpon>
     </EmbeddedResource>
@@ -311,9 +314,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\DashboardFormGUI.resx">
       <DependentUpon>DashboardFormGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BaseControls\ManagePage.resx">
-      <DependentUpon>ManagePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CashierFormGUI.resx">
       <DependentUpon>CashierFormGUI.cs</DependentUpon>
@@ -333,6 +333,9 @@
     <EmbeddedResource Include="SubPages\CustomerManagePageGUI.resx">
       <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\HomePageGUI.resx">
+      <DependentUpon>HomePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubPages\ManufacturerDetailFormGUI.resx">
       <DependentUpon>ManufacturerDetailFormGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -350,6 +353,9 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\ReceiptDetailFormGUI.resx">
+      <DependentUpon>ReceiptDetailFormGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubPages\StatisticPageGUI.resx">
       <DependentUpon>StatisticPageGUI.cs</DependentUpon>

@@ -60,7 +60,7 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Enabled = false;
 
 
-        LoadAddForm();
+        this.Load += UserDetailFormGUI_LoadAddForm;
       }
       else
       {
@@ -68,7 +68,7 @@ namespace TechForgeGUI.SubPages
         this.btnAdd.Enabled = false;
 
 
-        LoadDetailForm();
+        this.Load += UserDetailFormGUI_LoadDetailForm;
       }
 
       if (permissions.Role == "Cashier")
@@ -106,10 +106,10 @@ namespace TechForgeGUI.SubPages
         btnAdd.Click += btnAdd_Click;
         btnEdit.Click += btnEdit_Click;
       }
-    private void LoadAddForm()
+    private void UserDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
     }
-    private void LoadDetailForm()
+    private void UserDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
       txtMaND.Text = ThongTinNguoiDung.MaND.ToString();
       txtMaND.Enabled = false;

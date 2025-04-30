@@ -17,8 +17,8 @@ namespace TechForgeGUI.SubForms
 {
   public partial class SupplierManagePageGUI : ManagePage
   {
-    private List<NhaCungCapDTO> dsNhaCungCap { get; set; }
-    private NhaCungCapBUS bus { get; set; }
+    private List<NhaCungCapDTO> DsNhaCungCap { get; set; }
+    private NhaCungCapBUS BUS { get; set; }
     private RolePermissions permissions;
     public SupplierManagePageGUI(string role)
     {
@@ -29,8 +29,8 @@ namespace TechForgeGUI.SubForms
 
       InitializeBUS();
       GetData();
+      AddColumns();
       LoadData();
-      ModifyData();
       SetUpFeature();
 
       // Attach event handler for cell click
@@ -41,23 +41,24 @@ namespace TechForgeGUI.SubForms
     private void SetUpFeature()
     {
       summaryCards.Add(new SummaryCard[] {
-        new SummaryCard("Tổng nhà cung cấp", dsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng nhà cung cấp", DsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
       });
     }
-    sealed protected override void InitializeBUS()
+    private void InitializeBUS()
     {
-      bus = new NhaCungCapBUS(this.connStr);
+      BUS = new NhaCungCapBUS(this.connStr);
     }
     private void GetData()
     {
       // Map data to DTOs
-      dsNhaCungCap = bus.GetAllConnected();
+      DsNhaCungCap = BUS.GetAllConnected();
     }
-    sealed protected override void LoadData()
+    private void LoadData()
     {
-      dgvMainList.BindingData(dsNhaCungCap);
+      dgvMainList.dgvList.AutoGenerateColumns = false;
+      dgvMainList.Binding(DsNhaCungCap);
     }
-    private void ModifyData()
+    private void AddColumns()
     {
       this.SuspendLayout();
 
@@ -134,7 +135,7 @@ namespace TechForgeGUI.SubForms
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      SupplierDetailFormGUI DetailForm = new SupplierDetailFormGUI(permissions, bus);
+      SupplierDetailFormGUI DetailForm = new SupplierDetailFormGUI(permissions, BUS);
       OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
       Overlay.Show(Form.ActiveForm);
@@ -151,9 +152,9 @@ namespace TechForgeGUI.SubForms
         if (dgvMainList.SelectedRows.Count > 0)
         {
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
-          NhaCungCapDTO selectedNcc = dsNhaCungCap.Find(ncc => ncc.MaNCC == (int)selectedRow.Cells[0].Value);
+          NhaCungCapDTO selectedNcc = DsNhaCungCap.Find(ncc => ncc.MaNCC == (int)selectedRow.Cells[0].Value);
 
-          SupplierDetailFormGUI DetailForm = new SupplierDetailFormGUI(permissions, bus, selectedNcc);
+          SupplierDetailFormGUI DetailForm = new SupplierDetailFormGUI(permissions, BUS, selectedNcc);
           OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
           Overlay.Show(Form.ActiveForm);
@@ -174,7 +175,7 @@ namespace TechForgeGUI.SubForms
       // Update summary cards when new categories are added
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng nhà cung cấp", dsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng nhà cung cấp", DsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
       });
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
@@ -185,7 +186,7 @@ namespace TechForgeGUI.SubForms
       // Update summary cards when categories are edited
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng nhà cung cấp", dsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng nhà cung cấp", DsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
       });
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
@@ -196,7 +197,7 @@ namespace TechForgeGUI.SubForms
       // Update summary cards when categories are edited
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng nhà cung cấp", dsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng nhà cung cấp", DsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
       });
     }
   }

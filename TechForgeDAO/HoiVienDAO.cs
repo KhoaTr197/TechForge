@@ -145,7 +145,7 @@ namespace TechForgeDAO
       }
     }
 
-    public object GetNextId()
+    public int GetNextId()
     {
       try
       {

@@ -28,8 +28,8 @@ namespace TechForgeGUI.SubPages
 
       InitializeBUS();
       GetData();
+      AddColumns();
       LoadData();
-      ModifyData();
       SetUpFeature();
 
       // Attach event handler for cell click
@@ -75,7 +75,7 @@ namespace TechForgeGUI.SubPages
         });
       }
     }
-    sealed protected override void InitializeBUS()
+    private void InitializeBUS()
     {
       bus = new HangSanXuatBUS(this.connStr);
     }
@@ -86,12 +86,11 @@ namespace TechForgeGUI.SubPages
       dsHangSanXuat = bus.GetAllConnected();
     }
 
-    protected override void LoadData()
+    private void LoadData()
     {
-      dgvMainList.BindingData(dsHangSanXuat);
+      dgvMainList.Binding(dsHangSanXuat);
     }
-
-    private void ModifyData()
+    private void AddColumns()
     {
       this.SuspendLayout();
 

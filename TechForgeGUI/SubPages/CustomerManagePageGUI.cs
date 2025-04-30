@@ -30,11 +30,11 @@ namespace TechForgeGUI.SubPages
 
       InitializeBUS();
       GetData();
+      AddColumns();
       LoadData();
-      ModifyData();
       SetUpFeature();
 
-      // Attach event handler for cell click
+      //// Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
@@ -69,7 +69,7 @@ namespace TechForgeGUI.SubPages
         });
       }
     }
-    sealed protected override void InitializeBUS()
+    protected void InitializeBUS()
     {
       bus = new HoiVienBUS(this.connStr);
     }
@@ -80,11 +80,11 @@ namespace TechForgeGUI.SubPages
       // Map data to DTOs
       dsHoiVien = bus.GetAllConnected();
     }
-    protected override void LoadData()
+    protected void LoadData()
     {
-      dgvMainList.BindingData(dsHoiVien);
+      dgvMainList.Binding(dsHoiVien);
     }
-    private void ModifyData()
+    private void AddColumns()
     {
       this.SuspendLayout();
 

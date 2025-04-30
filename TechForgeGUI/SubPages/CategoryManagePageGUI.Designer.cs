@@ -30,16 +30,13 @@
     {
       this.SuspendLayout();
       // 
-      // btnAdd
-      // 
-      this.btnAdd.FlatAppearance.BorderSize = 0;
-      // 
       // CategoryManagePageGUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.Name = "CategoryManagePageGUI";
-      this.Size = new System.Drawing.Size(1315, 641);
+      this.Size = new System.Drawing.Size(1343, 641);
       this.ResumeLayout(false);
 
     }
