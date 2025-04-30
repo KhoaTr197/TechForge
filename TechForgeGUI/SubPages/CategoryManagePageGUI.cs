@@ -44,7 +44,7 @@ namespace TechForgeGUI.SubPages
         this.btnAdd.Visible = false;
         this.btnAdd.Enabled = false;
 
-        // Add summary cards with category statistics
+        //Add summary cards with category statistics
         summaryCards.Add(new SummaryCard[] {
           new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
         });
@@ -56,10 +56,10 @@ namespace TechForgeGUI.SubPages
 
         summaryCards.Add(new SummaryCard[]
         {
-          new SummaryCard("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
-          new SummaryCard("Danh mục đang dùng", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Danh mục trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
-          new SummaryCard("Danh mục mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
+          new SummaryCard ("Tổng danh mục", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard ("Danh mục đang dùng", dsDanhMuc.Count.ToString(), "category_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard ("Danh mục trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard ("Danh mục mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
         });
       }
       else if (permissions.Role == "Manager")
@@ -76,7 +76,7 @@ namespace TechForgeGUI.SubPages
         });
       }
     }
-    sealed protected override void InitializeBUS()
+    protected void InitializeBUS()
     {
       bus = new DanhMucBUS(this.connStr);
     }
@@ -85,9 +85,9 @@ namespace TechForgeGUI.SubPages
       // Map data to DTOs
       dsDanhMuc = bus.GetAllConnected();
     }
-    sealed protected override void LoadData()
+    protected void LoadData()
     {
-      dgvMainList.BindingData(dsDanhMuc);
+      dgvMainList.Binding(dsDanhMuc);
     }
     private void ModifyData()
     {

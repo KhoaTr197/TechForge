@@ -29,12 +29,7 @@
     private void InitializeComponent()
     {
       this.SuspendLayout();
-      // 
-      // btnAdd
-      // 
-      this.btnAdd.FlatAppearance.BorderSize = 0;
-      this.btnAdd.Location = new System.Drawing.Point(-232, -66);
-      // 
+      //
       // CustomerManagePageGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);

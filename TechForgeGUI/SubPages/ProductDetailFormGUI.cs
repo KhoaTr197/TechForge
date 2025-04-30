@@ -47,7 +47,7 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Enabled = false;
 
 
-        LoadAddForm();
+        this.Load += ProductDetailFormGUI_LoadAddForm;
       }
       else
       {
@@ -57,7 +57,7 @@ namespace TechForgeGUI.SubPages
         this.btnAdd.Enabled = false;
 
 
-        LoadDetailForm();
+        this.Load += ProductDetailFormGUI_LoadDetailForm;
       }
 
       if (permissions.Role == "Cashier")
@@ -92,7 +92,7 @@ namespace TechForgeGUI.SubPages
       btnEdit.Click += btnEdit_Click;
     }
 
-    private void LoadAddForm()
+    private void ProductDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
       cboDanhMuc.DataSource = DsDanhMuc;
       cboDanhMuc.DisplayMember = "TenDM";
@@ -106,10 +106,10 @@ namespace TechForgeGUI.SubPages
       cboNhaCungCap.DisplayMember = "TenNCC";
       cboNhaCungCap.ValueMember = "MaNCC";
 
-      cboTrangThai.Items.Add(new string[] { "Đang kinh doanh", "Ngừng kinh doanh" });
+      cboTrangThai.Items.AddRange(new string[] { "Đang kinh doanh", "Ngừng kinh doanh" });
       cboTrangThai.SelectedIndex = ThongTinSanPham.TrangThai ? 0 : 1;
     }
-    private void LoadDetailForm()
+    private void ProductDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
       txtMaSP.Text = ThongTinSanPham.MaSP.ToString();
       txtMaSP.Enabled = false;
@@ -134,7 +134,7 @@ namespace TechForgeGUI.SubPages
       cboNhaCungCap.DisplayMember = "TenNCC";
       cboNhaCungCap.ValueMember = "MaNCC";
 
-      cboTrangThai.Items.Add(new string[] { "Đang kinh doanh", "Ngừng kinh doanh" });
+      cboTrangThai.Items.AddRange(new string[] { "Đang kinh doanh", "Ngừng kinh doanh" });
       cboTrangThai.SelectedIndex = ThongTinSanPham.TrangThai ? 0 : 1;
     }
     private void btnUploadImg_Click(object sender, EventArgs e)
@@ -169,7 +169,11 @@ namespace TechForgeGUI.SubPages
       };
 
       if (BUS.Add(newSanPham) != -1)
+      {
+        notify = new Notification("Thêm thành công");
+        notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
+      }
     }
 
     private void btnEdit_Click(object sender, EventArgs e)
@@ -180,7 +184,7 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(ThongTinSanPham, updatedSanPham))
       {
-        notify = new Notification("Cap nhat thanh cong");
+        notify = new Notification("Cập nhật thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
       }
@@ -189,6 +193,8 @@ namespace TechForgeGUI.SubPages
     {
       if (BUS.Delete(ThongTinSanPham.MaSP))
       {
+        notify = new Notification("Xóa thành công");
+        notify.Show();
         OnDeleteSubmit(new DetailFormDeleteSubmitEventArgs());
       }
     }

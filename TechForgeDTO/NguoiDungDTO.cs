@@ -28,5 +28,6 @@ namespace TechForgeDTO
     public string Dchi { get; set; }
     public string VaiTro { get; set; }
     public DateTime NgVaoLam { get; set; }
-}
+    public string MaTenND => $"{MaND} - {HoTen}";
+  }
 }

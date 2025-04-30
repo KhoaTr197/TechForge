@@ -18,6 +18,8 @@ namespace TechForgeGUI.SubPages
   {
     private List<LichSuKhoDTO> dsLichSuKho { get; set; }
     private LichSuKhoBUS bus { get; set; }
+    private NguoiDungBUS BusNguoiDung { get; set; }
+    private List<NguoiDungDTO> DsNhanVienKho { get; set; }
     private RolePermissions permissions;
     public ImportExportManagePageGUI(string role)
     {
@@ -28,8 +30,8 @@ namespace TechForgeGUI.SubPages
 
       InitializeBUS();
       GetData();
+      AddColumns();
       LoadData();
-      ModifyData();
       SetUpFeature();
 
       // Attach event handler for cell click
@@ -44,16 +46,17 @@ namespace TechForgeGUI.SubPages
           new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
         });
     }
-    protected void GetData()
+    private void GetData()
     {
       dsLichSuKho = bus.GetAllConnected();
+      DsNhanVienKho = BusNguoiDung.GetAllConnected().Select(nv => nv).Where(nv => nv.VaiTro == "Quản Lý Kho").ToList();
     }
-    protected override void LoadData()
+    private void LoadData()
     {
-      dgvMainList.BindingData(dsLichSuKho);
+      dgvMainList.Binding(dsLichSuKho);
     }
-    // Modify DataGridView columns
-    private void ModifyData()
+    // Add DataGridView columns
+    private void AddColumns()
     {
       this.SuspendLayout();
 
@@ -61,7 +64,7 @@ namespace TechForgeGUI.SubPages
       {
         Name = "MaLS",
         DataPropertyName = "MaLS",
-        HeaderText = "Mã Lịch Sử",
+        HeaderText = "Mã",
         FillWeight = 48,
       });
       dgvMainList.dgvList.Columns.Add(new DataGridViewTextBoxColumn
@@ -126,19 +129,22 @@ namespace TechForgeGUI.SubPages
         }
       }
     }
-    sealed protected override void InitializeBUS()
+    private void InitializeBUS()
     {
       bus = new LichSuKhoBUS(this.connStr);
+      BusNguoiDung = new NguoiDungBUS(this.connStr);
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
       SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
 
-      ImportExportDetailFormGUI detailsForm = new ImportExportDetailFormGUI(bus, busSanPham);
+      ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, busSanPham);
+      OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-      detailsForm.Show();
+      Overlay.Show(Form.ActiveForm);
+      DetailForm.Show(Form.ActiveForm);
 
-      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+      DetailForm.AddSubmit += DetailsForm_AddSubmit;
     }
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -153,14 +159,16 @@ namespace TechForgeGUI.SubPages
           lichSuKho.Ctlsk = bus.GetDetail(lichSuKho.MaLS);
           SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
 
-          ImportExportDetailFormGUI detailsForm = new ImportExportDetailFormGUI(bus, busSanPham, lichSuKho);
+          ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, busSanPham, lichSuKho, DsNhanVienKho);
+          OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          detailsForm.Show(Form.ActiveForm);
+          Overlay.Show(Form.ActiveForm);
+          DetailForm.Show(Form.ActiveForm);
 
           //// Assign event handler for submits
-          detailsForm.AddSubmit += DetailsForm_AddSubmit;
-          detailsForm.EditSubmit += DetailsForm_EditSubmit;
-          detailsForm.DeleteSubmit += DetailsForm_DeleteSubmit;
+          DetailForm.AddSubmit += DetailsForm_AddSubmit;
+          DetailForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }

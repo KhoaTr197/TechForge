@@ -33,7 +33,7 @@ namespace TechForgeGUI.SubPages
         this.btnDelete.Enabled = false;
 
 
-        LoadAddForm();
+        this.Load += CustomerDetailFormGUI_LoadAddForm;
       }
       else
       {
@@ -43,24 +43,24 @@ namespace TechForgeGUI.SubPages
         this.btnAdd.Enabled = false;
 
 
-        LoadDetailForm();
+        this.Load += CustomerDetailFormGUI_LoadDetailForm;
       }
 
       this.btnAdd.Click += btnAdd_Click;
       this.btnEdit.Click += btnEdit_Click;
       this.btnDelete.Click += btnDelete_Click;
     }
-    private void LoadAddForm()
+    private void CustomerDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
       txtMaHV.Text = BUS.GetNextID().ToString();
 
       radNam.Checked = true;
       radNu.Checked = false;
 
-      cboTrangThai.Items.Add(new string[] { "Hoạt động", "Ít hoạt động" });
+      cboTrangThai.Items.AddRange(new string[] { "Hoạt động", "Ít hoạt động" });
       cboTrangThai.SelectedIndex = 0;
     }
-    private void LoadDetailForm()
+    private void CustomerDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
       txtMaHV.Text = ThongTinHoiVien.MaHV.ToString();
       txtMaHV.Enabled = false;
@@ -72,7 +72,7 @@ namespace TechForgeGUI.SubPages
       radNam.Checked = ThongTinHoiVien.GioiTinh ? true : false;
       radNu.Checked = ThongTinHoiVien.GioiTinh ? false : true;
 
-      cboTrangThai.Items.Add(new string[] { "Hoạt động", "Ít hoạt động" });
+      cboTrangThai.Items.AddRange(new string[] { "Hoạt động", "Ít hoạt động" });
       cboTrangThai.SelectedIndex = ThongTinHoiVien.TrangThai ? 0 : 1;
     }
     private void btnAdd_Click(object sender, EventArgs e)

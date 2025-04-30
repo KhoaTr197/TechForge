@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using TechForgeDTO;
 using TechForgeGUI.BaseForms;
@@ -16,210 +17,234 @@ namespace TechForgeGUI.BaseControls
   public partial class CustomDataGridView : UserControl
   {
     //Properties
-    private int currentPage;
-    private int itemPerPage;
-    private int totalPages;
-    protected string DefaultFontName = "Segoe UI";
-
-    //Base Controls
-    private BindingSource bindSrc;
-    public DataGridView dgvList;
-    private FlowLayoutPanel flpPagination;
-    private Button btnPrev;
-    private Button btnNext;
-    private Label pageLabel;
+    private int CurrentPage;
+    private int ItemPerPage;
+    private int TotalPages;
+    private int TotalItems;
+    private object OriginalDataSrc;
     public CustomDataGridView()
     {
       InitializeComponent();
 
-      //Adjust this CustomDataGridView's properites
-      this.Margin = new Padding(0);
-      this.Size = new Size(500, 250);
-      this.Font = new Font(DefaultFontName, 10);
-      this.SizeChanged += CustomDataGridView_SizeChanged;
-      this.DockChanged += CustomDataGridView_DockChanged;
+      CurrentPage = 1;
+      ItemPerPage = 5;
+      TotalItems = 0;
+      TotalPages = 0;
 
-      //Initialize Binding Source
-      bindSrc = new BindingSource();
-
-      //Initialize Base Controls
-      dgvList = new DataGridView()
-      {
-        Dock = DockStyle.Top,
-        Margin = new Padding(0),
-        Size = new Size(this.Width, this.Height / 100 * 90),
-        ReadOnly = true,
-        AutoGenerateColumns = false,
-        AllowUserToAddRows = false,
-        AllowUserToDeleteRows = false,
-        AllowUserToOrderColumns = false,
-        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-        AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None,
-        ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
-        ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
-        {
-          WrapMode = DataGridViewTriState.True,
-        },
-        SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-        MultiSelect = false,
-        ScrollBars = ScrollBars.Both,
-      };
       dgvList.RowPrePaint += dgvList_RowPrePaint;
 
-      //Initialize flpPagination
-      flpPagination = new FlowLayoutPanel()
-      {
-        AutoSize = true,
-        Dock = DockStyle.Top,
-        BackColor = Color.Transparent,
-        FlowDirection = FlowDirection.RightToLeft,
-      };
-
-      //Initialize btnPrev, btnNext, pageLabel
-      btnPrev = new Button
-      {
-        Text = "Prev",
-        Width = 48
-      };
+      //Assign btnPrev, btnNext event handlers
       btnPrev.Click += PrevButton_Click;
-
-      btnNext = new Button
-      {
-        Text = "Next",
-        Width = 48
-      };
       btnNext.Click += NextButton_Click;
 
-      pageLabel = new Label
-      {
-        Text = "Page 1",
-        Width = 80,
-        Margin = new Padding(0, 2, 0, 2),
-        TextAlign = ContentAlignment.MiddleCenter
-      };
-
-      //Add these controls to flpPagination
-      flpPagination.Controls.Add(btnNext);
-      flpPagination.Controls.Add(pageLabel);
-      flpPagination.Controls.Add(btnPrev);
-
       //Add these controls to this CustomDataGridView
-      this.Controls.Add(flpPagination);
       this.Controls.Add(dgvList);
-    }
-    //Event Handlers when Size changed
-    private void CustomDataGridView_SizeChanged(object sender, EventArgs e)
-    {
-      dgvList.Size = new Size(this.Width, this.Height - flpPagination.Height);
     }
     //Event Handlers when Dock changed
     private void CustomDataGridView_DockChanged(object sender, EventArgs e)
     {
       dgvList.Size = Size = new Size(this.Width, this.Height - flpPagination.Height);
+      flpPagination.Size = new Size(this.Width, flpPagination.Height);
+    }
+    public void Binding<T>(List<T> dataList, int _ItemPerPage = 5) where T : class
+    {
+      this.OriginalDataSrc = dataList.ToList();
+
+      dgvList.DataSource = OriginalDataSrc;
+
+      SetUpPagination(dataList.Count, ItemPerPage);
+
+      PaginateData(dataList);
+    }
+    public void Binding(DataTable dataTable, int _ItemPerPage = 5)
+    {
+      this.OriginalDataSrc = dataTable.Copy();
+
+      dgvList.DataSource = OriginalDataSrc;
+
+      SetUpPagination(dataTable.Rows.Count, _ItemPerPage);
+
+      PaginateData(dataTable);
+    }
+    public void Binding(DataView dataView, int _ItemPerPage=5)
+    {
+      this.OriginalDataSrc = dataView.ToTable().Copy();
+
+      dgvList.DataSource = OriginalDataSrc;
+
+      SetUpPagination(dataView.Count, _ItemPerPage);
+
+      PaginateData(dataView);
     }
     //Event Handlers when PrevButton and NextButton clicked
     private void PrevButton_Click(object sender, EventArgs e)
     {
-      if (currentPage > 1)
+      if (CurrentPage > 1)
       {
-        currentPage--;
-        UpdateDataGridView();
+        CurrentPage--;
+
+        if (OriginalDataSrc is List<SanPhamDTO> list1)
+        {
+          PaginateData(list1);
+        }
+        else if (OriginalDataSrc is List<HangSanXuatDTO> list2)
+        {
+          PaginateData(list2);
+        }
+        else if (OriginalDataSrc is List<NhaCungCapDTO> list3)
+        {
+          PaginateData(list3);
+        }
+        else if (OriginalDataSrc is List<DanhMucDTO> list4)
+        {
+          PaginateData(list4);
+        }
+        else if (OriginalDataSrc is List<HoiVienDTO> list5)
+        {
+          PaginateData(list5);
+        }
+        else if (OriginalDataSrc is List<LichSuKhoDTO> list6)
+        {
+          PaginateData(list6);
+        }
+        else if (OriginalDataSrc is List<HoaDonDTO> list7)
+        {
+          PaginateData(list7);
+        }
+        else if (OriginalDataSrc is List<NguoiDungDTO> list8)
+        {
+          PaginateData(list8);
+        }
+        else if (OriginalDataSrc is DataTable table)
+        {
+          PaginateData(table);
+        }
+        else if (OriginalDataSrc is DataView view)
+        {
+          PaginateData(view);
+        }
       }
     }
     private void NextButton_Click(object sender, EventArgs e)
     {
-      if (currentPage < totalPages)
+      if (CurrentPage < TotalPages)
       {
-        currentPage++;
-        UpdateDataGridView();
+        CurrentPage++;
+
+        if (OriginalDataSrc is List<SanPhamDTO> list1)
+        {
+          PaginateData(list1);
+        }
+        else if (OriginalDataSrc is List<HangSanXuatDTO> list2)
+        {
+          PaginateData(list2);
+        }
+        else if (OriginalDataSrc is List<NhaCungCapDTO> list3)
+        {
+          PaginateData(list3);
+        }
+        else if (OriginalDataSrc is List<DanhMucDTO> list4)
+        {
+          PaginateData(list4);
+        }
+        else if (OriginalDataSrc is List<HoiVienDTO> list5)
+        {
+          PaginateData(list5);
+        }
+        else if (OriginalDataSrc is List<LichSuKhoDTO> list6)
+        {
+          PaginateData(list6);
+        }
+        else if (OriginalDataSrc is List<HoaDonDTO> list7)
+        {
+          PaginateData(list7);
+        }
+        else if (OriginalDataSrc is List<NguoiDungDTO> list8)
+        {
+          PaginateData(list8);
+        }
+        else if (OriginalDataSrc is DataTable table)
+        {
+          PaginateData(table);
+        }
+        else if(OriginalDataSrc is DataView view)
+        {
+          PaginateData(view);
+        }
       }
     }
     //Set up Pagination Properties
     public void SetUpPagination(int _totalItems, int _itemPerPage = 5)
     {
-      itemPerPage = _itemPerPage;
-      totalPages = (int)Math.Ceiling((double)_totalItems / _itemPerPage);
-      currentPage = 1;
+      ItemPerPage = _itemPerPage;
+      TotalPages = (int)Math.Ceiling((double)_totalItems / _itemPerPage);
+      CurrentPage = 1;
     }
-    //Binding Data to DataGridView
-    public void BindingData<T>(List<T> dataList) where T : class
+    private void PaginateData<T>(List<T> dataList) where T : class
     {
-      SetUpPagination(dataList.Count);
+      if (dataList == null || dataList.Count == 0)
+      {
+        dgvList.DataSource = null;
+        lblCurentPage.Text = "No data available";
+        return;
+      }
 
-      bindSrc.DataSource = dataList;
-
-      UpdateDataGridView(dataList);
-    }
-    public void BindingData(DataTable table)
-    {
-      SetUpPagination(table.Rows.Count);
-
-      bindSrc.DataSource = table;
-
-      UpdateDataGridView(table);
-    }
-    //Update DataGridView displayed data
-    private void UpdateDataGridView()
-    {
-      if (bindSrc.DataSource is List<SanPhamDTO> dataList1)
-      {
-        UpdateDataGridView(dataList1);
-      }
-      else if (bindSrc.DataSource is List<HangSanXuatDTO> dataList2)
-      {
-        UpdateDataGridView(dataList2);
-      }
-      else if (bindSrc.DataSource is List<DanhMucDTO> dataList3)
-      {
-        UpdateDataGridView(dataList3);
-      }
-      else if (bindSrc.DataSource is List<HoiVienDTO> dataList4)
-      {
-        UpdateDataGridView(dataList4);
-      }
-      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList5)
-      {
-        UpdateDataGridView(dataList5);
-      }
-      else if (bindSrc.DataSource is List<LichSuKhoDTO> dataList6)
-      {
-        UpdateDataGridView(dataList6);
-      }
-      else if (bindSrc.DataSource is List<NguoiDungDTO> dataList7)
-      {
-        UpdateDataGridView(dataList7);
-      }
-      else if (bindSrc.DataSource is List<NhaCungCapDTO> dataList8)
-      {
-        UpdateDataGridView(dataList8);
-      }
-      else if (bindSrc.DataSource is DataTable table)
-      {
-        UpdateDataGridView(table);
-      }
-    }
-    private void UpdateDataGridView<T>(List<T> dataList) where T : class
-    {
-      int startIndex = (currentPage - 1) * itemPerPage;
+      int startIndex = (CurrentPage - 1) * ItemPerPage;
       if (dataList != null)
       {
-        int endIndex = Math.Min(startIndex + itemPerPage, dataList.Count);
-        List<T> newDataList = dataList.GetRange(startIndex, endIndex - startIndex);
+        List<T> newDataList = dataList.Skip(startIndex).Take(ItemPerPage).ToList();
         this.dgvList.DataSource = newDataList;
       }
-      pageLabel.Text = $"Page {currentPage} of {totalPages}";
+      lblCurentPage.Text = $"Page {CurrentPage} of {TotalPages}";
     }
-    private void UpdateDataGridView(DataTable table)
+    private void PaginateData(DataTable table)
     {
-      int startIndex = (currentPage - 1) * itemPerPage;
+      if (table == null || table.Rows.Count == 0)
+      {
+        dgvList.DataSource = null;
+        lblCurentPage.Text = "No data available";
+        return;
+      }
+
+      int startIndex = (CurrentPage - 1) * ItemPerPage;
       if (table != null)
       {
-        int endIndex = Math.Min(startIndex + itemPerPage, table.Rows.Count);
+        DataTable newDataTable = table.Clone();
+        var rows = table.AsEnumerable().Skip(startIndex).Take(ItemPerPage);
 
-        DataTable newTable = table.Select().Skip(startIndex).Take(endIndex - startIndex).CopyToDataTable();
-        this.dgvList.DataSource = newTable;
+        foreach (var row in rows)
+        {
+          newDataTable.ImportRow(row);
+        }
+
+        this.dgvList.DataSource = newDataTable;
       }
-      pageLabel.Text = $"Page {currentPage} of {totalPages}";
+      lblCurentPage.Text = $"Page {CurrentPage} of {TotalPages}";
+    }
+    private void PaginateData(DataView view)
+    {
+      DataTable table = view.ToTable();
+      if (table == null || table.Rows.Count == 0)
+      {
+        dgvList.DataSource = null;
+        lblCurentPage.Text = "No data available";
+        return;
+      }
+
+      int startIndex = (CurrentPage - 1) * ItemPerPage;
+      if (table != null)
+      {
+        DataTable newDataTable = table.Clone();
+        var rows = table.AsEnumerable().Skip(startIndex).Take(ItemPerPage);
+
+        foreach (var row in rows)
+        {
+          newDataTable.ImportRow(row);
+        }
+
+        this.dgvList.DataSource = newDataTable;
+      }
+      lblCurentPage.Text = $"Page {CurrentPage} of {TotalPages}";
     }
     //Event Handlers when Row Pre Paint
     private void dgvList_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
@@ -234,20 +259,6 @@ namespace TechForgeGUI.BaseControls
       else
       {
         row.DefaultCellStyle.BackColor = Color.White;
-      }
-    }
-    //Column name assignment method
-    public void SetColumnNames(Dictionary<string, (string HeaderText, bool Visible)> columnMappings)
-    {
-      dgvList.AutoGenerateColumns = true;
-      foreach (DataGridViewColumn column in dgvList.Columns)
-      {
-        if (columnMappings.ContainsKey(column.Name))
-        {
-          var (headerText, visible) = columnMappings[column.Name];
-          column.HeaderText = headerText;
-          column.Visible = visible;
-        }
       }
     }
   }

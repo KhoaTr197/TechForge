@@ -78,6 +78,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
@@ -100,6 +101,12 @@
     </Compile>
     <Compile Include="BaseControls\CustomDataGridView.Designer.cs">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BaseControls\ManagePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BaseControls\ManagePage.Designer.cs">
+      <DependentUpon>ManagePage.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseControls\Notification.cs">
       <SubType>UserControl</SubType>
@@ -139,12 +146,6 @@
     </Compile>
     <Compile Include="BaseForms\DetailFormGUI.Designer.cs">
       <DependentUpon>DetailFormGUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BaseControls\ManagePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BaseControls\ManagePage.Designer.cs">
-      <DependentUpon>ManagePage.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseForms\OverlayFormGUI.cs">
       <SubType>Form</SubType>
@@ -303,6 +304,9 @@
     <EmbeddedResource Include="BaseControls\CustomDataGridView.resx">
       <DependentUpon>CustomDataGridView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BaseControls\ManagePage.resx">
+      <DependentUpon>ManagePage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BaseControls\Page.resx">
       <DependentUpon>Page.cs</DependentUpon>
     </EmbeddedResource>
@@ -311,9 +315,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BaseForms\DashboardFormGUI.resx">
       <DependentUpon>DashboardFormGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BaseControls\ManagePage.resx">
-      <DependentUpon>ManagePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CashierFormGUI.resx">
       <DependentUpon>CashierFormGUI.cs</DependentUpon>
@@ -333,6 +334,18 @@
     <EmbeddedResource Include="SubPages\CustomerManagePageGUI.resx">
       <DependentUpon>CustomerManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\HomePageGUI.resx">
+      <DependentUpon>HomePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\ImportExportDetailFormGUI.resx">
+      <DependentUpon>ImportExportDetailFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\ImportExportManagePageGUI.resx">
+      <DependentUpon>ImportExportManagePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\InvoiceTransactionPageGUI.resx">
+      <DependentUpon>InvoiceTransactionPageGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubPages\ManufacturerDetailFormGUI.resx">
       <DependentUpon>ManufacturerDetailFormGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -351,6 +364,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\ReceiptDetailFormGUI.resx">
+      <DependentUpon>ReceiptDetailFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubPages\StatisticPageGUI.resx">
       <DependentUpon>StatisticPageGUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -367,6 +383,8 @@
       <DependentUpon>UserManagePageGUI.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\TechForgeDTO.ChiTietHoaDonDTO.datasource" />
+    <None Include="Properties\DataSources\TechForgeDTO.ChiTietLichSuKhoDTO.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -390,6 +408,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\box_icon.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\chart_icon.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\circle_check_icon.svg">

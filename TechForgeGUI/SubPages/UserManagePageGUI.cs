@@ -17,9 +17,9 @@ namespace TechForgeGUI.SubForms
 {
   public partial class UserManagePageGUI : ManagePage
   {
-    private List<NguoiDungDTO> dsNguoiDung { get; set; }
-    private NguoiDungBUS bus { get; set; }
-    private TaiKhoanBUS taiKhoanBus { get; set; }
+    private List<NguoiDungDTO> DsNguoiDung { get; set; }
+    private NguoiDungBUS BUS { get; set; }
+    private TaiKhoanBUS TaiKhoanBUS { get; set; }
     private RolePermissions permissions;
     public UserManagePageGUI(string role)
     {
@@ -30,8 +30,8 @@ namespace TechForgeGUI.SubForms
 
       InitializeBUS();
       GetData();
+      AddColumns();
       LoadData();
-      ModifyData();
       SetUpFeature();
 
       // Attach event handler for cell click
@@ -39,27 +39,28 @@ namespace TechForgeGUI.SubForms
 
       btnAdd.Click += BtnAdd_Click;
     }
-    sealed protected override void InitializeBUS()
+    private void InitializeBUS()
     {
-      bus = new NguoiDungBUS(this.connStr);
-      taiKhoanBus = new TaiKhoanBUS(this.connStr);
+      BUS = new NguoiDungBUS(this.connStr);
+      TaiKhoanBUS = new TaiKhoanBUS(this.connStr);
     }
-    protected void GetData()
+    private void GetData()
     {
       // Map data to DTOs
-      dsNguoiDung = bus.GetAllConnected();
+      DsNguoiDung = BUS.GetAllConnected();
     }
-    protected override void LoadData()
+    private void LoadData()
     {
-      dgvMainList.BindingData(dsNguoiDung);
+      dgvMainList.dgvList.AutoGenerateColumns = false;
+      dgvMainList.Binding(DsNguoiDung);
     }
     private void SetUpFeature()
     {
       summaryCards.Add(new SummaryCard[] {
-        new SummaryCard("Tổng người dùng", dsNguoiDung.Count.ToString(), "users_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "users_icon", Color.FromArgb(52, 152, 219)),
       });
     }
-    private void ModifyData()
+    private void AddColumns()
     {
       this.SuspendLayout();
 
@@ -114,7 +115,7 @@ namespace TechForgeGUI.SubForms
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      UserDetailFormGUI DetailForm = new UserDetailFormGUI(permissions, bus, taiKhoanBus);
+      UserDetailFormGUI DetailForm = new UserDetailFormGUI(permissions, BUS, TaiKhoanBUS);
       OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
       Overlay.Show(Form.ActiveForm);
@@ -131,10 +132,10 @@ namespace TechForgeGUI.SubForms
         if (dgvMainList.SelectedRows.Count > 0)
         {
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
-          NguoiDungDTO nguoiDung = dsNguoiDung.Find(nd => nd.MaND == selectedRow.Cells[0].Value.ToString());
-          TaiKhoanDTO taiKhoan = taiKhoanBus.GetCredential(nguoiDung.MaND);
+          NguoiDungDTO nguoiDung = DsNguoiDung.Find(nd => nd.MaND == selectedRow.Cells[0].Value.ToString());
+          TaiKhoanDTO taiKhoan = TaiKhoanBUS.GetCredential(nguoiDung.MaND);
 
-          UserDetailFormGUI DetailForm = new UserDetailFormGUI(permissions, bus, taiKhoanBus, nguoiDung, taiKhoan);
+          UserDetailFormGUI DetailForm = new UserDetailFormGUI(permissions, BUS, TaiKhoanBUS, nguoiDung, taiKhoan);
           OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
           Overlay.Show(Form.ActiveForm);
@@ -177,7 +178,7 @@ namespace TechForgeGUI.SubForms
       // Update summary cards when new categories are added
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng người dùng", dsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
       });
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
@@ -188,7 +189,7 @@ namespace TechForgeGUI.SubForms
       // Update summary cards when categories are edited
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng người dùng", dsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
       });
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
@@ -199,7 +200,7 @@ namespace TechForgeGUI.SubForms
       // Update summary cards when categories are edited
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng người dùng", dsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
       });
     }
   }

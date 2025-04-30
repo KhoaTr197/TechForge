@@ -67,7 +67,7 @@ namespace TechForgeGUI.BaseForm
           tabs = new List<SidebarTabItem>
           {
             new SidebarTabItem { Id = "Homepage", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Trang Chủ" },
-            new SidebarTabItem { Id = "Statistic", ImageList = GlobalStatics.iconList, ImageKey = "homepage_icon", Text = "Thống Kê" },
+            new SidebarTabItem { Id = "Statistic", ImageList = GlobalStatics.iconList, ImageKey = "chart_icon", Text = "Thống Kê" },
             new SidebarTabItem {
               Id="Product", ImageList=GlobalStatics.iconList, ImageKey="box_icon", Text="Sản Phẩm",
               SubSidebarItems = new List<SidebarTabItem>

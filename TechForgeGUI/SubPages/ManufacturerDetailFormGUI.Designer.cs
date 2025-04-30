@@ -49,48 +49,57 @@
       this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
       this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 16, 0, 0);
-      this.tableLayoutPanel1.RowCount = 2;
-      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.90541F));
-      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 82.0946F));
+      this.tableLayoutPanel1.RowCount = 3;
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+      this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
       this.tableLayoutPanel1.Size = new System.Drawing.Size(469, 313);
       this.tableLayoutPanel1.TabIndex = 6;
       // 
       // label2
       // 
       this.label2.AutoSize = true;
+      this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
       this.label2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label2.Location = new System.Drawing.Point(3, 69);
+      this.label2.Location = new System.Drawing.Point(4, 53);
+      this.label2.Margin = new System.Windows.Forms.Padding(4);
       this.label2.Name = "label2";
-      this.label2.Size = new System.Drawing.Size(89, 19);
+      this.label2.Size = new System.Drawing.Size(124, 25);
       this.label2.TabIndex = 3;
       this.label2.Text = "Tên Hãng SX:";
+      this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // txtTenHSX
       // 
       this.txtTenHSX.Dock = System.Windows.Forms.DockStyle.Fill;
       this.txtTenHSX.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.txtTenHSX.Location = new System.Drawing.Point(135, 72);
+      this.txtTenHSX.Location = new System.Drawing.Point(136, 53);
+      this.txtTenHSX.Margin = new System.Windows.Forms.Padding(4);
       this.txtTenHSX.Name = "txtTenHSX";
-      this.txtTenHSX.Size = new System.Drawing.Size(331, 25);
+      this.txtTenHSX.Size = new System.Drawing.Size(329, 25);
       this.txtTenHSX.TabIndex = 4;
       // 
       // label1
       // 
       this.label1.AutoSize = true;
+      this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label1.Location = new System.Drawing.Point(3, 16);
+      this.label1.Location = new System.Drawing.Point(4, 20);
+      this.label1.Margin = new System.Windows.Forms.Padding(4);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(88, 19);
+      this.label1.Size = new System.Drawing.Size(124, 25);
       this.label1.TabIndex = 1;
       this.label1.Text = "Mã Hãng SX:";
+      this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
       // 
       // txtMaHSX
       // 
       this.txtMaHSX.Dock = System.Windows.Forms.DockStyle.Fill;
       this.txtMaHSX.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.txtMaHSX.Location = new System.Drawing.Point(135, 19);
+      this.txtMaHSX.Location = new System.Drawing.Point(136, 20);
+      this.txtMaHSX.Margin = new System.Windows.Forms.Padding(4);
       this.txtMaHSX.Name = "txtMaHSX";
-      this.txtMaHSX.Size = new System.Drawing.Size(331, 25);
+      this.txtMaHSX.Size = new System.Drawing.Size(329, 25);
       this.txtMaHSX.TabIndex = 2;
       // 
       // ManufacturerDetailFormGUI
