@@ -35,16 +35,16 @@ namespace TechForgeGUI.SubPages
       SetUpFeature();
 
       // Attach event handler for cell click
-      //dgvMainList.dgvList.CellClick += dgvList_CellClick;
+      dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
     }
     private void SetUpFeature()
     {
-      //summaryCards.Add(new SummaryCard[] {
-      //    new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-      //    new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
-      //  });
+      summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        });
     }
     private void GetData()
     {
@@ -96,38 +96,38 @@ namespace TechForgeGUI.SubPages
         FillWeight = 48,
       });
 
-    //  // Attach event handler for cell formatting
-    //  dgvMainList.dgvList.CellFormatting += dgvList_CellFormatting;
+      // Attach event handler for cell formatting
+      dgvMainList.dgvList.CellFormatting += dgvList_CellFormatting;
 
-    //  this.ResumeLayout();
-    //}
+      this.ResumeLayout();
+    }
     protected void dgvList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
-      //if (e.Value != null)
-      //{
-      //  if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "HoatDong")
-      //  {
-      //    bool status = (bool)e.Value;
-      //    if (status)
-      //    {
-      //      e.CellStyle.ForeColor = Color.White;
-      //      e.CellStyle.BackColor = Color.FromArgb(231, 76, 60);
-      //      e.Value = "Xuất";
-      //    }
-      //    else
-      //    {
-      //      e.CellStyle.ForeColor = Color.White;
-      //      e.CellStyle.BackColor = Color.Green;
-      //      e.Value = "Nhập";
-      //    }
-      //  }
-      //  else if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "TongTien")
-      //  {
-      //    decimal price = (decimal)e.Value;
-      //    e.Value = price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
-      //    e.FormattingApplied = true;
-      //  }
-      //}
+      if (e.Value != null)
+      {
+        if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "HoatDong")
+        {
+          bool status = (bool)e.Value;
+          if (status)
+          {
+            e.CellStyle.ForeColor = Color.White;
+            e.CellStyle.BackColor = Color.FromArgb(231, 76, 60);
+            e.Value = "Xuất";
+          }
+          else
+          {
+            e.CellStyle.ForeColor = Color.White;
+            e.CellStyle.BackColor = Color.Green;
+            e.Value = "Nhập";
+          }
+        }
+        else if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "TongTien")
+        {
+          decimal price = (decimal)e.Value;
+          e.Value = price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+          e.FormattingApplied = true;
+        }
+      }
     }
     private void InitializeBUS()
     {
@@ -136,7 +136,7 @@ namespace TechForgeGUI.SubPages
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      //SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
+      SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
 
       ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, busSanPham);
       OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
@@ -149,15 +149,15 @@ namespace TechForgeGUI.SubPages
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
     {
-      //if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-      //{
-      //  DataGridView dgvMainList = (DataGridView)sender;
-      //  if (dgvMainList.SelectedRows.Count > 0)
-      //  {
-      //    DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
-      //    LichSuKhoDTO lichSuKho = dsLichSuKho.Find(hv => hv.MaLS == (int)selectedRow.Cells[0].Value);
-      //    lichSuKho.Ctlsk = bus.GetDetail(lichSuKho.MaLS);
-      //    SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
+      if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+      {
+        DataGridView dgvMainList = (DataGridView)sender;
+        if (dgvMainList.SelectedRows.Count > 0)
+        {
+          DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
+          LichSuKhoDTO lichSuKho = dsLichSuKho.Find(hv => hv.MaLS == (int)selectedRow.Cells[0].Value);
+          lichSuKho.Ctlsk = bus.GetDetail(lichSuKho.MaLS);
+          SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
 
           ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, busSanPham, lichSuKho, DsNhanVienKho);
           OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
@@ -177,33 +177,33 @@ namespace TechForgeGUI.SubPages
       GetData();
       LoadData();
 
-      //summaryCards.Update(new SummaryCard[]
-      //{
-      //  new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-      //  new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
-      //});
+      summaryCards.Update(new SummaryCard[]
+      {
+        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+      });
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
     {
       GetData();
       LoadData();
 
-      //summaryCards.Update(new SummaryCard[]
-      //{
-      //  new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-      //  new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
-      //});
+      summaryCards.Update(new SummaryCard[]
+      {
+        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+      });
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
     {
       GetData();
       LoadData();
 
-      //summaryCards.Update(new SummaryCard[]
-      //{
-      //  new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-      //    new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
-      //});
+      summaryCards.Update(new SummaryCard[]
+      {
+        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+      });
     }
   }
 }
