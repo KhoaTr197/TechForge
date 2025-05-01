@@ -44,14 +44,21 @@ namespace TechForgeGUI.SubPages
     // BUS objects
     private SanPhamBUS sanPhamBUS;
     private HoiVienBUS hoiVienBUS;
+    private HoaDonBUS hoaDonBUS;
+    private LichSuHoatDongBUS lichSuHoatDongBUS;
     private readonly string connStr = "Data Source=.;Initial Catalog=TECHFORGE;Integrated Security=True;";
 
     // Lists to store data
     private List<SanPhamDTO> dsSanPham;
     private List<HoiVienDTO> dsHoiVien;
+        private HoiVienDTO selectedCustomer;
+        private HoaDonDTO newHoaDon;
     private List<SanPhamDTO> dsCTHD; // Items added to invoice
+        private List<ChiTietHoaDonDTO> dsChiTietHoaDon;
     
-    public InvoiceTransactionPageGUI()
+    private NguoiDungDTO currentUser;
+    
+    public InvoiceTransactionPageGUI(NguoiDungDTO _currentUser)
     {
       InitializeComponent();
       InitializeBUS();
@@ -60,9 +67,11 @@ namespace TechForgeGUI.SubPages
       InitializeProductPanel();
       InitializeCustomerPanel();
       InitializeInvoiceItemsGrid();
-
+        
       this.Dock = DockStyle.Fill;
       this.Font = new Font("Segoe UI", 10);
+
+      this.currentUser = _currentUser;
     }
     
     // Initialize BUS
@@ -70,13 +79,18 @@ namespace TechForgeGUI.SubPages
     {
       sanPhamBUS = new SanPhamBUS(connStr);
       hoiVienBUS = new HoiVienBUS(connStr);
+      hoaDonBUS = new HoaDonBUS(connStr);
+      lichSuHoatDongBUS = new LichSuHoatDongBUS(connStr);
     }
     // Get data
     private void GetData()
     {
       dsSanPham = sanPhamBUS.GetAllConnected();
       dsHoiVien = hoiVienBUS.GetAllConnected();
+      selectedCustomer = new HoiVienDTO();
       dsCTHD = new List<SanPhamDTO>();
+      newHoaDon = new HoaDonDTO();
+      dsChiTietHoaDon = new List<ChiTietHoaDonDTO>();
     }
 
     private void InitalizeLayout()
@@ -804,7 +818,7 @@ namespace TechForgeGUI.SubPages
       string phoneNumber = selectedCustomerText.Split('-').Last().Trim();
       
       // Find the customer with this phone number
-      HoiVienDTO selectedCustomer = dsHoiVien.FirstOrDefault(c => c.Sdt == phoneNumber);
+      selectedCustomer = dsHoiVien.FirstOrDefault(c => c.Sdt == phoneNumber);
       
       if (selectedCustomer != null)
       {
@@ -853,6 +867,7 @@ namespace TechForgeGUI.SubPages
 
       decimal total = (subtotal - discount);
 
+      newHoaDon.TongTien = total;
       // Update labels
       lblSubtotalValue.Text = subtotal.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
       lblDiscountValue.Text = discount.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
@@ -874,9 +889,58 @@ namespace TechForgeGUI.SubPages
         MessageBox.Show("Vui lòng nhập thông tin khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
-      
-      MessageBox.Show("Tạo hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-      
+        if (string.IsNullOrEmpty(txtCustomerAddress.Text))
+        {
+            MessageBox.Show("Vui lòng nhập địa chỉ khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+
+            if(selectedCustomer != null && selectedCustomer.MaHV > 0)
+            {
+                newHoaDon.MaHV = selectedCustomer.MaHV;
+            }
+            newHoaDon.DiaChi = txtCustomerAddress.Text;
+            newHoaDon.Sdt = txtCustomerPhone.Text;
+            newHoaDon.HoTen = txtCustomerName.Text;
+            newHoaDon.NgLapHD = DateTime.Now;
+            newHoaDon.NvLapHD = currentUser.MaND;
+
+            foreach (DataGridViewRow row in dgvInvoiceItems.Rows)
+            {
+                int soLuong = (int)row.Cells["SoLuong"].Value;
+                decimal gia = (decimal)row.Cells["Gia"].Value;
+                int km = int.Parse(row.Cells["KhuyenMai"].Value.ToString());
+                decimal soTienKm = gia * (km / (decimal)100);
+                decimal giaCuoiCung = gia - soTienKm;
+                
+                dsChiTietHoaDon.Add(new ChiTietHoaDonDTO()
+                {
+                    MaSP = (int)row.Cells["MaSP"].Value,
+                    TenSP = row.Cells["TenSP"].Value.ToString(),
+                    Gia = gia,
+                    SoLuong = soLuong,
+                    KhuyenMai = km,
+                    SoTienKm = soTienKm,
+                    GiaCuoiCung = giaCuoiCung,
+                    ThanhTien = giaCuoiCung * soLuong,
+                });
+            }
+
+            newHoaDon.Cthd = dsChiTietHoaDon;
+            
+            int newReceiptId = hoaDonBUS.Add(newHoaDon);
+            if (newReceiptId > 0)
+            {
+                MessageBox.Show("Tạo hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ReportReceiptDetailFormGUI rdfrm = new ReportReceiptDetailFormGUI(newHoaDon);
+                rdfrm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Tạo hóa đơn không thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
       // Clear form
       dgvInvoiceItems.Rows.Clear();
       dsCTHD.Clear();
@@ -885,7 +949,7 @@ namespace TechForgeGUI.SubPages
       txtCustomerName.Text = "";
       txtCustomerPhone.Text = "";
       txtCustomerAddress.Text = "";
-
+      selectedCustomer = null;
       UpdateInvoiceSummary();
     }
   }

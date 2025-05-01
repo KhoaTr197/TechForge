@@ -106,16 +106,34 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO HOADON (MAHV, HOTEN, SDT, DCHI, NvLapHD, TONGTIEN, NGLAPHD) VALUES (@MAHV, @HOTEN, @SDT, @DCHI, @NvLapHD, @TONGTIEN, @NGLAPHD)", conn);
-          cmd.Parameters.AddWithValue("@MAHV", newReceipt.MaHV);
-          cmd.Parameters.AddWithValue("@HOTEN", newReceipt.HoTen);
+                    
+          SqlCommand cmd = new SqlCommand("INSERT INTO HOADON (MAHV, HOTEN, SDT, DCHI, NvLapHD, TONGTIEN, NGLAPHD) VALUES (@MAHV, @HOTEN, @SDT, @DCHI, @NvLapHD, @TONGTIEN, @NGLAPHD); " +
+              "SELECT SCOPE_IDENTITY();", conn);
+                    cmd.Parameters.Add("@MAHV", SqlDbType.Int).Value = newReceipt.MaHV.HasValue ? (object)newReceipt.MaHV.Value : DBNull.Value;
+                    cmd.Parameters.AddWithValue("@HOTEN", newReceipt.HoTen);
           cmd.Parameters.AddWithValue("@SDT", newReceipt.Sdt);
           cmd.Parameters.AddWithValue("@DCHI", newReceipt.DiaChi);
-          cmd.Parameters.AddWithValue("@NvLapHD", newReceipt.NgLapHD);
+          cmd.Parameters.AddWithValue("@NvLapHD", newReceipt.NvLapHD);
           cmd.Parameters.AddWithValue("@TONGTIEN", newReceipt.TongTien);
+          cmd.Parameters.AddWithValue("@NGLAPHD", newReceipt.NgLapHD);
 
           int newId = Convert.ToInt32(cmd.ExecuteScalar());
           newReceipt.MaHD = newId;
+                    foreach(var i in newReceipt.Cthd)
+                    {
+                        i.MaHD = newId;
+                        SqlCommand cmdAdđetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) " +
+                            "VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN)", conn);
+                        cmdAdđetail.Parameters.AddWithValue("@MAHD", i.MaHD);
+                        cmdAdđetail.Parameters.AddWithValue("@MASP", i.MaSP);
+                        cmdAdđetail.Parameters.AddWithValue("@GIA", i.Gia);
+                        cmdAdđetail.Parameters.AddWithValue("@SOTIENKM", i.SoTienKm);
+                        cmdAdđetail.Parameters.AddWithValue("@GIACUOICUNG", i.GiaCuoiCung);
+                        cmdAdđetail.Parameters.AddWithValue("@SL", i.SoLuong);
+                        cmdAdđetail.Parameters.AddWithValue("@THANHTIEN", i.ThanhTien);
+
+                        cmdAdđetail.ExecuteNonQuery();
+                    }
           return newId;
         }
       }
