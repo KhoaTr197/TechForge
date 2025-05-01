@@ -85,6 +85,8 @@ namespace TechForgeGUI.SubPages
       hoaDonBUS = new HoaDonBUS(connStr);
       sanPhamBUS = new SanPhamBUS(connStr);
       hoiVienBUS = new HoiVienBUS(connStr);
+      hoaDonBUS = new HoaDonBUS(connStr);
+      lichSuHoatDongBUS = new LichSuHoatDongBUS(connStr);
     }
     // Get data
     private void GetData()
@@ -343,7 +345,6 @@ namespace TechForgeGUI.SubPages
       txtCustomerPhone.Text = "";
       txtCustomerAddress.Text = "";
       selectedCustomer = null;
->>>>>>> 6e49bb3 (update Report Receipt Detail)
       UpdateInvoiceSummary();
     }
   }

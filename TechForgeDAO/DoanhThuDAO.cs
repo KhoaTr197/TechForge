@@ -157,7 +157,7 @@ namespace TechForgeDAO
           //Get understock list
           string queryStr = @"select TENSP, SL
                                         from SANPHAM
-                                        where SL <= 5 and TRANGTHAI = 1";
+                                        where SL < 10 and TRANGTHAI = 1";
           SqlCommand cmd = new SqlCommand(queryStr, conn);
 
           SqlDataReader reader = cmd.ExecuteReader();
