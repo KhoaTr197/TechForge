@@ -805,7 +805,6 @@ namespace TechForgeGUI.SubPages
     {
       if (dtpFrom.Value < cachedFromDate) {
         bus.GetStatisticData(StatisticData);
-        MessageBox.Show("Re-queried!");
       }
       LoadData();
     }

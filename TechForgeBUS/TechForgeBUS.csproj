@@ -46,11 +46,15 @@
     <Compile Include="DanhMucBUS.cs" />
     <Compile Include="DoanhThuBUS.cs" />
     <Compile Include="HangSanXuatBUS.cs" />
+    <Compile Include="HoaDonBUS.cs" />
     <Compile Include="HoiVienBUS.cs" />
+    <Compile Include="LichSuHoatDongBUS.cs" />
+    <Compile Include="LichSuKhoBUS.cs" />
     <Compile Include="NguoiDungBUS.cs" />
     <Compile Include="NhaCungCapBUS.cs" />
     <Compile Include="SanPhamBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaiKhoanBUS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TechForgeDAO\TechForgeDAO.csproj">

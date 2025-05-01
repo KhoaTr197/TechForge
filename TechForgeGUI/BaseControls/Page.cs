@@ -18,12 +18,10 @@ namespace TechForgeGUI.BaseForms
   public partial class Page : UserControl
   {
     protected readonly string connStr = "Data Source=.;Initial Catalog=TECHFORGE;Integrated Security=True;";
-    protected string DefaultFontName = "Segoe UI";
     public Page()
     {
       InitializeComponent();
 
-      this.Font = new Font(DefaultFontName, 10);
       this.Dock = DockStyle.Fill;
     }
   }

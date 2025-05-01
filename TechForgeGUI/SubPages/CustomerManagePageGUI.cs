@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeBUS;
 using TechForgeDTO;
+using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubPages
@@ -18,20 +19,57 @@ namespace TechForgeGUI.SubPages
     private DataSet ds;
     private List<HoiVienDTO> dsHoiVien { get; set; }
     private HoiVienBUS bus { get; set; }
-    public CustomerManagePageGUI()
+    private RolePermissions permissions;
+
+    public CustomerManagePageGUI(string role)
     {
       InitializeComponent();
+
+      // Initialize permissions
+      permissions = RolePermissions.GetPermissions(role);
+
       InitializeBUS();
       GetData();
+      AddColumns();
       LoadData();
-      ModifyData();
+      SetUpFeature();
 
-      // Attach event handler for cell click
+      //// Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
     }
-    sealed protected override void InitializeBUS()
+    private void SetUpFeature()
+    {
+      if (permissions.Role == "Cashier")
+      {
+        summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Số khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        });
+      }
+      else if (permissions.Role == "WarehouseStaff")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Số khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        });
+      }
+      else if (permissions.Role == "Manager")
+      {
+        this.btnAdd.Visible = true;
+        this.btnAdd.Enabled = true;
+        summaryCards.Add(new SummaryCard[]
+        {
+          new SummaryCard("Số khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        });
+      }
+    }
+    protected void InitializeBUS()
     {
       bus = new HoiVienBUS(this.connStr);
     }
@@ -42,11 +80,11 @@ namespace TechForgeGUI.SubPages
       // Map data to DTOs
       dsHoiVien = bus.GetAllConnected();
     }
-    protected override void LoadData()
+    protected void LoadData()
     {
-      dgvMainList.BindingData(dsHoiVien);
+      dgvMainList.Binding(dsHoiVien);
     }
-    private void ModifyData()
+    private void AddColumns()
     {
       this.SuspendLayout();
 
@@ -122,24 +160,26 @@ namespace TechForgeGUI.SubPages
           {
             e.CellStyle.ForeColor = Color.White;
             e.CellStyle.BackColor = Color.Green;
-            e.Value = "Đang kích hoạt";
+            e.Value = "Hoạt động";
           }
           else
           {
             e.CellStyle.ForeColor = Color.White;
             e.CellStyle.BackColor = Color.Red;
-            e.Value = "Vô hiệu hóa";
+            e.Value = "Không hoạt động";
           }
         }
       }
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      CustomerDetailFormGUI detailsForm = new CustomerDetailFormGUI(bus);
+      CustomerDetailFormGUI DetailForm = new CustomerDetailFormGUI(bus);
+      OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-      detailsForm.Show();
+      Overlay.Show(Form.ActiveForm);
+      DetailForm.Show(Form.ActiveForm);
 
-      detailsForm.AddSubmit += DetailsForm_AddSubmit;
+      DetailForm.AddSubmit += DetailsForm_AddSubmit;
     }
     // Handle cell click event
     protected void dgvList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -149,24 +189,51 @@ namespace TechForgeGUI.SubPages
         DataGridView dgvMainList = (DataGridView)sender;
         if (dgvMainList.SelectedRows.Count > 0)
         {
-          HoiVienDTO hoiVien = dsHoiVien.ElementAt(e.RowIndex);
+          DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
+          HoiVienDTO hoiVien = dsHoiVien.Find(hv => hv.MaHV == (int)selectedRow.Cells[0].Value);
 
-          CustomerDetailFormGUI detailsForm = new CustomerDetailFormGUI(bus, hoiVien);
+          CustomerDetailFormGUI DetailForm = new CustomerDetailFormGUI(bus, hoiVien);
+          OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          detailsForm.Show(Form.ActiveForm);
+          Overlay.Show(Form.ActiveForm);
+          DetailForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
-          detailsForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.AddSubmit += DetailsForm_AddSubmit;
+          DetailForm.EditSubmit += DetailsForm_EditSubmit;
+          DetailForm.DeleteSubmit += DetailsForm_DeleteSubmit;
         }
       }
     }
     private void DetailsForm_AddSubmit(object sender, DetailFormAddSubmitEventArgs e)
     {
+      GetData();
+      LoadData();
+
+      summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        });
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
     {
       GetData();
       LoadData();
+
+      summaryCards.Add(new SummaryCard[] {
+          new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+      });
+    }
+    private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
+    {
+      GetData();
+      LoadData();
+
+      summaryCards.Add(new SummaryCard[] {
+        new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+        new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+      });
     }
   }
 }

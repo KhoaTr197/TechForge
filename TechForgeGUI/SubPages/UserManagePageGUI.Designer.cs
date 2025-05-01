@@ -29,12 +29,14 @@
     private void InitializeComponent()
     {
       this.SuspendLayout();
+      // 
       // UserManagePageGUI
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.Name = "UserManagePageGUI";
-      this.Size = new System.Drawing.Size(1319, 641);
+      this.Size = new System.Drawing.Size(1368, 641);
       this.ResumeLayout(false);
 
     }

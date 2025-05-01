@@ -74,7 +74,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO HANGSANXUAT (TENHSX) VALUES (@TENHSX)", conn);
+          SqlCommand cmd = new SqlCommand("INSERT INTO HANGSANXUAT (TENHSX) VALUES (@TENHSX); SELECT SCOPE_IDENTITY();", conn);
           cmd.Parameters.AddWithValue("@TENHSX", newManufacturer.TenHSX);
 
           int newId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -130,6 +130,28 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An error occurred while deleting data from the database.", ex);
+      }
+    }
+
+    public int GetNextId()
+    {
+      try
+      {
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT IDENT_CURRENT('HANGSANXUAT') + 1", conn);
+          object result = cmd.ExecuteScalar();
+          if (result != null && result != DBNull.Value)
+          {
+            return Convert.ToInt32(result);
+          }
+          return 0;
+        }
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting the next ID from the database.", ex);
       }
     }
   }

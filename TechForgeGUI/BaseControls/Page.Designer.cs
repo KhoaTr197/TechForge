@@ -32,9 +32,12 @@
       // 
       // Page
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
       this.Name = "Page";
+      this.Size = new System.Drawing.Size(175, 196);
       this.ResumeLayout(false);
 
     }
