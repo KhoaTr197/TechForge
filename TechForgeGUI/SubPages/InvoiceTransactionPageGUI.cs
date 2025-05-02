@@ -68,7 +68,7 @@ namespace TechForgeGUI.SubPages
 
     private void UpdateInvoiceSummary()
     {
-      TongTienHang = DsCthd.Sum(ct => ct.ThanhTien);
+      TongTienHang = DsCthd.Sum(ct => ct.Gia * ct.SoLuong);
       GiamGiaHD = DsCthd.Sum(ct => ct.SoTienKm);
       ThanhTienHD = TongTienHang - GiamGiaHD;
       TienKhachDua = nudKhachDua.Value;
@@ -251,7 +251,7 @@ namespace TechForgeGUI.SubPages
         DiaChi = txtDchi.Text,
         NvLapHD = CurrentUser.MaND,
         TongTien = ThanhTienHD,
-        Cthd = DsCthd
+        Cthd = DsCthd.ToList(),
       };
       int newReceiptId = hoaDonBUS.Add(newHoaDon);
       if (newReceiptId != -1)

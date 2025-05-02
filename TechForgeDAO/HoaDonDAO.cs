@@ -124,7 +124,7 @@ namespace TechForgeDAO
               foreach (var item in newReceipt.Cthd)
               {
                 SqlCommand cmdDetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN)", conn, transaction);
-                SqlCommand cmdUpdateProduct = new SqlCommand("UPDATE SANPHAM SET SOLUONG = SOLUONG - @SL WHERE MASP = @MASP", conn, transaction);
+                SqlCommand cmdUpdateProduct = new SqlCommand("UPDATE SANPHAM SET SL = SL - @SL WHERE MASP = @MASP", conn, transaction);
 
                 cmdDetail.Parameters.AddWithValue("@MAHD", newId);
                 cmdDetail.Parameters.AddWithValue("@MASP", item.MaSP);
