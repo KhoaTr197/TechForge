@@ -243,6 +243,107 @@ namespace TechForgeGUI.SubPages
       detail.SoLuong = Convert.ToInt32(dgvChiTietHD.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
       detail.ThanhTien = detail.GiaCuoiCung * detail.SoLuong;
 
+<<<<<<< HEAD
+=======
+        subtotal += quantity * price;
+        discount += quantity * price * (itemDiscount / 100);
+      }
+
+      decimal total = (subtotal - discount);
+
+      newHoaDon.TongTien = total;
+      // Update labels
+      lblSubtotalValue.Text = subtotal.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+      lblDiscountValue.Text = discount.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+      lblTotalValue.Text = total.ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+      lblCashTakenValue.Text = cashPaid.ToString("C0", new CultureInfo("vi-VN"));
+      lblCustomerChangeGivenValue.Text = (cashPaid - total).ToString("C0", new System.Globalization.CultureInfo("vi-VN"));
+    }
+    private void BtnCreateInvoice_Click(object sender, EventArgs e)
+    {
+      // Validate
+      if (dgvInvoiceItems.Rows.Count == 0)
+      {
+        MessageBox.Show("Vui lòng thêm sản phẩm vào hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+      
+      if (string.IsNullOrEmpty(txtCustomerName.Text))
+      {
+        MessageBox.Show("Vui lòng nhập thông tin khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+        if (string.IsNullOrEmpty(txtCustomerAddress.Text))
+        {
+            MessageBox.Show("Vui lòng nhập địa chỉ khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+
+            if(selectedCustomer != null && selectedCustomer.MaHV > 0)
+            {
+                newHoaDon.MaHV = selectedCustomer.MaHV;
+            }
+            newHoaDon.DiaChi = txtCustomerAddress.Text;
+            newHoaDon.Sdt = txtCustomerPhone.Text;
+            newHoaDon.HoTen = txtCustomerName.Text;
+            newHoaDon.NgLapHD = DateTime.Now;
+            newHoaDon.NvLapHD = currentUser.MaND;
+
+            foreach (DataGridViewRow row in dgvInvoiceItems.Rows)
+            {
+                int soLuong = (int)row.Cells["SoLuong"].Value;
+                decimal gia = (decimal)row.Cells["Gia"].Value;
+                int km = int.Parse(row.Cells["KhuyenMai"].Value.ToString());
+                decimal soTienKm = gia * (km / (decimal)100);
+                decimal giaCuoiCung = gia - soTienKm;
+                
+                dsChiTietHoaDon.Add(new ChiTietHoaDonDTO()
+                {
+                    MaSP = (int)row.Cells["MaSP"].Value,
+                    TenSP = row.Cells["TenSP"].Value.ToString(),
+                    Gia = gia,
+                    SoLuong = soLuong,
+                    KhuyenMai = km,
+                    SoTienKm = soTienKm,
+                    GiaCuoiCung = giaCuoiCung,
+                    ThanhTien = giaCuoiCung * soLuong,
+                });
+            }
+
+            newHoaDon.Cthd = dsChiTietHoaDon;
+            
+            int newReceiptId = hoaDonBUS.Add(newHoaDon);
+            if (newReceiptId > 0)
+            {
+                MessageBox.Show("Tạo hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lichSuHoatDongBUS.Add(new LichSuHoatDongDTO()
+                {
+                    MaND = currentUser.MaND,
+                    NoiDung = $"Tạo hoá đơn #{newReceiptId}",
+                    ThoiGian = newHoaDon.NgLapHD,
+                    VaiTro = currentUser.VaiTro,
+                });
+                ReportReceiptDetailFormGUI rdfrm = new ReportReceiptDetailFormGUI(newHoaDon);
+                rdfrm.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Tạo hóa đơn không thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+      // Clear form
+      dgvInvoiceItems.Rows.Clear();
+      dsCTHD.Clear();
+      dsChiTietHoaDon.Clear();
+      newHoaDon = new HoaDonDTO();
+
+      txtCustomerSearch.Text = "";
+      txtCustomerName.Text = "";
+      txtCustomerPhone.Text = "";
+      txtCustomerAddress.Text = "";
+      selectedCustomer = null;
+>>>>>>> 6e49bb3 (update Report Receipt Detail)
       UpdateInvoiceSummary();
     }
   }
