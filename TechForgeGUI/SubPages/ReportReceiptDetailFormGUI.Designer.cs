@@ -48,7 +48,7 @@
             this.Controls.Add(this.rpvReceiptDetail);
             this.Name = "ReportReceiptDetailFormGUI";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ReportReceiptDetailFormGUI";
+            this.Text = "Chi tiết hoá đơn";
             this.Load += new System.EventHandler(this.ReportReceiptDetailFormGUI_Load);
             this.ResumeLayout(false);
 

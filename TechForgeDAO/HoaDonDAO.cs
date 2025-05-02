@@ -119,21 +119,22 @@ namespace TechForgeDAO
 
           int newId = Convert.ToInt32(cmd.ExecuteScalar());
           newReceipt.MaHD = newId;
-                    foreach(var i in newReceipt.Cthd)
-                    {
-                        i.MaHD = newId;
-                        SqlCommand cmdAdđetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) " +
-                            "VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN)", conn);
-                        cmdAdđetail.Parameters.AddWithValue("@MAHD", i.MaHD);
-                        cmdAdđetail.Parameters.AddWithValue("@MASP", i.MaSP);
-                        cmdAdđetail.Parameters.AddWithValue("@GIA", i.Gia);
-                        cmdAdđetail.Parameters.AddWithValue("@SOTIENKM", i.SoTienKm);
-                        cmdAdđetail.Parameters.AddWithValue("@GIACUOICUNG", i.GiaCuoiCung);
-                        cmdAdđetail.Parameters.AddWithValue("@SL", i.SoLuong);
-                        cmdAdđetail.Parameters.AddWithValue("@THANHTIEN", i.ThanhTien);
+            foreach(var i in newReceipt.Cthd)
+            {
+                i.MaHD = newId;
+                SqlCommand cmdAdđetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) " +
+                    "VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN); " +
+                    "UPDATE SANPHAM SET SL = SL - @SL WHERE MASP = @MASP;", conn);
+                cmdAdđetail.Parameters.AddWithValue("@MAHD", i.MaHD);
+                cmdAdđetail.Parameters.AddWithValue("@MASP", i.MaSP);
+                cmdAdđetail.Parameters.AddWithValue("@GIA", i.Gia);
+                cmdAdđetail.Parameters.AddWithValue("@SOTIENKM", i.SoTienKm);
+                cmdAdđetail.Parameters.AddWithValue("@GIACUOICUNG", i.GiaCuoiCung);
+                cmdAdđetail.Parameters.AddWithValue("@SL", i.SoLuong);
+                cmdAdđetail.Parameters.AddWithValue("@THANHTIEN", i.ThanhTien);
 
-                        cmdAdđetail.ExecuteNonQuery();
-                    }
+                cmdAdđetail.ExecuteNonQuery();
+            }
           return newId;
         }
       }

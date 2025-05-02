@@ -933,6 +933,13 @@ namespace TechForgeGUI.SubPages
             if (newReceiptId > 0)
             {
                 MessageBox.Show("Tạo hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lichSuHoatDongBUS.Add(new LichSuHoatDongDTO()
+                {
+                    MaND = currentUser.MaND,
+                    NoiDung = $"Tạo hoá đơn #{newReceiptId}",
+                    ThoiGian = newHoaDon.NgLapHD,
+                    VaiTro = currentUser.VaiTro,
+                });
                 ReportReceiptDetailFormGUI rdfrm = new ReportReceiptDetailFormGUI(newHoaDon);
                 rdfrm.ShowDialog();
             }
@@ -944,6 +951,8 @@ namespace TechForgeGUI.SubPages
       // Clear form
       dgvInvoiceItems.Rows.Clear();
       dsCTHD.Clear();
+      dsChiTietHoaDon.Clear();
+      newHoaDon = new HoaDonDTO();
 
       txtCustomerSearch.Text = "";
       txtCustomerName.Text = "";
@@ -951,6 +960,8 @@ namespace TechForgeGUI.SubPages
       txtCustomerAddress.Text = "";
       selectedCustomer = null;
       UpdateInvoiceSummary();
+      dsSanPham = sanPhamBUS.GetAllConnected();
+      BindProductsData();
     }
   }
 }
