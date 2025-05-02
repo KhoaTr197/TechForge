@@ -19,18 +19,18 @@ namespace TechForgeGUI.SubPages
   {
     private LichSuKhoDTO ThongTinLichSu { get; set; }
     private LichSuKhoBUS BUS { get; set; }
-    private SanPhamBUS busSanPham { get; set; }
+    private SanPhamBUS sanPhamBus { get; set; }
     private List<NguoiDungDTO> DsNhanVienKho { get; set; }
     private List<SanPhamDTO> dsSanPham { get; set; }
     private ChiTietLichSuKhoDTO ChiTietLichSuKho { get; set; }
-    private Notification notify;
+    private UserNotification notify;
     public ImportExportDetailFormGUI(LichSuKhoBUS _BUS, SanPhamBUS _busSanPham, LichSuKhoDTO _thongTinLichSu = null, List<NguoiDungDTO> _DsNhanVienKho = null)
     {
       InitializeComponent();
 
       this.ThongTinLichSu = _thongTinLichSu;
       this.BUS = _BUS;
-      this.busSanPham = _busSanPham;
+      this.sanPhamBus = _busSanPham;
       this.DsNhanVienKho = _DsNhanVienKho;
       this.Text = "Chi tiết lịch sử";
 
@@ -73,7 +73,7 @@ namespace TechForgeGUI.SubPages
     {
       if (BUS.Add(ThongTinLichSu) != -1)
       {
-        notify = new Notification("Thêm thành công");
+        notify = new UserNotification("Thêm thành công");
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs(this));
       }
@@ -85,7 +85,7 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(ThongTinLichSu))
       {
-        notify = new Notification("Cập nhật thành công");
+        notify = new UserNotification("Cập nhật thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs(this));
       }
@@ -99,21 +99,16 @@ namespace TechForgeGUI.SubPages
     }
     private void GetData()
     {
-      this.dsSanPham = busSanPham.GetAllConnected();
+      this.dsSanPham = sanPhamBus.GetAllConnected();
     }
-    private void txtSearch_TextChanged(object sender, EventArgs e)
-    {
-      lstSearchResults.Items.Clear();
-
+    private void btnSearch_Click(object sender, EventArgs e) {
       string searchText = txtSearch.Text?.Trim().ToLower() ?? string.Empty;
 
-      var filteredResults = dsSanPham
-        .FindAll(sp => sp.TenSP != null && sp.TenSP.ToLower().Contains(searchText))
-        .Select(sp => $"{sp.MaSP} - {sp.TenSP}");
+      lstSearchResults.Items.Clear();
 
-      lstSearchResults.Items.AddRange(filteredResults.ToArray());
+      dsSanPham = sanPhamBus.FindBy(name: searchText);
 
-      lstSearchResults.Visible = true;
+      lstSearchResults.Items.AddRange(dsSanPham.Select(sp => $"{sp.MaSP} - {sp.TenSP}").ToArray());
     }
     private void lstSearchResults_SelectedIndexChanged(object sender, EventArgs e)
     {

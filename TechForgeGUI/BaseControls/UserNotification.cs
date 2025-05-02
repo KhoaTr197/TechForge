@@ -6,13 +6,13 @@ using TechForgeGUI.Utils;
 
 namespace TechForgeGUI.BaseControls
 {
-  public partial class Notification : UserControl
+  public partial class UserNotification : UserControl
   {
     private Form notificationForm;
     private Timer fadeTimer;
     private Timer closeTimer;
 
-    public Notification(string message, string Type = "success", int timeout = 3000)
+    public UserNotification(string message, string Type = "success", int timeout = 3000)
     {
       InitializeComponent();
       ShowNotification(message, Type, timeout);

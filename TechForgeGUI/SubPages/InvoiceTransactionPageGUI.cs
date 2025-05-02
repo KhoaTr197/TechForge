@@ -4,40 +4,85 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.ReportingServices.Interfaces;
 using TechForgeBUS;
 using TechForgeDTO;
+using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubPages
 {
   public partial class InvoiceTransactionPageGUI : Page
   {
+    private NguoiDungDTO CurrentUser { get; set; }
+
     // BUS objects
+    private HoaDonBUS hoaDonBUS;
     private SanPhamBUS sanPhamBUS;
     private HoiVienBUS hoiVienBUS;
 
     // Lists to store data
     private List<SanPhamDTO> dsSanPham;
     private List<HoiVienDTO> dsHoiVien;
-    private List<SanPhamDTO> dsCTHD; // Items added to invoice
-    
-    public InvoiceTransactionPageGUI()
+    private List<ChiTietHoaDonDTO> DsCthd;
+
+    public decimal TongTienHang { get; private set; }
+    public decimal GiamGiaHD { get; private set; }
+    public decimal ThanhTienHD { get; private set; }
+    public decimal TienKhachDua { get; private set; }
+    public decimal TienThua { get; private set; }
+
+    public InvoiceTransactionPageGUI(NguoiDungDTO _CurrentUser)
     {
       InitializeComponent();
+
+      this.CurrentUser = _CurrentUser;
+
       InitializeBUS();
       GetData();
 
       this.Dock = DockStyle.Fill;
       this.Font = new Font("Segoe UI", 10);
+      this.toolMenuChiTietHDXoa.Click += toolMenuChiTietHDXoa_Click;
     }
-    
+
+    private void toolMenuChiTietHDXoa_Click(object sender, EventArgs e)
+    {
+      if (dgvChiTietHD.SelectedRows.Count > 0)
+      {
+        int rowIndex = dgvChiTietHD.SelectedRows[0].Index;
+        DsCthd.RemoveAt(rowIndex);
+
+        dgvChiTietHD.DataSource = null;
+        dgvChiTietHD.DataSource = DsCthd;
+
+        UpdateInvoiceSummary();
+      }
+    }
+
+    private void UpdateInvoiceSummary()
+    {
+      TongTienHang = DsCthd.Sum(ct => ct.ThanhTien);
+      GiamGiaHD = DsCthd.Sum(ct => ct.SoTienKm);
+      ThanhTienHD = TongTienHang - GiamGiaHD;
+      TienKhachDua = nudKhachDua.Value;
+      TienThua = Math.Max(TienKhachDua - ThanhTienHD, 0);
+
+      lblTongTienHang.Text = string.Format("{0:N0} đ", TongTienHang);
+      lblGiamGiaHD.Text = string.Format("{0:N0} đ", GiamGiaHD);
+      lblThanhTienHD.Text = string.Format("{0:N0} đ", ThanhTienHD);
+      lblTienNhan.Text = string.Format("{0:N0} đ", TienKhachDua);
+      lblTienThua.Text = string.Format("{0:N0} đ", TienThua);
+    }
     // Initialize BUS
     private void InitializeBUS()
     {
+      hoaDonBUS = new HoaDonBUS(connStr);
       sanPhamBUS = new SanPhamBUS(connStr);
       hoiVienBUS = new HoiVienBUS(connStr);
     }
@@ -46,56 +91,159 @@ namespace TechForgeGUI.SubPages
     {
       dsSanPham = sanPhamBUS.GetAllConnected();
       dsHoiVien = hoiVienBUS.GetAllConnected();
-      dsCTHD = new List<SanPhamDTO>();
+      DsCthd = new List<ChiTietHoaDonDTO>();
     }
-    private void BtnProductSearch_Click(object sender, EventArgs e)
+    private void btnTimKiemSP_Click(object sender, EventArgs e)
     {
-      //string searchText = txtProductSearch.Text.Trim().ToLower();
-      
-      //if (string.IsNullOrEmpty(searchText))
-      //{
-      //  return;
-      //}
-      
-      //var filteredList = dsSanPham.Where(p => 
-      //  p.TenSP.ToLower().Contains(searchText) || 
-      //  p.MaSP.ToString().Contains(searchText)).ToList();
-      
-      //dgvProducts.DataSource = filteredList.Select(p => new 
-      //{
-      //  MaSP = p.MaSP,
-      //  TenSP = p.TenSP,
-      //  Gia = p.Gia,
-      //  KhuyenMai = p.KhuyenMai,
-      //  SoLuong = p.SoLuong
-      //}).ToList();
+      string searchText = txtTimKiemSP.Text.Trim().ToLower();
+
+      lstSearchResults.Items.Clear();
+
+      dsSanPham = sanPhamBUS.FindBy(name: searchText);
+
+      dgvTimKiemSP.DataSource = dsSanPham;
     }
-    private void DgvInvoiceItems_CellContentClick(object sender, EventArgs e)
+
+    private void btnTimKiemHV_Click(object sender, EventArgs e)
     {
-      //if (dgvInvoiceItems.CurrentCell.ColumnIndex != dgvInvoiceItems.Columns["Xoa"].Index)
-      //{
-      //  return;
-      //}
+      string searchText = txtTimKiemHV.Text.Trim().ToLower();
 
-      //if (MessageBox.Show("Bạn có chắc chắn xóa sản phẩm khỏi hóa đơn không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-      //{
-      //  return;
-      //} 
+      lstSearchResults.Items.Clear();
 
-      //int selectedIndex = dgvInvoiceItems.SelectedRows[0].Index;
-      //int productId = (int)dgvInvoiceItems.Rows[selectedIndex].Cells["MaSP"].Value;
-      
-      //// Remove from list
-      //SanPhamDTO productToRemove = dsCTHD.FirstOrDefault(p => p.MaSP == productId);
-      //if (productToRemove != null)
-      //{
-      //  dsCTHD.Remove(productToRemove);
-      //}
-      
-      //// Remove from grid
-      //dgvInvoiceItems.Rows.RemoveAt(selectedIndex);
-      
-      //UpdateInvoiceSummary();
-    }    
+      dsHoiVien = hoiVienBUS.FindByIdOrName(searchText);
+
+      lstSearchResults.Items.AddRange(dsHoiVien.Select(hv => $"{hv.MaHV} - {hv.HoTen}").ToArray());
+    }
+
+    private void lstSearchResults_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      var selectedItem = lstSearchResults.SelectedItems[0].ToString().ToLower();
+
+      var filteredResult = dsHoiVien
+        .Find(hv => selectedItem.Contains(hv.MaHV.ToString()) && selectedItem.Contains(hv.HoTen.ToString().ToLower()));
+
+      txtHoTen.Text = filteredResult.HoTen;
+      txtSdt.Text = filteredResult.Sdt;
+      txtDchi.Text = filteredResult.Dchi;
+
+    }
+    private void btnThemVaoHD_Click(object sender, EventArgs e)
+    {
+      SanPhamDTO selectedSP = dgvTimKiemSP.CurrentRow.DataBoundItem as SanPhamDTO;
+
+      if (DsCthd.Any(ct => ct.MaSP == selectedSP.MaSP))
+      {
+        var existingChiTietHD = DsCthd.First(x => x.MaSP == selectedSP.MaSP);
+        existingChiTietHD.SoLuong += 1;
+        existingChiTietHD.SoTienKm = (existingChiTietHD.Gia * existingChiTietHD.KhuyenMai / 100) * existingChiTietHD.SoLuong;
+        existingChiTietHD.ThanhTien = existingChiTietHD.GiaCuoiCung * existingChiTietHD.SoLuong;
+        dgvChiTietHD.Refresh();
+
+        UpdateInvoiceSummary();
+        return;
+      }
+
+      ChiTietHoaDonDTO newDetail = new ChiTietHoaDonDTO {
+        MaSP = selectedSP.MaSP,
+        HinhAnh = selectedSP.HinhAnh,
+        TenSP = selectedSP.TenSP,
+        Gia = selectedSP.Gia,
+        KhuyenMai = selectedSP.KhuyenMai,
+        SoTienKm = (selectedSP.Gia * selectedSP.KhuyenMai / 100),
+        GiaCuoiCung = selectedSP.Gia - (selectedSP.Gia * selectedSP.KhuyenMai / 100),
+        SoLuong = 1,
+        ThanhTien = selectedSP.Gia - (selectedSP.Gia * selectedSP.KhuyenMai / 100),
+      };
+
+      DsCthd.Add(newDetail);
+
+      dgvChiTietHD.DataSource = null;
+      dgvChiTietHD.DataSource = DsCthd;
+
+      UpdateInvoiceSummary();
+    }
+    private void dgvTimKiemSP_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value != null)
+      {
+        string columnName = dgvTimKiemSP.Columns[e.ColumnIndex].DataPropertyName;
+        if (columnName == "Gia" || columnName == "ThanhTien")
+        {
+          e.Value = string.Format("{0:N0} đ", Convert.ToDecimal(e.Value));
+          e.FormattingApplied = true;
+        }
+        else if (columnName == "HinhAnh")
+        {
+          string imagePath = Path.Combine(Application.StartupPath, "Resources", "ProductImages", $"{e.Value}.png");
+
+          if (File.Exists(imagePath))
+          {
+            e.Value = Image.FromFile(imagePath);
+            e.FormattingApplied = true;
+          }
+        }
+      }
+    }
+
+    private void dgvChiTietHD_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    {
+      if (e.Value != null)
+      {
+        string columnName = dgvChiTietHD.Columns[e.ColumnIndex].DataPropertyName;
+        if (columnName == "Gia" || columnName == "ThanhTien")
+        {
+          e.Value = string.Format("{0:N0} đ", Convert.ToDecimal(e.Value));
+          e.FormattingApplied = true;
+        }
+        else if (columnName == "HinhAnh")
+        {
+          string imagePath = Path.Combine(Application.StartupPath, "Resources", "ProductImages", $"{e.Value}.png");
+
+          if (File.Exists(imagePath))
+          {
+            e.Value = Image.FromFile(imagePath);
+            e.FormattingApplied = true;
+          }
+        }
+      }
+    }
+
+    private void nudKhachDua_ValueChanged(object sender, EventArgs e)
+    {
+      UpdateInvoiceSummary();
+    }
+
+    private void btnTaoHoaDon_Click(object sender, EventArgs e)
+    {
+      HoaDonDTO newHoaDon = new HoaDonDTO
+      {
+        MaHV = dsHoiVien.FirstOrDefault(hv => hv.HoTen == txtHoTen.Text).MaHV,
+        NgLapHD = DateTime.Now,
+        HoTen = txtHoTen.Text,
+        Sdt = txtSdt.Text,
+        DiaChi = txtDchi.Text,
+        NvLapHD = CurrentUser.MaND,
+        TongTien = ThanhTienHD,
+        Cthd = DsCthd
+      };
+      if (hoaDonBUS.Add(newHoaDon) != -1)
+      {
+        UserNotification notify = new UserNotification("Tạo hóa đơn thành công!");
+        notify.Show();
+      } else
+      {
+        UserNotification notify = new UserNotification("Tạo hóa đơn thất bại!", "error");
+        notify.Show();
+      }
+    }
+
+    private void dgvChiTietHD_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+    {
+      ChiTietHoaDonDTO detail = DsCthd[e.RowIndex];
+      detail.SoLuong = Convert.ToInt32(dgvChiTietHD.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+      detail.ThanhTien = detail.GiaCuoiCung * detail.SoLuong;
+
+      UpdateInvoiceSummary();
+    }
   }
 }

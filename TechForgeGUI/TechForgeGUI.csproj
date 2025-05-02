@@ -108,11 +108,11 @@
     <Compile Include="BaseControls\ManagePage.Designer.cs">
       <DependentUpon>ManagePage.cs</DependentUpon>
     </Compile>
-    <Compile Include="BaseControls\Notification.cs">
+    <Compile Include="BaseControls\UserNotification.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BaseControls\Notification.Designer.cs">
-      <DependentUpon>Notification.cs</DependentUpon>
+    <Compile Include="BaseControls\UserNotification.Designer.cs">
+      <DependentUpon>UserNotification.cs</DependentUpon>
     </Compile>
     <Compile Include="BaseControls\Page.cs">
       <SubType>UserControl</SubType>
@@ -385,6 +385,7 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\TechForgeDTO.ChiTietHoaDonDTO.datasource" />
     <None Include="Properties\DataSources\TechForgeDTO.ChiTietLichSuKhoDTO.datasource" />
+    <None Include="Properties\DataSources\TechForgeDTO.SanPhamDTO.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

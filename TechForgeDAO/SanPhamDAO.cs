@@ -216,5 +216,50 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while deleting data from the database.", ex);
       }
     }
+
+    public List<SanPhamDTO> FindBy(string name)
+    {
+      try
+      {
+        List<SanPhamDTO> products = new List<SanPhamDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          SqlCommand cmd = new SqlCommand($"SELECT * FROM SANPHAM WHERE TENSP LIKE @NAME", conn);
+          cmd.Parameters.AddWithValue("@NAME", $"%{name}%");
+
+          using (SqlDataReader reader = cmd.ExecuteReader())
+          {
+            while (reader.Read())
+            {
+              products.Add(new SanPhamDTO()
+              {
+                MaSP = reader.GetInt32(0),
+                TenSP = reader.GetString(1),
+                GiaNhap = reader.GetDecimal(2),
+                Gia = reader.GetDecimal(3),
+                KhuyenMai = reader.GetDecimal(4),
+                MoTa = reader.GetString(5),
+                SoLuong = reader.GetInt32(6),
+                DonViTinh = reader.GetString(7),
+                HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                DanhMuc = reader.GetInt32(9),
+                Hsx = reader.GetInt32(10),
+                Ncc = reader.GetInt32(11),
+                NgSx = reader.GetDateTime(12),
+                TrangThai = reader.GetBoolean(13)
+              });
+            }
+          }
+        }
+
+        return products;
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting data from the database.", ex);
+      }
+    }
   }
 }

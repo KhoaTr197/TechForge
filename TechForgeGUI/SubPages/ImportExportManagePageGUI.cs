@@ -136,9 +136,9 @@ namespace TechForgeGUI.SubPages
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
+      SanPhamBUS sanPhamBus = new SanPhamBUS(this.connStr);
 
-      ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, busSanPham);
+      ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, sanPhamBus);
       OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
       Overlay.Show(Form.ActiveForm);
@@ -157,9 +157,9 @@ namespace TechForgeGUI.SubPages
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
           LichSuKhoDTO lichSuKho = dsLichSuKho.Find(hv => hv.MaLS == (int)selectedRow.Cells[0].Value);
           lichSuKho.Ctlsk = bus.GetDetail(lichSuKho.MaLS);
-          SanPhamBUS busSanPham = new SanPhamBUS(this.connStr);
+          SanPhamBUS sanPhamBus = new SanPhamBUS(this.connStr);
 
-          ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, busSanPham, lichSuKho, DsNhanVienKho);
+          ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, sanPhamBus, lichSuKho, DsNhanVienKho);
           OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
           Overlay.Show(Form.ActiveForm);

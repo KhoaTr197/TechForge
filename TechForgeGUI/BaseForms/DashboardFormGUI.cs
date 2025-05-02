@@ -164,7 +164,7 @@ namespace TechForgeGUI.BaseForm
           }
         case "CreateInvoice":
           {
-            currentPage = new InvoiceTransactionPageGUI();
+            currentPage = new InvoiceTransactionPageGUI(currentUser);
             panelMain.Controls.Add(currentPage);
             break;
           }

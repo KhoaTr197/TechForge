@@ -72,5 +72,10 @@ namespace TechForgeBUS
     {
       return this.DAO.Delete(id);
     }
+
+    public List<SanPhamDTO> FindBy(string name)
+    {
+      return this.DAO.FindBy(name: name);
+    }
   }
 }

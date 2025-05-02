@@ -106,17 +106,43 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO HOADON (MAHV, HOTEN, SDT, DCHI, NvLapHD, TONGTIEN, NGLAPHD) VALUES (@MAHV, @HOTEN, @SDT, @DCHI, @NvLapHD, @TONGTIEN, @NGLAPHD)", conn);
-          cmd.Parameters.AddWithValue("@MAHV", newReceipt.MaHV);
-          cmd.Parameters.AddWithValue("@HOTEN", newReceipt.HoTen);
-          cmd.Parameters.AddWithValue("@SDT", newReceipt.Sdt);
-          cmd.Parameters.AddWithValue("@DCHI", newReceipt.DiaChi);
-          cmd.Parameters.AddWithValue("@NvLapHD", newReceipt.NgLapHD);
-          cmd.Parameters.AddWithValue("@TONGTIEN", newReceipt.TongTien);
+          using (SqlTransaction transaction = conn.BeginTransaction())
+          {
+            try
+            {
+              SqlCommand cmd = new SqlCommand("INSERT INTO HOADON (MAHV, HOTEN, SDT, DCHI, NvLapHD, TONGTIEN, NGLAPHD) OUTPUT INSERTED.MAHD VALUES (@MAHV, @HOTEN, @SDT, @DCHI, @NvLapHD, @TONGTIEN, @NGLAPHD)", conn, transaction);
+              cmd.Parameters.AddWithValue("@MAHV", newReceipt.MaHV);
+              cmd.Parameters.AddWithValue("@HOTEN", newReceipt.HoTen);
+              cmd.Parameters.AddWithValue("@SDT", newReceipt.Sdt);
+              cmd.Parameters.AddWithValue("@DCHI", newReceipt.DiaChi);
+              cmd.Parameters.AddWithValue("@NvLapHD", newReceipt.NvLapHD);
+              cmd.Parameters.AddWithValue("@TONGTIEN", newReceipt.TongTien);
+              cmd.Parameters.AddWithValue("@NGLAPHD", DateTime.Now);
 
-          int newId = Convert.ToInt32(cmd.ExecuteScalar());
-          newReceipt.MaHD = newId;
-          return newId;
+              int newId = Convert.ToInt32(cmd.ExecuteScalar());
+
+              foreach (var item in newReceipt.Cthd)
+              {
+                SqlCommand cmdDetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN)", conn, transaction);
+                cmdDetail.Parameters.AddWithValue("@MAHD", newId);
+                cmdDetail.Parameters.AddWithValue("@MASP", item.MaSP);
+                cmdDetail.Parameters.AddWithValue("@GIA", item.Gia);
+                cmdDetail.Parameters.AddWithValue("@SOTIENKM", item.SoTienKm);
+                cmdDetail.Parameters.AddWithValue("@GIACUOICUNG", item.GiaCuoiCung);
+                cmdDetail.Parameters.AddWithValue("@SL", item.SoLuong);
+                cmdDetail.Parameters.AddWithValue("@THANHTIEN", item.ThanhTien);
+                cmdDetail.ExecuteNonQuery();
+              }
+
+              transaction.Commit();
+              return newId;
+            }
+            catch (Exception ex)
+            {
+              transaction.Rollback();
+              throw new DataException("An error occurred while adding data to the database.", ex);
+            }
+          }
         }
       }
       catch (Exception ex)
@@ -135,7 +161,7 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE HANGSANXUAT SET MAHV = @MAHV, HOTEN = @HOTEN, SDT = @SDT, DCHI = @DCHI, NvLapHD = @NvLapHD, TONGTIEN = @TONGTIEN, NGLAPHD = @NGLAPHD WHERE MAHD = @MAHD", conn);
+          SqlCommand cmd = new SqlCommand("UPDATE HOADON SET MAHV = @MAHV, HOTEN = @HOTEN, SDT = @SDT, DCHI = @DCHI, NvLapHD = @NvLapHD, TONGTIEN = @TONGTIEN, NGLAPHD = @NGLAPHD WHERE MAHD = @MAHD", conn);
           cmd.Parameters.AddWithValue("@MAHV", updatedReceipt.MaHV);
           cmd.Parameters.AddWithValue("@HOTEN", updatedReceipt.HoTen);
           cmd.Parameters.AddWithValue("@SDT", updatedReceipt.Sdt);

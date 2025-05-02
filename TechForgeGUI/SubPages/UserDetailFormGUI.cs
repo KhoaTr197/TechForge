@@ -22,7 +22,7 @@ namespace TechForgeGUI.SubPages
     private TaiKhoanDTO thongTinTaiKhoan { get; set; }
     private List<string> dsVaiTro { get; set; }
     private RolePermissions permissions { get; set; }
-    private Notification notify;
+    private UserNotification notify;
     public UserDetailFormGUI(RolePermissions _permissions, NguoiDungBUS _BUS, TaiKhoanBUS _taiKhoanBUS, NguoiDungDTO _thongTinNguoiDung = null, TaiKhoanDTO _thongTinTaiKhoan = null)
     {
       InitializeComponent();
@@ -146,7 +146,7 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Add(newNguoiDung) != -1 && taiKhoanBUS.Add(newTaiKhoan))
       {
-        notify = new Notification("Thêm người dùng thành công");
+        notify = new UserNotification("Thêm người dùng thành công");
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
       }
@@ -173,7 +173,7 @@ namespace TechForgeGUI.SubPages
 
       if (result && BUS.Update(ThongTinNguoiDung, updatedNguoiDung) && taiKhoanBUS.Update(thongTinTaiKhoan, updatedTaiKhoan))
       {
-        notify = new Notification("Cập nhật người dùng thành công");
+        notify = new UserNotification("Cập nhật người dùng thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
       }

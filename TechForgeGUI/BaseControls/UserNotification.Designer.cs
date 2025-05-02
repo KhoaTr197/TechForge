@@ -1,6 +1,6 @@
 ﻿namespace TechForgeGUI.BaseControls
 {
-  partial class Notification
+  partial class UserNotification
   {
     /// <summary> 
     /// Required designer variable.

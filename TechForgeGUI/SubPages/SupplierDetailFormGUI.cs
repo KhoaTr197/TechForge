@@ -19,7 +19,7 @@ namespace TechForgeGUI.SubPages
     private NhaCungCapDTO thongTinNcc { get; set; }
     private NhaCungCapBUS BUS { get; set; }
     private RolePermissions permissions { get; set; }
-    private Notification notify;
+    private UserNotification notify;
     public SupplierDetailFormGUI(RolePermissions _permissions, NhaCungCapBUS _BUS, NhaCungCapDTO _thongTinNcc = null)
     {
       InitializeComponent();
@@ -120,7 +120,7 @@ namespace TechForgeGUI.SubPages
       };
       if (BUS.Add(newNcc) != -1)
       {
-        notify = new Notification("Them thanh cong");
+        notify = new UserNotification("Them thanh cong");
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
       }
@@ -140,7 +140,7 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(thongTinNcc, updatedNcc))
       {
-        notify = new Notification("Cap nhat thanh cong");
+        notify = new UserNotification("Cap nhat thanh cong");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
       }

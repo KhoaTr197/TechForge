@@ -93,5 +93,10 @@ namespace TechForgeBUS
     {
       return this.DAO.GetNextId();
     }
+
+    public List<HoiVienDTO> FindByIdOrName(string searchText)
+    {
+      return this.DAO.FindByIdOrName(searchText);
+    }
   }
 }

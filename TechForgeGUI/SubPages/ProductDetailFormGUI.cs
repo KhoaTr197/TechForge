@@ -23,7 +23,7 @@ namespace TechForgeGUI.SubPages
     private List<HangSanXuatDTO> DsHangSanXuat { get; set; }
     private List<NhaCungCapDTO> DsNhaCungCap { get; set; }
     private SanPhamBUS BUS { get; set; }
-    private Notification notify;
+    private UserNotification notify;
     private RolePermissions permissions { get; set; }
     public ProductDetailFormGUI(RolePermissions _permissions, SanPhamBUS _BUS, SanPhamDTO _thongTinSanPham=null, List<DanhMucDTO> _dsDanhMuc = null, List<HangSanXuatDTO> _dsHangSanXuat = null, List<NhaCungCapDTO> _dsNhaCungCap = null)
     {
@@ -170,7 +170,7 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Add(newSanPham) != -1)
       {
-        notify = new Notification("Thêm thành công");
+        notify = new UserNotification("Thêm thành công");
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
       }
@@ -184,7 +184,7 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(ThongTinSanPham, updatedSanPham))
       {
-        notify = new Notification("Cập nhật thành công");
+        notify = new UserNotification("Cập nhật thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
       }
@@ -193,7 +193,7 @@ namespace TechForgeGUI.SubPages
     {
       if (BUS.Delete(ThongTinSanPham.MaSP))
       {
-        notify = new Notification("Xóa thành công");
+        notify = new UserNotification("Xóa thành công");
         notify.Show();
         OnDeleteSubmit(new DetailFormDeleteSubmitEventArgs());
       }

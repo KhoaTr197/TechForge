@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TechForgeDTO;
 
 namespace TechForgeDAO
@@ -164,6 +165,50 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An error occurred while getting the next ID from the database.", ex);
+      }
+    }
+
+    public List<HoiVienDTO> FindByIdOrName(string searchText)
+    {
+      try
+      {
+        List<HoiVienDTO> customers = new List<HoiVienDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          SqlCommand cmd = new SqlCommand($"SELECT * FROM HOIVIEN WHERE MAHV = @MAHV OR HOTEN LIKE @NAME", conn);
+          if (int.TryParse(searchText, out int mahv))
+          {
+            cmd.Parameters.AddWithValue("@MAHV", mahv);
+          }
+          else
+          {
+            cmd.Parameters.AddWithValue("@MAHV", DBNull.Value);
+          }
+          cmd.Parameters.AddWithValue("@NAME", $"%{searchText}%");
+
+          using (SqlDataReader reader = cmd.ExecuteReader())
+          {
+            while (reader.Read())
+            {
+              customers.Add(new HoiVienDTO
+              {
+                MaHV = reader.GetInt32(0),
+                HoTen = reader.GetString(1),
+                GioiTinh = reader.GetBoolean(2),
+                Sdt = reader.GetString(3),
+                Dchi = reader.GetString(4),
+              });
+            }
+          }
+        }
+
+        return customers;
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
   }
