@@ -41,7 +41,6 @@ namespace TechForgeGUI.SubPages
     public InvoiceTransactionPageGUI(NguoiDungDTO _CurrentUser)
     {
       InitializeComponent();
-
       this.CurrentUser = _CurrentUser;
 
       InitializeBUS();
@@ -133,8 +132,13 @@ namespace TechForgeGUI.SubPages
     }
     private void btnThemVaoHD_Click(object sender, EventArgs e)
     {
+      if(dgvTimKiemSP.CurrentRow == null)
+      {
+          MessageBox.Show("Chưa chọn sản phẩm!");
+          return;
+      }
       SanPhamDTO selectedSP = dgvTimKiemSP.CurrentRow.DataBoundItem as SanPhamDTO;
-
+      
       if (DsCthd.Any(ct => ct.MaSP == selectedSP.MaSP))
       {
         var existingChiTietHD = DsCthd.First(x => x.MaSP == selectedSP.MaSP);
@@ -256,6 +260,7 @@ namespace TechForgeGUI.SubPages
       int newReceiptId = hoaDonBUS.Add(newHoaDon);
       if (newReceiptId != -1)
       {
+        newHoaDon.MaHD = newReceiptId;
         UserNotification notify = new UserNotification("Tạo hóa đơn thành công!");
         notify.Show();
 

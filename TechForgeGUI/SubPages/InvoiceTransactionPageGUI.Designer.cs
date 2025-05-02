@@ -932,6 +932,8 @@
       this.txtMaHV.Name = "txtMaHV";
       this.txtMaHV.Size = new System.Drawing.Size(258, 25);
       this.txtMaHV.TabIndex = 25;
+      txtMaHV.ReadOnly = true;
+      txtMaHV.Enabled = false;
       // 
       // label11
       // 

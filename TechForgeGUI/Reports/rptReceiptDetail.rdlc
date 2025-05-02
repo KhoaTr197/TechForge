@@ -620,7 +620,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -652,7 +651,7 @@
             <Top>2.43833in</Top>
             <Left>0.18238in</Left>
             <Height>0.64167in</Height>
-            <Width>8.40357in</Width>
+            <Width>8.40358in</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -1109,7 +1108,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=Sum(Fields!MaHD.Value, "dsHoaDon")</Value>
+                      <Value>=First(Fields!MaHD.Value, "dsHoaDon")</Value>
                       <Style>
                         <FontFamily>Times New Roman</FontFamily>
                         <FontSize>13pt</FontSize>
