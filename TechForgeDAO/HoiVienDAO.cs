@@ -229,14 +229,6 @@ namespace TechForgeDAO
 
           using (SqlCommand cmd = new SqlCommand(query, conn))
           {
-            if (int.TryParse(searchText, out int mahv))
-            {
-              cmd.Parameters.AddWithValue("@MAHV", mahv);
-            }
-            else
-            {
-              cmd.Parameters.AddWithValue("@MAHV", DBNull.Value);
-            }
             cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
 
             using (SqlDataReader reader = cmd.ExecuteReader())

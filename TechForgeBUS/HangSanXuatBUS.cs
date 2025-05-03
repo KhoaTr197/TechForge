@@ -41,5 +41,9 @@ namespace TechForgeBUS
     {
       return this.DAO.GetNextId();
     }
+    public List<HangSanXuatDTO> FindByAnyProperty(string searchText)
+    {
+      return this.DAO.FindByAnyProperty(searchText);
+    }
   }
 }

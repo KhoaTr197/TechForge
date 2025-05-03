@@ -239,13 +239,13 @@ namespace TechForgeGUI.SubPages
     }
     private void btnSearch_Click(object sender, EventArgs e)
     {
-      List<HoiVienDTO> dsHoiVien = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
-      if (dsHoiVien.Count == 0)
+      List<HoiVienDTO> newDsHoiVien = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsHoiVien.Count == 0)
       {
         MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         return;
       }
-      dsHoiVien = dsHoiVien;
+      dsHoiVien = newDsHoiVien;
 
       LoadData();
     }

@@ -36,6 +36,8 @@ namespace TechForgeGUI.SubPages
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
@@ -197,6 +199,18 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Hãng trống", "0", "warning_icon", Color.FromArgb(231, 76, 60)),
         new SummaryCard("Hãng mới", "0", "money_icon", Color.FromArgb(155, 89, 182))
       });
+    }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<HangSanXuatDTO> newDsHangSanXuat = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsHangSanXuat.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      dsHangSanXuat = newDsHangSanXuat;
+
+      LoadData();
     }
   }
 }
