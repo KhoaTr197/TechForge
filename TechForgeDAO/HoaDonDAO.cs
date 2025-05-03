@@ -125,6 +125,15 @@ namespace TechForgeDAO
               foreach (var item in newReceipt.Cthd)
               {
                 SqlCommand cmdDetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN)", conn, transaction);
+
+                SqlCommand cmdCheckProductQuantity = new SqlCommand("SELECT SL FROM SANPHAM WHERE MASP = @MASP", conn, transaction);
+                cmdCheckProductQuantity.Parameters.AddWithValue("@MASP", item.MaSP);
+                int productQuantity = (int)cmdCheckProductQuantity.ExecuteScalar();
+                if (productQuantity < item.SoLuong)
+                {
+                  return -2; // Not enough product quantity
+                }
+
                 SqlCommand cmdUpdateProduct = new SqlCommand("UPDATE SANPHAM SET SL = SL - @SL WHERE MASP = @MASP", conn, transaction);
 
                 cmdDetail.Parameters.AddWithValue("@MAHD", newId);

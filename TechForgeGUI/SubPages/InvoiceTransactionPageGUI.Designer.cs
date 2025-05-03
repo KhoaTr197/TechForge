@@ -29,8 +29,8 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
       this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
       this.pnlProductDGV = new System.Windows.Forms.Panel();
@@ -196,8 +196,8 @@
       // maSPDataGridViewTextBoxColumn
       // 
       this.maSPDataGridViewTextBoxColumn.DataPropertyName = "MaSP";
-      dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.maSPDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle3;
+      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.maSPDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
       this.maSPDataGridViewTextBoxColumn.HeaderText = "Mã SP";
       this.maSPDataGridViewTextBoxColumn.Name = "maSPDataGridViewTextBoxColumn";
       this.maSPDataGridViewTextBoxColumn.ReadOnly = true;
@@ -436,8 +436,8 @@
       // giaDataGridViewTextBoxColumn1
       // 
       this.giaDataGridViewTextBoxColumn1.DataPropertyName = "Gia";
-      dataGridViewCellStyle4.NullValue = null;
-      this.giaDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle4;
+      dataGridViewCellStyle2.NullValue = null;
+      this.giaDataGridViewTextBoxColumn1.DefaultCellStyle = dataGridViewCellStyle2;
       this.giaDataGridViewTextBoxColumn1.FillWeight = 94.22589F;
       this.giaDataGridViewTextBoxColumn1.HeaderText = "Giá";
       this.giaDataGridViewTextBoxColumn1.Name = "giaDataGridViewTextBoxColumn1";

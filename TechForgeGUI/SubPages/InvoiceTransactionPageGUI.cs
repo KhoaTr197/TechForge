@@ -258,6 +258,11 @@ namespace TechForgeGUI.SubPages
         Cthd = DsCthd.ToList(),
       };
       int newReceiptId = hoaDonBUS.Add(newHoaDon);
+      if (newReceiptId == -2)
+      {
+        MessageBox.Show("Số lượng tồn kho không đủ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
       if (newReceiptId != -1)
       {
         newHoaDon.MaHD = newReceiptId;
