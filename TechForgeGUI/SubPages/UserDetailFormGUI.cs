@@ -105,10 +105,29 @@ namespace TechForgeGUI.SubPages
 
         btnAdd.Click += btnAdd_Click;
         btnEdit.Click += btnEdit_Click;
+
+            
       }
-    private void UserDetailFormGUI_LoadAddForm(object sender, EventArgs e)
+
+        private void CboVaiTro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtMaND.Text = BUS.GetNextId(cboVaiTro.SelectedItem.ToString());
+        }
+
+        private void UserDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
-    }
+            foreach (var vaiTro in dsVaiTro)
+            {
+                cboVaiTro.Items.Add(vaiTro);
+            }
+            cboVaiTro.SelectedIndex = 0;
+            txtMaND.Text = BUS.GetNextId(cboVaiTro.SelectedItem.ToString());
+            txtMaND.ReadOnly = true;
+
+            radNam.Checked = true;
+
+            cboVaiTro.SelectedIndexChanged += CboVaiTro_SelectedIndexChanged;
+        }
     private void UserDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
       txtMaND.Text = ThongTinNguoiDung.MaND.ToString();
