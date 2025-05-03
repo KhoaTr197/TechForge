@@ -133,6 +133,11 @@ namespace TechForgeGUI.SubPages
     }
     private void btnThemVaoHD_Click(object sender, EventArgs e)
     {
+      if (dgvTimKiemSP.CurrentRow == null)
+      {
+        MessageBox.Show("Vui lòng chọn sản phẩm để thêm vào hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
       SanPhamDTO selectedSP = dgvTimKiemSP.CurrentRow.DataBoundItem as SanPhamDTO;
 
       if (DsCthd.Any(ct => ct.MaSP == selectedSP.MaSP))
@@ -297,6 +302,14 @@ namespace TechForgeGUI.SubPages
       detail.ThanhTien = detail.GiaCuoiCung * detail.SoLuong;
 
       UpdateInvoiceSummary();
+    }
+
+    private void btnClear_Click(object sender, EventArgs e)
+    {
+      txtMaHV.Clear();
+      txtHoTen.Clear();
+      txtSdt.Clear();
+      txtDchi.Clear();
     }
   }
 }

@@ -120,6 +120,7 @@ namespace TechForgeDAO
               cmd.Parameters.AddWithValue("@NGLAPHD", DateTime.Now);
 
               int newId = Convert.ToInt32(cmd.ExecuteScalar());
+              newReceipt.MaHD = newId;
 
               foreach (var item in newReceipt.Cthd)
               {
@@ -142,6 +143,7 @@ namespace TechForgeDAO
               }
 
               transaction.Commit();
+
               return newId;
             }
             catch (Exception ex)
