@@ -59,7 +59,7 @@ namespace TechForgeGUI.BaseForm
             },
             new SidebarTabItem{ Id="Receipt", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
             new SidebarTabItem{ Id="CreateInvoice", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Tạo Đơn Hàng" },
-            new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
+            new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Hội viên" },
             new SidebarTabItem{ Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" },
           };
           break;
@@ -78,7 +78,7 @@ namespace TechForgeGUI.BaseForm
             },
             new SidebarTabItem { Id = "Supplier", ImageList = GlobalStatics.iconList, ImageKey = "supplier_icon", Text = "Nhà cung cấp" },
             new SidebarTabItem{ Id="Receipt", ImageList=GlobalStatics.iconList, ImageKey="receipt_icon", Text="Đơn Hàng" },
-            new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Khách Hàng" },
+            new SidebarTabItem{ Id="Customer", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Hội viên" },
             new SidebarTabItem{ Id="Users", ImageList=GlobalStatics.iconList, ImageKey="users_icon", Text="Người Dùng" },
             new SidebarTabItem { Id="Logout", ImageList=GlobalStatics.iconList, ImageKey="logout_icon", Text="Đăng Xuất" }
           };
