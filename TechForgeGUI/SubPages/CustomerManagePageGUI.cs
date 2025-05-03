@@ -11,6 +11,7 @@ using TechForgeBUS;
 using TechForgeDTO;
 using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TechForgeGUI.SubPages
 {
@@ -38,6 +39,8 @@ namespace TechForgeGUI.SubPages
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
@@ -143,30 +146,30 @@ namespace TechForgeGUI.SubPages
       {
         if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "GioiTinh")
         {
-          bool status = (bool)e.Value;
-          if (status)
-          {
-            e.Value = "Nam";
-          }
-          else
-          {
-            e.Value = "Nữ";
-          }
+            bool status = (bool)e.Value;
+            if (status)
+            {
+                e.Value = "Nam";
+            }
+            else
+            {
+                e.Value = "Nữ";
+            }
         }
         if (dgvMainList.dgvList.Columns[e.ColumnIndex].Name == "TrangThai")
         {
           bool status = (bool)e.Value;
           if (status)
           {
-            e.CellStyle.ForeColor = Color.White;
-            e.CellStyle.BackColor = Color.Green;
-            e.Value = "Hoạt động";
+              e.CellStyle.ForeColor = Color.White;
+              e.CellStyle.BackColor = Color.Green;
+              e.Value = "Hoạt động";
           }
           else
           {
-            e.CellStyle.ForeColor = Color.White;
-            e.CellStyle.BackColor = Color.Red;
-            e.Value = "Ít hoạt động";
+              e.CellStyle.ForeColor = Color.White;
+              e.CellStyle.BackColor = Color.Red;
+              e.Value = "Ít hoạt động";
           }
         }
       }
@@ -235,5 +238,16 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
       });
     }
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            List<HoiVienDTO> dsHoiVienCopy = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+            if(dsHoiVienCopy.Count == 0)
+            {
+                MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            dsHoiVien = dsHoiVienCopy;
+            LoadData();
+        }
   }
 }

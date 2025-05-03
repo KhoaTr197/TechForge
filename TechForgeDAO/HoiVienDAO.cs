@@ -211,5 +211,63 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
+
+    public List<HoiVienDTO> FindByAnyProperty(string searchText)
+    {
+        try
+        {
+            List<HoiVienDTO> customers = new List<HoiVienDTO>();
+
+            using (SqlConnection conn = CreateConnection())
+            {
+                conn.Open();
+                string query = @"
+            SELECT * FROM HOIVIEN 
+            WHERE HOTEN LIKE @SEARCH_TEXT 
+            OR SDT LIKE @SEARCH_TEXT 
+            OR DCHI LIKE @SEARCH_TEXT
+            ORDER BY TRANGTHAI DESC";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    if (int.TryParse(searchText, out int mahv))
+                    {
+                        cmd.Parameters.AddWithValue("@MAHV", mahv);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@MAHV", DBNull.Value);
+                    }
+                    cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            customers.Add(new HoiVienDTO
+                            {
+                                MaHV = reader.GetInt32(0),
+                                HoTen = reader.GetString(1),
+                                GioiTinh = reader.GetBoolean(2),
+                                Sdt = reader.GetString(3),
+                                Dchi = reader.GetString(4),
+                                TrangThai = reader.GetBoolean(5),
+                            });
+                        }
+                    }
+                }
+            }
+
+            return customers;
+        }
+        catch (SqlException ex)
+        {
+            throw new DataException("Database error occurred while searching for members.", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new DataException("An unexpected error occurred while searching for members.", ex);
+        }
+    }
   }
 }

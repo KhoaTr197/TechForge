@@ -98,5 +98,10 @@ namespace TechForgeBUS
     {
       return this.DAO.FindByIdOrName(searchText);
     }
+
+        public List<HoiVienDTO> FindByAnyProperty(string searchText)
+        {
+            return this.DAO.FindByAnyProperty(searchText);
+        }
   }
 }
