@@ -166,7 +166,7 @@ namespace TechForgeGUI.SubPages
           {
             e.CellStyle.ForeColor = Color.White;
             e.CellStyle.BackColor = Color.Red;
-            e.Value = "Không hoạt động";
+            e.Value = "Ít hoạt động";
           }
         }
       }
