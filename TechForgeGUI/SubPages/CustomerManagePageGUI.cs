@@ -240,13 +240,13 @@ namespace TechForgeGUI.SubPages
     }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            List<HoiVienDTO> dsHoiVienCopy = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
-            if(dsHoiVienCopy.Count == 0)
+            List<HoiVienDTO> dsKetQua = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+            if(dsKetQua.Count == 0)
             {
                 MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            dsHoiVien = dsHoiVienCopy;
+            dsHoiVien = dsKetQua;
             LoadData();
         }
   }
