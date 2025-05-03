@@ -37,6 +37,8 @@ namespace TechForgeGUI.SubForms
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
@@ -199,6 +201,18 @@ namespace TechForgeGUI.SubForms
       {
         new SummaryCard("Tổng nhà cung cấp", DsNhaCungCap.Count.ToString(), "supplier_icon", Color.FromArgb(52, 152, 219)),
       });
+    }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<NhaCungCapDTO> newDsNhaCungCap = BUS.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsNhaCungCap.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      DsNhaCungCap = newDsNhaCungCap;
+
+      LoadData();
     }
   }
 }

@@ -72,5 +72,9 @@ namespace TechForgeBUS
     {
       return this.DAO.Deactive(id);
     }
+    public List<NhaCungCapDTO> FindByAnyProperty(string searchText)
+    {
+      return this.DAO.FindByAnyProperty(searchText);
+    }
   }
 }

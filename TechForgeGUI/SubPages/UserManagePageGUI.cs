@@ -203,5 +203,17 @@ namespace TechForgeGUI.SubForms
         new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
       });
     }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<NguoiDungDTO> newDsNguoiDung = BUS.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsNguoiDung.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      DsNguoiDung = newDsNguoiDung;
+
+      LoadData();
+    }
   }
 }

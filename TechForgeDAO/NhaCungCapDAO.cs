@@ -216,5 +216,55 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
+    public List<NhaCungCapDTO> FindByAnyProperty(string searchText)
+    {
+      try
+      {
+        List<NhaCungCapDTO> result = new List<NhaCungCapDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"
+            SELECT * FROM NHACUNGCAP 
+            WHERE TENNCC LIKE @SEARCH_TEXT OR
+                  NDD LIKE @SEARCH_TEXT OR
+                  SDT LIKE @SEARCH_TEXT OR
+                  EMAIL LIKE @SEARCH_TEXT
+          ";
+
+          using (SqlCommand cmd = new SqlCommand(query, conn))
+          {
+            cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+              while (reader.Read())
+              {
+                result.Add(new NhaCungCapDTO
+                {
+                  MaNCC = reader.GetInt32(0),
+                  TenNCC = reader.GetString(1),
+                  Ndd = reader.GetString(2),
+                  Sdt = reader.GetString(3),
+                  Email = reader.GetString(4),
+                  TrangThai = reader.GetBoolean(5)
+                });
+              }
+            }
+          }
+        }
+
+        return result;
+      }
+      catch (SqlException ex)
+      {
+        throw new DataException("Database error occurred while searching for suppliers.", ex);
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An unexpected error occurred while searching for suppliers.", ex);
+      }
+    }
   }
 }
