@@ -177,7 +177,7 @@ namespace TechForgeGUI.BaseForm
           }
         case "Import/Export":
           {
-            currentPage = new ImportExportManagePageGUI(role);
+            currentPage = new ImportExportManagePageGUI(role, currentUser);
             panelMain.Controls.Add(currentPage);
             break;
           }

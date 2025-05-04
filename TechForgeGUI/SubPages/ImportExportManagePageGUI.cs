@@ -21,13 +21,14 @@ namespace TechForgeGUI.SubPages
     private NguoiDungBUS BusNguoiDung { get; set; }
     private List<NguoiDungDTO> DsNhanVienKho { get; set; }
     private RolePermissions permissions;
-    public ImportExportManagePageGUI(string role)
+        private NguoiDungDTO currentUser {  get; set; }
+    public ImportExportManagePageGUI(string role, NguoiDungDTO _currentUser)
     {
       InitializeComponent();
 
       // Initialize permissions
       permissions = RolePermissions.GetPermissions(role);
-
+      currentUser = _currentUser;
       InitializeBUS();
       GetData();
       AddColumns();
@@ -50,7 +51,7 @@ namespace TechForgeGUI.SubPages
     }
     private void GetData()
     {
-      DsLichSuKho = bus.GetAllConnected();
+      DsLichSuKho = bus.GetAllConnected().OrderByDescending(lsk => lsk.ThoiGian).ToList();
       DsNhanVienKho = BusNguoiDung.GetAllConnected().Select(nv => nv).Where(nv => nv.VaiTro == "Quản Lý Kho").ToList();
     }
     private void LoadData()
@@ -140,7 +141,7 @@ namespace TechForgeGUI.SubPages
     {
       SanPhamBUS sanPhamBus = new SanPhamBUS(this.connStr);
 
-      ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, sanPhamBus);
+      ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, sanPhamBus, currentUser, null);
       OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
       Overlay.Show(Form.ActiveForm);
@@ -161,7 +162,7 @@ namespace TechForgeGUI.SubPages
           lichSuKho.Ctlsk = bus.GetDetail(lichSuKho.MaLS);
           SanPhamBUS sanPhamBus = new SanPhamBUS(this.connStr);
 
-          ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, sanPhamBus, lichSuKho, DsNhanVienKho);
+          ImportExportDetailFormGUI DetailForm = new ImportExportDetailFormGUI(bus, sanPhamBus, currentUser, lichSuKho);
           OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
           Overlay.Show(Form.ActiveForm);
