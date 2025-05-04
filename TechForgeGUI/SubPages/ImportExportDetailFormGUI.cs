@@ -77,6 +77,11 @@ namespace TechForgeGUI.SubPages
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs(this));
       }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
+      }
     }
     private void BtnEdit_Click(object sender, EventArgs e)
     {
@@ -88,6 +93,11 @@ namespace TechForgeGUI.SubPages
         notify = new UserNotification("Cập nhật thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs(this));
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
     private void BtnDelete_Click(object sender, EventArgs e)

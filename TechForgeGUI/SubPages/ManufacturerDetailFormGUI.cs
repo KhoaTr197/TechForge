@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeBUS;
 using TechForgeDTO;
+using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubPages
@@ -18,6 +19,7 @@ namespace TechForgeGUI.SubPages
     private HangSanXuatDTO ThongTinHangSanXuat { get; set; }
     private HangSanXuatBUS BUS { get; set; }
     private RolePermissions permissions { get; set; }
+    private UserNotification notify;
     public ManufacturerDetailFormGUI(RolePermissions _permissions , HangSanXuatBUS _BUS, HangSanXuatDTO _thongTinHangSanXuat = null)
     {
       InitializeComponent();
@@ -120,7 +122,14 @@ namespace TechForgeGUI.SubPages
       // Add to database
       if (BUS.Add(newManufacturer) > 0)
       {
+        notify = new UserNotification("Thêm thành công");
+        notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
 
@@ -136,20 +145,35 @@ namespace TechForgeGUI.SubPages
         return;
       }
 
+
       // Update manufacturer
       ThongTinHangSanXuat.TenHSX = tenHSX;
 
       // Update in database
       if (BUS.Update(ThongTinHangSanXuat))
       {
+        notify = new UserNotification("Sửa thành công");
+        notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
     private void BtnDelete_Click(object sender, EventArgs e)
     {
       if (BUS.Delete(ThongTinHangSanXuat.MaHSX))
       {
+        notify = new UserNotification("Xóa thành công");
+        notify.Show();
         OnDeleteSubmit(new DetailFormDeleteSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
   }

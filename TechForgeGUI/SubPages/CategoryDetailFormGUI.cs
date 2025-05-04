@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeBUS;
 using TechForgeDTO;
+using TechForgeGUI.BaseControls;
 using TechForgeGUI.BaseForms;
 
 namespace TechForgeGUI.SubPages
@@ -18,6 +19,7 @@ namespace TechForgeGUI.SubPages
     private DanhMucDTO ThongTinDanhMuc { get; set; }
     private DanhMucBUS BUS { get; set; }
     private RolePermissions permissions { get; set; }
+    private UserNotification notify;
     public CategoryDetailFormGUI(RolePermissions _permissions, DanhMucBUS _BUS, DanhMucDTO _ThongTinDanhMuc = null)
     {
       InitializeComponent();
@@ -119,7 +121,14 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Add(newCategory) != -1)
       {
+        notify = new UserNotification("Thêm thành công");
+        notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
 
@@ -129,14 +138,28 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(ThongTinDanhMuc))
       {
+        notify = new UserNotification("Sửa thành công");
+        notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
     private void BtnDelete_Click(object sender, EventArgs e)
     {
       if (BUS.Delete(ThongTinDanhMuc.MaDM))
       {
+        notify = new UserNotification("Xóa thành công");
+        notify.Show();
         OnDeleteSubmit(new DetailFormDeleteSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
   }

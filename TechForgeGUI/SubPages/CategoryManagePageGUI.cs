@@ -36,6 +36,8 @@ namespace TechForgeGUI.SubPages
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
