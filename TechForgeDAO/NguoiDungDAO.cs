@@ -201,5 +201,59 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting the next ID from the database.", ex);
       }
     }
+    public List<NguoiDungDTO> FindByAnyProperty(string searchText)
+    {
+      try
+      {
+        List<NguoiDungDTO> result = new List<NguoiDungDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"
+            SELECT * FROM NGUOIDUNG 
+            WHERE HOTEN LIKE @SEARCH_TEXT OR
+                  CCCD LIKE @SEARCH_TEXT OR
+                  SDT LIKE @SEARCH_TEXT OR
+                  DCHI LIKE @SEARCH_TEXT OR
+                  VAITRO LIKE @SEARCH_TEXT OR
+          ";
+
+          using (SqlCommand cmd = new SqlCommand(query, conn))
+          {
+            cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+              while (reader.Read())
+              {
+                result.Add(new NguoiDungDTO
+                {
+                  MaND = reader.GetString(0),
+                  HoTen = reader.GetString(1),
+                  NgSinh = reader.GetDateTime(2),
+                  GioiTinh = reader.GetBoolean(3),
+                  Cccd = reader.GetString(4),
+                  Sdt = reader.GetString(5),
+                  Dchi = reader.GetString(6),
+                  VaiTro = reader.GetString(7),
+                  NgVaoLam = reader.GetDateTime(8)
+                });
+              }
+            }
+          }
+        }
+
+        return result;
+      }
+      catch (SqlException ex)
+      {
+        throw new DataException("Database error occurred while searching for users.", ex);
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An unexpected error occurred while searching for users.", ex);
+      }
+    }
   }
 }

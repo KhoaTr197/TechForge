@@ -23,15 +23,17 @@ namespace TechForgeGUI.SubPages
     private List<NguoiDungDTO> DsNhanVienKho { get; set; }
     private List<SanPhamDTO> dsSanPham { get; set; }
     private ChiTietLichSuKhoDTO ChiTietLichSuKho { get; set; }
+        private NguoiDungDTO currentUser { get; set; }
+
     private UserNotification notify;
-    public ImportExportDetailFormGUI(LichSuKhoBUS _BUS, SanPhamBUS _busSanPham, LichSuKhoDTO _thongTinLichSu = null, List<NguoiDungDTO> _DsNhanVienKho = null)
+    public ImportExportDetailFormGUI(LichSuKhoBUS _BUS, SanPhamBUS _busSanPham, NguoiDungDTO _currentUser, LichSuKhoDTO _thongTinLichSu = null)
     {
       InitializeComponent();
 
       this.ThongTinLichSu = _thongTinLichSu;
       this.BUS = _BUS;
       this.sanPhamBus = _busSanPham;
-      this.DsNhanVienKho = _DsNhanVienKho;
+      this.currentUser = _currentUser;
       this.Text = "Chi tiết lịch sử";
 
       GetData();
@@ -45,7 +47,7 @@ namespace TechForgeGUI.SubPages
 
         ThongTinLichSu = new LichSuKhoDTO
         {
-          MaLS = BUS.GetNextId(),
+          MaND = txtMaND.Text,
           HoatDong = true,
           TongTien = 0,
           ThoiGian = DateTime.Now,
@@ -71,16 +73,25 @@ namespace TechForgeGUI.SubPages
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
+            ThongTinLichSu.MaND = txtMaND.Text;
+            ThongTinLichSu.HoatDong = cboHoatDong.SelectedIndex != 0;
+            ThongTinLichSu.ThoiGian = dtpThoiGian.Value;
+            ThongTinLichSu.TongTien = nudTongTien.Value;
       if (BUS.Add(ThongTinLichSu) != -1)
       {
         notify = new UserNotification("Thêm thành công");
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs(this));
       }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
+      }
     }
     private void BtnEdit_Click(object sender, EventArgs e)
     {
-      ThongTinLichSu.MaND = cboNhanVienLap.SelectedValue.ToString();
+      ThongTinLichSu.MaND = txtMaND.Text;
       ThongTinLichSu.TongTien = ThongTinLichSu.Ctlsk.Sum(x => x.ThanhTien ?? 0);
 
       if (BUS.Update(ThongTinLichSu))
@@ -88,6 +99,11 @@ namespace TechForgeGUI.SubPages
         notify = new UserNotification("Cập nhật thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs(this));
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
     private void BtnDelete_Click(object sender, EventArgs e)
@@ -209,12 +225,11 @@ namespace TechForgeGUI.SubPages
     }
     private void LoadAddForm()
     {
-      cboNhanVienLap.DataSource = DsNhanVienKho;
-      cboNhanVienLap.DisplayMember = "MaTenND";
-      cboNhanVienLap.ValueMember = "MaND";
+      txtMa.Text = BUS.GetNextId().ToString();
+      txtMaND.Text = currentUser.MaND;
 
-      cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
-      cboHoatDong.SelectedIndex = ThongTinLichSu.HoatDong ? 1 : 0;
+            cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
+      cboHoatDong.SelectedIndex = 0;
       dgvDetail.AutoGenerateColumns = false;
       dgvDetail.DataSource = ThongTinLichSu.Ctlsk;
     }
@@ -223,10 +238,7 @@ namespace TechForgeGUI.SubPages
       txtMa.Text = ThongTinLichSu.MaLS.ToString();
       dtpThoiGian.Value = ThongTinLichSu.ThoiGian;
       nudTongTien.Value = ThongTinLichSu.TongTien;
-
-      cboNhanVienLap.DataSource = DsNhanVienKho;
-      cboNhanVienLap.DisplayMember = "MaTenND";
-      cboNhanVienLap.ValueMember = "MaND";
+      txtMaND.Text = currentUser.MaND;
 
       cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
       cboHoatDong.SelectedIndex = ThongTinLichSu.HoatDong ? 1 : 0;

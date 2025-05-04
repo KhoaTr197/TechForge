@@ -154,5 +154,48 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting the next ID from the database.", ex);
       }
     }
+    public List<HangSanXuatDTO> FindByAnyProperty(string searchText)
+    {
+      try
+      {
+        List<HangSanXuatDTO> result = new List<HangSanXuatDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"
+            SELECT * FROM HANGSANXUAT 
+            WHERE TENHSX LIKE @SEARCH_TEXT 
+          ";
+
+          using (SqlCommand cmd = new SqlCommand(query, conn))
+          {
+            cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+              while (reader.Read())
+              {
+                result.Add(new HangSanXuatDTO
+                {
+                  MaHSX = reader.GetInt32(0),
+                  TenHSX = reader.GetString(1)
+                });
+              }
+            }
+          }
+        }
+
+        return result;
+      }
+      catch (SqlException ex)
+      {
+        throw new DataException("Database error occurred while searching for manufacturers.", ex);
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An unexpected error occurred while searching for manufacturers.", ex);
+      }
+    }
   }
 }

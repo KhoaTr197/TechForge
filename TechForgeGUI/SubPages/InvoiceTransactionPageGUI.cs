@@ -25,6 +25,7 @@ namespace TechForgeGUI.SubPages
     private HoaDonBUS hoaDonBUS;
     private SanPhamBUS sanPhamBUS;
     private HoiVienBUS hoiVienBUS;
+    private LichSuHoatDongBUS lichSuHoatDongBUS;
 
     // Lists to store data
     private List<SanPhamDTO> dsSanPham;
@@ -40,7 +41,6 @@ namespace TechForgeGUI.SubPages
     public InvoiceTransactionPageGUI(NguoiDungDTO _CurrentUser)
     {
       InitializeComponent();
-
       this.CurrentUser = _CurrentUser;
 
       InitializeBUS();
@@ -67,7 +67,7 @@ namespace TechForgeGUI.SubPages
 
     private void UpdateInvoiceSummary()
     {
-      TongTienHang = DsCthd.Sum(ct => ct.ThanhTien);
+      TongTienHang = DsCthd.Sum(ct => ct.Gia * ct.SoLuong);
       GiamGiaHD = DsCthd.Sum(ct => ct.SoTienKm);
       ThanhTienHD = TongTienHang - GiamGiaHD;
       TienKhachDua = nudKhachDua.Value;
@@ -85,6 +85,8 @@ namespace TechForgeGUI.SubPages
       hoaDonBUS = new HoaDonBUS(connStr);
       sanPhamBUS = new SanPhamBUS(connStr);
       hoiVienBUS = new HoiVienBUS(connStr);
+      hoaDonBUS = new HoaDonBUS(connStr);
+      lichSuHoatDongBUS = new LichSuHoatDongBUS(connStr);
     }
     // Get data
     private void GetData()
@@ -122,6 +124,7 @@ namespace TechForgeGUI.SubPages
       var filteredResult = dsHoiVien
         .Find(hv => selectedItem.Contains(hv.MaHV.ToString()) && selectedItem.Contains(hv.HoTen.ToString().ToLower()));
 
+      txtMaHV.Text = filteredResult.MaHV.ToString();
       txtHoTen.Text = filteredResult.HoTen;
       txtSdt.Text = filteredResult.Sdt;
       txtDchi.Text = filteredResult.Dchi;
@@ -129,8 +132,13 @@ namespace TechForgeGUI.SubPages
     }
     private void btnThemVaoHD_Click(object sender, EventArgs e)
     {
+      if (dgvTimKiemSP.CurrentRow == null)
+      {
+        MessageBox.Show("Vui lòng chọn sản phẩm để thêm vào hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
       SanPhamDTO selectedSP = dgvTimKiemSP.CurrentRow.DataBoundItem as SanPhamDTO;
-
+      
       if (DsCthd.Any(ct => ct.MaSP == selectedSP.MaSP))
       {
         var existingChiTietHD = DsCthd.First(x => x.MaSP == selectedSP.MaSP);
@@ -143,7 +151,8 @@ namespace TechForgeGUI.SubPages
         return;
       }
 
-      ChiTietHoaDonDTO newDetail = new ChiTietHoaDonDTO {
+      ChiTietHoaDonDTO newDetail = new ChiTietHoaDonDTO
+      {
         MaSP = selectedSP.MaSP,
         HinhAnh = selectedSP.HinhAnh,
         TenSP = selectedSP.TenSP,
@@ -215,22 +224,76 @@ namespace TechForgeGUI.SubPages
 
     private void btnTaoHoaDon_Click(object sender, EventArgs e)
     {
+      if (dgvChiTietHD.Rows.Count == 0)
+      {
+        MessageBox.Show("Vui lòng thêm sản phẩm vào hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
+      if (string.IsNullOrEmpty(txtHoTen.Text))
+      {
+        MessageBox.Show("Vui lòng nhập thông tin khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+      if (string.IsNullOrEmpty(txtDchi.Text))
+      {
+        MessageBox.Show("Vui lòng nhập địa chỉ khách hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+      if (nudKhachDua.Value < ThanhTienHD)
+      {
+        MessageBox.Show("Tiền khách đưa không đủ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       HoaDonDTO newHoaDon = new HoaDonDTO
       {
-        MaHV = dsHoiVien.FirstOrDefault(hv => hv.HoTen == txtHoTen.Text).MaHV,
+        MaHV = string.IsNullOrWhiteSpace(txtMaHV.Text) ? (int?)null : int.Parse(txtMaHV.Text),
         NgLapHD = DateTime.Now,
         HoTen = txtHoTen.Text,
         Sdt = txtSdt.Text,
         DiaChi = txtDchi.Text,
         NvLapHD = CurrentUser.MaND,
         TongTien = ThanhTienHD,
-        Cthd = DsCthd
+        Cthd = DsCthd.ToList(),
       };
-      if (hoaDonBUS.Add(newHoaDon) != -1)
+      int newReceiptId = hoaDonBUS.Add(newHoaDon);
+      if (newReceiptId == -2)
       {
+        MessageBox.Show("Số lượng tồn kho không đủ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+      if (newReceiptId != -1)
+      {
+        newHoaDon.MaHD = newReceiptId;
         UserNotification notify = new UserNotification("Tạo hóa đơn thành công!");
         notify.Show();
-      } else
+
+        lichSuHoatDongBUS.Add(new LichSuHoatDongDTO()
+        {
+          MaND = CurrentUser.MaND,
+          NoiDung = $"Tạo hoá đơn #{newReceiptId}",
+          ThoiGian = newHoaDon.NgLapHD,
+          VaiTro = CurrentUser.VaiTro,
+        });
+        ReportReceiptDetailFormGUI rdfrm = new ReportReceiptDetailFormGUI(newHoaDon);
+        rdfrm.Show();
+
+        DsCthd.Clear();
+        dgvChiTietHD.DataSource = null;
+        dgvTimKiemSP.DataSource = null;
+        txtMaHV.Clear();
+        txtHoTen.Clear();
+        txtSdt.Clear();
+        txtDchi.Clear();
+        nudKhachDua.Value = 0;
+        lblTongTienHang.Text = "0 đ";
+        lblGiamGiaHD.Text = "0 đ";
+        lblThanhTienHD.Text = "0 đ";
+        lblTienNhan.Text = "0 đ";
+        lblTienThua.Text = "0 đ";
+      }
+      else
       {
         UserNotification notify = new UserNotification("Tạo hóa đơn thất bại!", "error");
         notify.Show();
@@ -244,6 +307,14 @@ namespace TechForgeGUI.SubPages
       detail.ThanhTien = detail.GiaCuoiCung * detail.SoLuong;
 
       UpdateInvoiceSummary();
+    }
+
+    private void btnClear_Click(object sender, EventArgs e)
+    {
+      txtMaHV.Clear();
+      txtHoTen.Clear();
+      txtSdt.Clear();
+      txtDchi.Clear();
     }
   }
 }

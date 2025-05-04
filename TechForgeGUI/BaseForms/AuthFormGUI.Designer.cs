@@ -48,6 +48,8 @@
       // 
       this.picFormImg.Dock = System.Windows.Forms.DockStyle.Fill;
       this.picFormImg.ErrorImage = null;
+      this.picFormImg.Image = ((System.Drawing.Image)(resources.GetObject("picFormImg.Image")));
+      this.picFormImg.InitialImage = null;
       this.picFormImg.Location = new System.Drawing.Point(0, 0);
       this.picFormImg.Name = "picFormImg";
       this.picFormImg.Size = new System.Drawing.Size(484, 461);
@@ -62,14 +64,14 @@
       this.imgListIcons.Images.SetKeyName(0, "key_icon.jpg");
       this.imgListIcons.Images.SetKeyName(1, "user_icon.jpg");
       // 
-      // AuthForm
+      // AuthFormGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(884, 461);
       this.Controls.Add(this.picFormImg);
       this.Controls.Add(this.panelMain);
-      this.Name = "AuthForm";
+      this.Name = "AuthFormGUI";
       this.Text = "AuthForm";
       ((System.ComponentModel.ISupportInitialize)(this.picFormImg)).EndInit();
       this.ResumeLayout(false);

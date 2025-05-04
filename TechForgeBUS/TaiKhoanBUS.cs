@@ -33,6 +33,7 @@ namespace TechForgeBUS
 
       if (tk.TenTK != newTk.TenTK) fieldsToUpdate.Add("TenTK");
       if (tk.MatKhau != newTk.MatKhau) fieldsToUpdate.Add("MatKhau");
+      if (tk.TrangThai != newTk.TrangThai) fieldsToUpdate.Add("TrangThai");
 
       if (fieldsToUpdate.Count == 0)
       {
@@ -68,5 +69,10 @@ namespace TechForgeBUS
     {
       return this.DAO.Add(newTaiKhoan);
     }
+
+        public List<TaiKhoanDTO> FindByAnyProperty(string searchText)
+        {
+            return this.DAO.FindByAnyProperty(searchText);
+        }
   }
 }

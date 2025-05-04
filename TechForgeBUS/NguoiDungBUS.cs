@@ -77,5 +77,9 @@ namespace TechForgeBUS
 
       return this.DAO.GetNextId(role);
     }
+    public List<NguoiDungDTO> FindByAnyProperty(string searchText)
+    {
+      return this.DAO.FindByAnyProperty(searchText);
+    }
   }
 }

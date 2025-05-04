@@ -177,10 +177,11 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("UPDATE TAIKHOAN SET TENTK = @TENTK AND MATKHAU = @MATKHAU WHERE MAND = @MAND", conn);
+          SqlCommand cmd = new SqlCommand("UPDATE TAIKHOAN SET TENTK = @TENTK, MATKHAU = @MATKHAU, TRANGTHAI = @TRANGTHAI WHERE MAND = @MAND", conn);
           cmd.Parameters.AddWithValue("@MAND", newTk.MaND);
           cmd.Parameters.AddWithValue("@TENTK", newTk.TenTK);
           cmd.Parameters.AddWithValue("@MATKHAU", newTk.MatKhau);
+          cmd.Parameters.AddWithValue("@TRANGTHAI", newTk.TrangThai);
 
           return cmd.ExecuteNonQuery() > 0;
         }
@@ -216,5 +217,52 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
+
+        public List<TaiKhoanDTO> FindByAnyProperty(string searchText)
+        {
+            try
+            {
+                List<TaiKhoanDTO> accounts = new List<TaiKhoanDTO>();
+
+                using (SqlConnection conn = CreateConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT * FROM TAIKHOAN 
+                        WHERE MAND LIKE @SEARCH_TEXT 
+                        OR TENTK LIKE @SEARCH_TEXT
+                        ORDER BY TRANGTHAI DESC";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                accounts.Add(new TaiKhoanDTO
+                                {
+                                    MaND = reader.GetString(0),
+                                    TenTK = reader.GetString(1),
+                                    MatKhau = reader.GetString(2),
+                                    TrangThai = reader.GetBoolean(3),
+                                });
+                            }
+                        }
+                    }
+                }
+
+                return accounts;
+            }
+            catch (SqlException ex)
+            {
+                throw new DataException("Database error occurred while searching for members.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new DataException("An unexpected error occurred while searching for members.", ex);
+            }
+        }
   }
 }

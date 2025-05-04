@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,9 @@ namespace TechForgeBUS
     {
       return this.DAO.GetAllConnected();
     }
-    public List<ChiTietHoaDonDTO> GetDetailWithProducts(HoaDonDTO receipt)
+    public List<ChiTietHoaDonDTO> GetDetailWithReceipts(HoaDonDTO receipt)
     {
-      receipt.Cthd = this.DAO.GetDetailWithProducts(receipt.MaHD);
+      receipt.Cthd = this.DAO.GetDetailWithReceipts(receipt.MaHD);
       return receipt.Cthd;
     }
     public int Add(HoaDonDTO newReiceipt)
@@ -36,6 +37,10 @@ namespace TechForgeBUS
     public bool Delete(int id)
     {
       return this.DAO.Delete(id);
+    }
+    public List<HoaDonDTO> FindByAnyProperty(string keyword)
+    {
+      return this.DAO.FindByAnyProperty(keyword);
     }
   }
 }

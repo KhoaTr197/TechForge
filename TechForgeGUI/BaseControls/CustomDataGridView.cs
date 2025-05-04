@@ -115,6 +115,10 @@ namespace TechForgeGUI.BaseControls
         {
           PaginateData(list8);
         }
+        else if (OriginalDataSrc is List<TaiKhoanDTO> list9)
+        {
+          PaginateData(list9);
+        }
         else if (OriginalDataSrc is DataTable table)
         {
           PaginateData(table);
@@ -162,6 +166,10 @@ namespace TechForgeGUI.BaseControls
         else if (OriginalDataSrc is List<NguoiDungDTO> list8)
         {
           PaginateData(list8);
+        }
+        else if (OriginalDataSrc is List<TaiKhoanDTO> list9)
+        {
+          PaginateData(list9);
         }
         else if (OriginalDataSrc is DataTable table)
         {

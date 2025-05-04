@@ -53,7 +53,7 @@ namespace TechForgeGUI.SubPages
     private void CustomerDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
       txtMaHV.Text = BUS.GetNextID().ToString();
-
+      txtMaHV.ReadOnly = true;
       radNam.Checked = true;
       radNu.Checked = false;
 
@@ -79,6 +79,12 @@ namespace TechForgeGUI.SubPages
     {
       HoiVienDTO newHoiVien = new HoiVienDTO()
       {
+          MaHV = int.Parse(txtMaHV.Text.Trim()),
+          HoTen = txtHoTen.Text.Trim(),
+          Sdt = txtSdt.Text.Trim(),
+          Dchi = txtDchi.Text.Trim(),
+          GioiTinh = radNam.Checked,
+          TrangThai = cboTrangThai.SelectedIndex == 0,
       };
 
       if (BUS.Add(newHoiVien) != -1)
@@ -88,6 +94,12 @@ namespace TechForgeGUI.SubPages
     {
       HoiVienDTO updatedHoiVien = new HoiVienDTO()
       {
+          MaHV = int.Parse(txtMaHV.Text.Trim()),
+          HoTen = txtHoTen.Text.Trim(),
+          Sdt = txtSdt.Text.Trim(),
+          Dchi = txtDchi.Text.Trim(),
+          GioiTinh = radNam.Checked,
+          TrangThai = cboTrangThai.SelectedIndex == 0,
       };
 
       if (BUS.Update(ThongTinHoiVien, updatedHoiVien))

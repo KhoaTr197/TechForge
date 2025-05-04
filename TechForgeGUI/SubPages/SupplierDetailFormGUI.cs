@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TechForgeBUS;
@@ -96,8 +97,11 @@ namespace TechForgeGUI.SubPages
     }
     private void SupplierDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
+      txtMaNCC.Text = BUS.GetNextId().ToString();
+      txtMaNCC.ReadOnly = true;
+            
       cboTrangThai.Items.AddRange(new string[] { "Hợp tác", "Ngừng hợp tác" });
-      cboTrangThai.SelectedIndex = thongTinNcc.TrangThai ? 0 : 1;
+      cboTrangThai.SelectedIndex = 0;
     }
     private void SupplierDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
@@ -114,22 +118,39 @@ namespace TechForgeGUI.SubPages
     }
     private void btnAdd_Click(object sender, EventArgs e)
     {
+      if (!ValidateInput()) return;
       NhaCungCapDTO newNcc = new NhaCungCapDTO
       {
-       
+        MaNCC = int.Parse(txtMaNCC.Text),
+        TenNCC = txtTenNCC.Text.Trim(),
+        Ndd = txtTenNDD.Text.Trim(),
+        Sdt = txtSdt.Text.Trim(),
+        Email = txtEmail.Text.Trim(),
+        TrangThai = cboTrangThai.SelectedIndex == 0,
       };
       if (BUS.Add(newNcc) != -1)
       {
-        notify = new UserNotification("Them thanh cong");
+        notify = new UserNotification("Thêm thành công");
         notify.Show();
         OnAddSubmit(new DetailFormAddSubmitEventArgs());
+      }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
       }
     }
     private void btnEdit_Click(object sender, EventArgs e)
     {
+      if (!ValidateInput()) return;
       NhaCungCapDTO updatedNcc = new NhaCungCapDTO
       {
-        
+          MaNCC = int.Parse(txtMaNCC.Text),
+          TenNCC = txtTenNCC.Text.Trim(),
+          Ndd = txtTenNDD.Text.Trim(),
+          Sdt = txtSdt.Text.Trim(),
+          Email = txtEmail.Text.Trim(),
+          TrangThai = cboTrangThai.SelectedIndex == 0,
       };
 
       if (updatedNcc.TrangThai)
@@ -140,10 +161,56 @@ namespace TechForgeGUI.SubPages
 
       if (BUS.Update(thongTinNcc, updatedNcc))
       {
-        notify = new UserNotification("Cap nhat thanh cong");
+        notify = new UserNotification("Cập nhật thành công");
         notify.Show();
         OnEditSubmit(new DetailFormEditSubmitEventArgs());
       }
+      else
+      {
+        notify = new UserNotification("Không thành công, vui lòng thử lại sau", "error");
+        notify.Show();
+      }
+    }
+    private bool ValidateInput()
+    {
+        //validate input
+        string tencc = txtTenNCC.Text.Trim();
+        if (string.IsNullOrEmpty(tencc))
+        {
+            MessageBox.Show("Tên nhà cung cấp không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
+        string ndd = txtTenNDD.Text.Trim();
+        if (string.IsNullOrEmpty(ndd))
+        {
+            MessageBox.Show("Tên người đại diện không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
+        string email = txtEmail.Text.Trim();
+        if (string.IsNullOrEmpty(email))
+        {
+            MessageBox.Show("Email không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
+        string pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+        if (!Regex.IsMatch(email, pattern))
+        {
+            MessageBox.Show("Email không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
+        string sdt = txtSdt.Text.Trim();
+        if (string.IsNullOrEmpty(sdt))
+        {
+            MessageBox.Show("Số điện thoại không được để trống!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
+        pattern = @"^(03|05|07|08|09)\d{8}$";
+        if (!Regex.IsMatch(sdt, pattern))
+        {
+            MessageBox.Show("Số điện thoại không hợp lệ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
+        return true;
     }
   }
 }

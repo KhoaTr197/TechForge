@@ -26,7 +26,7 @@ namespace TechForgeDAO
 
           if (MaND != "")
           {
-            cmd = new SqlCommand("SELECT * FROM LSHD WHERE MAND = @MAND AND THOIGIAN >= DATEADD(week, -1, GETDATE())", conn);
+            cmd = new SqlCommand("SELECT * FROM LSHD WHERE MAND = @MAND AND THOIGIAN >= DATEADD(week, -1, GETDATE()) ORDER BY THOIGIAN DESC", conn);
             cmd.Parameters.AddWithValue("@MAND", MaND);
           } else
           {

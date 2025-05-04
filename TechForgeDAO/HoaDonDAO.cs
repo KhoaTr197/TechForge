@@ -51,7 +51,7 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
-    public List<ChiTietHoaDonDTO> GetDetailWithProducts(int id)
+    public List<ChiTietHoaDonDTO> GetDetailWithReceipts(int id)
     {
       try
       {
@@ -92,7 +92,7 @@ namespace TechForgeDAO
       }
       catch (Exception ex)
       {
-        throw new DataException("An error occurred while getting receipt details with products from the database.", ex);
+        throw new DataException("An error occurred while getting receipt details with receipts from the database.", ex);
       }
     }
     public int Add(HoaDonDTO newReceipt)
@@ -120,10 +120,22 @@ namespace TechForgeDAO
               cmd.Parameters.AddWithValue("@NGLAPHD", DateTime.Now);
 
               int newId = Convert.ToInt32(cmd.ExecuteScalar());
+              newReceipt.MaHD = newId;
 
               foreach (var item in newReceipt.Cthd)
               {
                 SqlCommand cmdDetail = new SqlCommand("INSERT INTO CTHD (MAHD, MASP, GIA, SOTIENKM, GIACUOICUNG, SL, THANHTIEN) VALUES (@MAHD, @MASP, @GIA, @SOTIENKM, @GIACUOICUNG, @SL, @THANHTIEN)", conn, transaction);
+
+                SqlCommand cmdCheckProductQuantity = new SqlCommand("SELECT SL FROM SANPHAM WHERE MASP = @MASP", conn, transaction);
+                cmdCheckProductQuantity.Parameters.AddWithValue("@MASP", item.MaSP);
+                int productQuantity = (int)cmdCheckProductQuantity.ExecuteScalar();
+                if (productQuantity < item.SoLuong)
+                {
+                  return -2; // Not enough product quantity
+                }
+
+                SqlCommand cmdUpdateProduct = new SqlCommand("UPDATE SANPHAM SET SL = SL - @SL WHERE MASP = @MASP", conn, transaction);
+
                 cmdDetail.Parameters.AddWithValue("@MAHD", newId);
                 cmdDetail.Parameters.AddWithValue("@MASP", item.MaSP);
                 cmdDetail.Parameters.AddWithValue("@GIA", item.Gia);
@@ -131,10 +143,16 @@ namespace TechForgeDAO
                 cmdDetail.Parameters.AddWithValue("@GIACUOICUNG", item.GiaCuoiCung);
                 cmdDetail.Parameters.AddWithValue("@SL", item.SoLuong);
                 cmdDetail.Parameters.AddWithValue("@THANHTIEN", item.ThanhTien);
+
+                cmdUpdateProduct.Parameters.AddWithValue("@MASP", item.MaSP);
+                cmdUpdateProduct.Parameters.AddWithValue("@SL", item.SoLuong);
+
                 cmdDetail.ExecuteNonQuery();
+                cmdUpdateProduct.ExecuteNonQuery();
               }
 
               transaction.Commit();
+
               return newId;
             }
             catch (Exception ex)
@@ -197,6 +215,62 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An error occurred while deleting data from the database.", ex);
+      }
+    }
+    public List<HoaDonDTO> FindByAnyProperty(string searchText)
+    {
+      try
+      {
+        List<HoaDonDTO> receipts = new List<HoaDonDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"
+            SELECT * FROM HOADON
+            WHERE 
+              (MAHV LIKE @SEARCH_TEXT OR 
+              HOTEN LIKE @SEARCH_TEXT OR 
+              SDT LIKE @SEARCH_TEXT OR 
+              DCHI LIKE @SEARCH_TEXT OR 
+              NvLapHD LIKE @SEARCH_TEXT OR 
+              NGLAPHD LIKE @SEARCH_TEXT)
+          ";
+
+          using (SqlCommand cmd = new SqlCommand(query, conn))
+          {
+            cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+              while (reader.Read())
+              {
+                receipts.Add(new HoaDonDTO
+                {
+                  MaHD = reader.GetInt32(0),
+                  MaHV = reader.IsDBNull(1) ? (int?)null : reader.GetInt32(1),
+                  HoTen = reader.GetString(2),
+                  Sdt = reader.GetString(3),
+                  DiaChi = reader.GetString(4),
+                  NvLapHD = reader.GetString(5),
+                  TongTien = reader.GetDecimal(6),
+                  NgLapHD = reader.GetDateTime(7),
+                  Cthd = GetDetailWithReceipts(reader.GetInt32(0))
+                });
+              }
+            }
+          }
+        }
+
+        return receipts;
+      }
+      catch (SqlException ex)
+      {
+        throw new DataException("Database error occurred while searching for receipts.", ex);
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An unexpected error occurred while searching for receipts.", ex);
       }
     }
   }

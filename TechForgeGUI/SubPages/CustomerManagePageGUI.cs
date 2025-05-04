@@ -38,6 +38,8 @@ namespace TechForgeGUI.SubPages
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
@@ -166,7 +168,7 @@ namespace TechForgeGUI.SubPages
           {
             e.CellStyle.ForeColor = Color.White;
             e.CellStyle.BackColor = Color.Red;
-            e.Value = "Không hoạt động";
+            e.Value = "Ít hoạt động";
           }
         }
       }
@@ -234,6 +236,18 @@ namespace TechForgeGUI.SubPages
         new SummaryCard("Tổng khách hàng", dsHoiVien.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         new SummaryCard("Số khách hàng hoạt động gần đây", dsHoiVien.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
       });
+    }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<HoiVienDTO> newDsHoiVien = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsHoiVien.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      dsHoiVien = newDsHoiVien;
+
+      LoadData();
     }
   }
 }
