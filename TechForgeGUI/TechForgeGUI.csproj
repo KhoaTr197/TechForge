@@ -175,6 +175,18 @@
       <DependentUpon>ManagerFormGUI.cs</DependentUpon>
     </Compile>
     <Compile Include="RolePermissions.cs" />
+    <Compile Include="SubPages\AccountDetailFormGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubPages\AccountDetailFormGUI.Designer.cs">
+      <DependentUpon>AccountDetailFormGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SubPages\AccountManagePageGUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubPages\AccountManagePageGUI.Designer.cs">
+      <DependentUpon>AccountManagePageGUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubPages\CategoryDetailFormGUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -332,6 +344,12 @@
       <DependentUpon>LoginFormGUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\rptReceiptDetail.rdlc" />
+    <EmbeddedResource Include="SubPages\AccountDetailFormGUI.resx">
+      <DependentUpon>AccountDetailFormGUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubPages\AccountManagePageGUI.resx">
+      <DependentUpon>AccountManagePageGUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubPages\CategoryDetailFormGUI.resx">
       <DependentUpon>CategoryDetailFormGUI.cs</DependentUpon>
     </EmbeddedResource>
