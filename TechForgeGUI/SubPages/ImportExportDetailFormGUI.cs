@@ -186,7 +186,11 @@ namespace TechForgeGUI.SubPages
       nudTongTien.Value = ThongTinLichSu.Ctlsk.Sum(x => x.ThanhTien ?? 0);
 
       dgvDetail.DataSource = null;
+      dgvDetail.Enabled = false;
       dgvDetail.DataSource = ThongTinLichSu.Ctlsk;
+      dgvDetail.ClearSelection();
+      dgvDetail.Refresh();
+      dgvDetail.Enabled = true;
     }
     private void btnChiTietCapNhat_Click(object sender, EventArgs e)
     {
@@ -228,10 +232,10 @@ namespace TechForgeGUI.SubPages
       txtMa.Text = BUS.GetNextId().ToString();
       txtMaND.Text = currentUser.MaND;
 
-            cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
+      cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
       cboHoatDong.SelectedIndex = 0;
       dgvDetail.AutoGenerateColumns = false;
-      dgvDetail.DataSource = ThongTinLichSu.Ctlsk;
+      dgvDetail.DataSource = null;
     }
     private void LoadDetailForm()
     {
