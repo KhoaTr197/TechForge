@@ -38,7 +38,10 @@ namespace TechForgeGUI.SubForms
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+            btnSearch.Click += BtnSearch_Click;
     }
+
     private void InitializeBUS()
     {
       BUS = new NguoiDungBUS(this.connStr);
@@ -202,6 +205,17 @@ namespace TechForgeGUI.SubForms
       {
         new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
       });
+    }
+    private void BtnSearch_Click(object sender, EventArgs e)
+    {
+        List<NguoiDungDTO> dsKetQua = BUS.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+        if (dsKetQua.Count == 0)
+        {
+            MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+        DsNguoiDung = dsKetQua;
+        LoadData();
     }
   }
 }
