@@ -75,7 +75,7 @@ namespace TechForgeGUI.SubPages
     {
       // Map data to DTOs
       dsSanPham = sanPhamBus.GetAllConnected();
-      DsHoaDon = hoaDonBus.GetAllConnected();
+      DsHoaDon = hoaDonBus.GetAllConnected().OrderByDescending(hd => hd.NgLapHD).ToList();
     }
     private void LoadData()
     {
