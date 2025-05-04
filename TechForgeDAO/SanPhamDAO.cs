@@ -134,16 +134,19 @@ namespace TechForgeDAO
         using (SqlConnection conn = CreateConnection())
         {
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO SANPHAM (TENSP, GIANHAP, GIA, KHUYENMAI, MOTA, SL, DANHMUC, HSX, NGSX, TRANGTHAI) VALUES(@TENSP, @GIANHAP, @GIA, @KHUYENMAI, @MOTA, @SL, @DANHMUC, @HSX, @NGSX, @TRANGTHAI)", conn);
+          SqlCommand cmd = new SqlCommand("INSERT INTO SANPHAM (TENSP, GIANHAP, GIA, KHUYENMAI, MOTA, SL, DONVITINH, HINHANH, DANHMUC, HSX, NGSX, NCC, TRANGTHAI) VALUES(@TENSP, @GIANHAP, @GIA, @KHUYENMAI, @MOTA, @SL, @DONVITINH, @HINHANH, @DANHMUC, @HSX, @NGSX, @NCC, @TRANGTHAI)", conn);
           cmd.Parameters.AddWithValue("@TENSP", newProduct.TenSP);
           cmd.Parameters.AddWithValue("@GIANHAP", newProduct.GiaNhap);
           cmd.Parameters.AddWithValue("@GIA", newProduct.Gia);
           cmd.Parameters.AddWithValue("@KHUYENMAI", newProduct.KhuyenMai);
           cmd.Parameters.AddWithValue("@MOTA", newProduct.MoTa);
           cmd.Parameters.AddWithValue("@SL", newProduct.SoLuong);
+          cmd.Parameters.AddWithValue("@DONVITINH", newProduct.DonViTinh);
+          cmd.Parameters.AddWithValue("@HINHANH", newProduct.HinhAnh);
           cmd.Parameters.AddWithValue("@DANHMUC", newProduct.DanhMuc);
           cmd.Parameters.AddWithValue("@HSX", newProduct.Hsx);
           cmd.Parameters.AddWithValue("@NGSX", newProduct.NgSx);
+          cmd.Parameters.AddWithValue("@NCC", newProduct.Ncc);
           cmd.Parameters.AddWithValue("@TRANGTHAI", newProduct.TrangThai);
 
           int newId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -319,6 +322,27 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An unexpected error occurred while searching for products.", ex);
+      }
+    }
+    public int GetNextId()
+    {
+      try
+      {
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("SELECT IDENT_CURRENT('SANPHAM') + 1", conn);
+          object result = cmd.ExecuteScalar();
+          if (result != null && result != DBNull.Value)
+          {
+            return Convert.ToInt32(result);
+          }
+          return 0;
+        }
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An error occurred while getting the next ID from the database.", ex);
       }
     }
   }

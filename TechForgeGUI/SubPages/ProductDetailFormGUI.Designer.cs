@@ -440,6 +440,7 @@
       this.nudGiaNhap.Name = "nudGiaNhap";
       this.nudGiaNhap.Size = new System.Drawing.Size(324, 25);
       this.nudGiaNhap.TabIndex = 30;
+      this.nudGiaNhap.ThousandsSeparator = true;
       // 
       // nudGia
       // 

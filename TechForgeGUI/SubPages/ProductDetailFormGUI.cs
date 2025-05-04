@@ -37,9 +37,14 @@ namespace TechForgeGUI.SubPages
       this.permissions = _permissions;
       this.Text = "Chi tiết sản phẩm";
 
+      if (ThongTinSanPham != null)
+        Type = "Detail";
+      else
+        Type = "Add";
+
       btnUploadImg.Click += btnUploadImg_Click;
 
-      if (ThongTinSanPham == null)
+      if (Type == "Add")
       {
         this.btnEdit.Visible = false;
         this.btnEdit.Enabled = false;
@@ -80,12 +85,24 @@ namespace TechForgeGUI.SubPages
       }
       else if (permissions.Role == "Manager")
       {
-        this.btnAdd.Visible = true;
-        this.btnAdd.Enabled = true;
-        this.btnEdit.Visible = true;
-        this.btnEdit.Enabled = true;
-        this.btnDelete.Visible = true;
-        this.btnDelete.Enabled = true;
+        if (Type == "Detail")
+        {
+          this.btnAdd.Visible = false;
+          this.btnAdd.Enabled = false;
+          this.btnEdit.Visible = true;
+          this.btnEdit.Enabled = true;
+          this.btnDelete.Visible = true;
+          this.btnDelete.Enabled = true;
+        }
+        else
+        {
+          this.btnAdd.Visible = true;
+          this.btnAdd.Enabled = true;
+          this.btnEdit.Visible = false;
+          this.btnEdit.Enabled = false;
+          this.btnDelete.Visible = false;
+          this.btnDelete.Enabled = false;
+        }
       }
 
       btnAdd.Click += btnAdd_Click;
@@ -94,6 +111,9 @@ namespace TechForgeGUI.SubPages
 
     private void ProductDetailFormGUI_LoadAddForm(object sender, EventArgs e)
     {
+      txtMaSP.Text = BUS.GetNextId().ToString();
+      txtMaSP.Enabled = false;
+
       cboDanhMuc.DataSource = DsDanhMuc;
       cboDanhMuc.DisplayMember = "TenDM";
       cboDanhMuc.ValueMember = "MaDM";
@@ -180,8 +200,21 @@ namespace TechForgeGUI.SubPages
     {
       SanPhamDTO newSanPham = new SanPhamDTO()
       {
+        MaSP = int.Parse(txtMaSP.Text),
+        TenSP = txtTenSP.Text,
+        MoTa = txtMoTa.Text,
+        GiaNhap = (decimal)nudGiaNhap.Value,
+        Gia = (decimal)nudGia.Value,
+        KhuyenMai = (decimal)nudKhuyenMai.Value,
+        SoLuong = (int)nudSoLuong.Value,
+        DonViTinh = txtDonViTinh.Text,
+        HinhAnh = picHinh.Tag.ToString(),
+        DanhMuc = (int)cboDanhMuc.SelectedValue,
+        Hsx = (int)cboHangSanXuat.SelectedValue,
+        Ncc = (int)cboNhaCungCap.SelectedValue,
+        NgSx = DateTime.Now,
+        TrangThai = cboTrangThai.SelectedIndex == 0
       };
-
       if (BUS.Add(newSanPham) != -1)
       {
         notify = new UserNotification("Thêm thành công");
@@ -194,6 +227,20 @@ namespace TechForgeGUI.SubPages
     {
       SanPhamDTO updatedSanPham = new SanPhamDTO()
       {
+        MaSP = int.Parse(txtMaSP.Text),
+        TenSP = txtTenSP.Text,
+        MoTa = txtMoTa.Text,
+        GiaNhap = (decimal)nudGiaNhap.Value,
+        Gia = (decimal)nudGia.Value,
+        KhuyenMai = (decimal)nudKhuyenMai.Value,
+        SoLuong = (int)nudSoLuong.Value,
+        DonViTinh = txtDonViTinh.Text,
+        HinhAnh = picHinh.Tag.ToString(),
+        DanhMuc = (int)cboDanhMuc.SelectedValue,
+        Hsx = (int)cboHangSanXuat.SelectedValue,
+        Ncc = (int)cboNhaCungCap.SelectedValue,
+        NgSx = DateTime.Now,
+        TrangThai = cboTrangThai.SelectedIndex == 0
       };
 
       if (BUS.Update(ThongTinSanPham, updatedSanPham))

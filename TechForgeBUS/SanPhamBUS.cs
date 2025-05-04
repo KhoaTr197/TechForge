@@ -81,5 +81,9 @@ namespace TechForgeBUS
     {
       return this.DAO.FindByAnyProperty(searchText);
     }
+    public int GetNextId()
+    {
+      return this.DAO.GetNextId();
+    }
   }
 }

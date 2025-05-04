@@ -39,7 +39,7 @@ namespace TechForgeGUI.SubForms
 
       btnAdd.Click += BtnAdd_Click;
 
-            btnSearch.Click += BtnSearch_Click;
+      btnSearch.Click += btnSearch_Click;
     }
 
     private void InitializeBUS()

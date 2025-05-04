@@ -327,10 +327,10 @@ namespace TechForgeGUI
     }
     private void BtnAdd_Click(object sender, EventArgs e)
     {
-      ProductDetailFormGUI DetailForm = new ProductDetailFormGUI(permissions, sanPhamBus);
-      OverlayFormGUI Ooverlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
+      ProductDetailFormGUI DetailForm = new ProductDetailFormGUI(permissions, sanPhamBus, null, dsDanhMuc, dsHangSanXuat, dsNhaCungCap);
+      OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-      Ooverlay.Show(Form.ActiveForm);
+      Overlay.Show(Form.ActiveForm);
       DetailForm.Show(Form.ActiveForm);
 
       DetailForm.AddSubmit += DetailsForm_AddSubmit;
@@ -346,9 +346,9 @@ namespace TechForgeGUI
           SanPhamDTO sanPham = dsSanPham.Find(sp => sp.MaSP == (int)selectedRow.Cells[0].Value);
 
           ProductDetailFormGUI DetailForm = new ProductDetailFormGUI(permissions, sanPhamBus, sanPham, dsDanhMuc, dsHangSanXuat, dsNhaCungCap);
-          OverlayFormGUI Ooverlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
+          OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
 
-          Ooverlay.Show(Form.ActiveForm);
+          Overlay.Show(Form.ActiveForm);
           DetailForm.Show(Form.ActiveForm);
 
           // Assign event handler for submits
