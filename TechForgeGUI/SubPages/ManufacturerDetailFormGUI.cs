@@ -62,12 +62,24 @@ namespace TechForgeGUI.SubPages
       }
       else if (permissions.Role == "WarehouseStaff")
       {
-        this.btnAdd.Visible = true;
-        this.btnAdd.Enabled = true;
-        this.btnEdit.Visible = true;
-        this.btnEdit.Enabled = true;
-        this.btnDelete.Visible = true;
-        this.btnDelete.Enabled = true;
+        if (Type == "Detail")
+        {
+          this.btnAdd.Visible = false;
+          this.btnAdd.Enabled = false;
+          this.btnEdit.Visible = true;
+          this.btnEdit.Enabled = true;
+          this.btnDelete.Visible = true;
+          this.btnDelete.Enabled = true;
+        }
+        else
+        {
+          this.btnAdd.Visible = true;
+          this.btnAdd.Enabled = true;
+          this.btnEdit.Visible = false;
+          this.btnEdit.Enabled = false;
+          this.btnDelete.Visible = false;
+          this.btnDelete.Enabled = false;
+        }
       }
       else if (permissions.Role == "Manager")
       {

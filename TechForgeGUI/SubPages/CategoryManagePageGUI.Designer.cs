@@ -36,7 +36,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
       this.Name = "CategoryManagePageGUI";
-      this.Size = new System.Drawing.Size(1343, 641);
+      this.Size = new System.Drawing.Size(1376, 666);
       this.ResumeLayout(false);
 
     }
