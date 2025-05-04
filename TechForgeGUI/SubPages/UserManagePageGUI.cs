@@ -38,7 +38,10 @@ namespace TechForgeGUI.SubForms
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+            btnSearch.Click += BtnSearch_Click;
     }
+
     private void InitializeBUS()
     {
       BUS = new NguoiDungBUS(this.connStr);
