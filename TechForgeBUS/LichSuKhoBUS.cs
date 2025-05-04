@@ -45,5 +45,10 @@ namespace TechForgeBUS
     {
       return this.DAO.GetNextId();
     }
+
+    public List<LichSuKhoDTO> FindByAnyProperty(string keyword)
+    {
+      return this.DAO.FindByAnyProperty(keyword);
+    }
   }
 }

@@ -261,5 +261,65 @@ namespace TechForgeDAO
         throw new DataException("An error occurred while getting data from the database.", ex);
       }
     }
+    public List<SanPhamDTO> FindByAnyProperty(string searchText)
+    {
+      try
+      {
+        List<SanPhamDTO> products = new List<SanPhamDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"
+            SELECT * FROM SANPHAM 
+            JOIN HANGSANXUAT ON SANPHAM.HSX = HANGSANXUAT.MAHSX
+            JOIN DANHMUC ON SANPHAM.DANHMUC = DANHMUC.MADM
+            WHERE TENSP LIKE @SEARCH_TEXT OR
+                  MOTA LIKE @SEARCH_TEXT OR
+                  HANGSANXUAT.TENHSX LIKE @SEARCH_TEXT OR
+                  DANHMUC.TENDM LIKE @SEARCH_TEXT
+            ORDER BY TRANGTHAI DESC";
+
+          using (SqlCommand cmd = new SqlCommand(query, conn))
+          {
+            cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+              while (reader.Read())
+              {
+                products.Add(new SanPhamDTO
+                {
+                  MaSP = reader.GetInt32(0),
+                  TenSP = reader.GetString(1),
+                  GiaNhap = reader.GetDecimal(2),
+                  Gia = reader.GetDecimal(3),
+                  KhuyenMai = reader.GetDecimal(4),
+                  MoTa = reader.GetString(5),
+                  SoLuong = reader.GetInt32(6),
+                  DonViTinh = reader.GetString(7),
+                  HinhAnh = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                  DanhMuc = reader.GetInt32(9),
+                  Hsx = reader.GetInt32(10),
+                  Ncc = reader.GetInt32(11),
+                  NgSx = reader.GetDateTime(12),
+                  TrangThai = reader.GetBoolean(13)
+                });
+              }
+            }
+          }
+        }
+
+        return products;
+      }
+      catch (SqlException ex)
+      {
+        throw new DataException("Database error occurred while searching for products.", ex);
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An unexpected error occurred while searching for products.", ex);
+      }
+    }
   }
 }

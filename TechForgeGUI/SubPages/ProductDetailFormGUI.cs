@@ -106,8 +106,8 @@ namespace TechForgeGUI.SubPages
       cboNhaCungCap.DisplayMember = "TenNCC";
       cboNhaCungCap.ValueMember = "MaNCC";
 
-      cboTrangThai.Items.AddRange(new string[] { "Đang kinh doanh", "Ngừng kinh doanh" });
-      cboTrangThai.SelectedIndex = ThongTinSanPham.TrangThai ? 0 : 1;
+      cboTrangThai.DataSource = new List<string> { "Đang kinh doanh", "Ngừng kinh doanh" };
+      cboTrangThai.SelectedIndex = 0;
     }
     private void ProductDetailFormGUI_LoadDetailForm(object sender, EventArgs e)
     {
@@ -134,8 +134,22 @@ namespace TechForgeGUI.SubPages
       cboNhaCungCap.DisplayMember = "TenNCC";
       cboNhaCungCap.ValueMember = "MaNCC";
 
-      cboTrangThai.Items.AddRange(new string[] { "Đang kinh doanh", "Ngừng kinh doanh" });
+      cboTrangThai.DataSource = new List<string> { "Đang kinh doanh", "Ngừng kinh doanh" };
       cboTrangThai.SelectedIndex = ThongTinSanPham.TrangThai ? 0 : 1;
+
+      if (!string.IsNullOrEmpty(ThongTinSanPham.HinhAnh))
+      {
+        try
+        {
+          string imagePath = Path.Combine(Application.StartupPath, "Resources", "ProductImages", $"{ThongTinSanPham.HinhAnh}.png");
+          picHinh.Image = Image.FromFile(imagePath);
+          picHinh.Tag = ThongTinSanPham.HinhAnh;
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show("Lỗi khi tải hình ảnh: " + ex.Message);
+        }
+      }
     }
     private void btnUploadImg_Click(object sender, EventArgs e)
     {

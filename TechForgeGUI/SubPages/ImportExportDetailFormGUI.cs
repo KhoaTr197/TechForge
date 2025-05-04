@@ -209,12 +209,14 @@ namespace TechForgeGUI.SubPages
     }
     private void LoadAddForm()
     {
+      txtMa.Text = BUS.GetNextId().ToString();
+
       cboNhanVienLap.DataSource = DsNhanVienKho;
       cboNhanVienLap.DisplayMember = "MaTenND";
       cboNhanVienLap.ValueMember = "MaND";
 
       cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
-      cboHoatDong.SelectedIndex = ThongTinLichSu.HoatDong ? 1 : 0;
+      cboHoatDong.SelectedIndex = 0;
       dgvDetail.AutoGenerateColumns = false;
       dgvDetail.DataSource = ThongTinLichSu.Ctlsk;
     }

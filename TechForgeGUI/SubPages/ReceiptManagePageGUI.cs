@@ -19,7 +19,7 @@ namespace TechForgeGUI.SubPages
     private SanPhamBUS sanPhamBus { get; set; }
     private HoaDonBUS hoaDonBus { get; set; }
     private List<SanPhamDTO> dsSanPham { get; set; }
-    private List<HoaDonDTO> dsHoaDon { get; set; }
+    private List<HoaDonDTO> DsHoaDon { get; set; }
     private RolePermissions permissions;
     public ReceiptManagePageGUI(string role)
     {
@@ -36,6 +36,9 @@ namespace TechForgeGUI.SubPages
 
       // Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
+
+      // Attach event handler for search button
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
@@ -45,21 +48,21 @@ namespace TechForgeGUI.SubPages
       if (permissions.Role == "Cashier")
       {
         summaryCards.Add(new SummaryCard[] {
-          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Tổng hóa đơn", DsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
         });
       }
       else if (permissions.Role == "WarehouseStaff")
       {
         summaryCards.Add(new SummaryCard[] {
-          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-          new SummaryCard("Giá trị hóa đơn gần nhất", dsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
+          new SummaryCard("Tổng hóa đơn", DsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Giá trị hóa đơn gần nhất", DsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
         });
       }
       else if (permissions.Role == "Manager")
       {
         summaryCards.Add(new SummaryCard[] {
-          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-          new SummaryCard("Giá trị hóa đơn gần nhất", dsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
+          new SummaryCard("Tổng hóa đơn", DsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Giá trị hóa đơn gần nhất", DsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
         });
       }
     }
@@ -72,15 +75,33 @@ namespace TechForgeGUI.SubPages
     {
       // Map data to DTOs
       dsSanPham = sanPhamBus.GetAllConnected();
-      dsHoaDon = hoaDonBus.GetAllConnected();
+      DsHoaDon = hoaDonBus.GetAllConnected();
     }
     private void LoadData()
     {
-      dgvMainList.Binding(dsHoaDon);
+      dgvMainList.Binding(DsHoaDon);
     }
     protected void ModifyData()
     {
       this.SuspendLayout();
+
+      // Set up DataGridView columns
+      dgvMainList.dgvList.Columns["MaHD"].HeaderText = "Mã";
+      dgvMainList.dgvList.Columns["MaHD"].DataPropertyName = "MaHD";
+      dgvMainList.dgvList.Columns["MaHV"].HeaderText = "Mã HV";
+      dgvMainList.dgvList.Columns["MaHV"].DataPropertyName = "MaHV";
+      dgvMainList.dgvList.Columns["HoTen"].HeaderText = "Họ tên";
+      dgvMainList.dgvList.Columns["HoTen"].DataPropertyName = "HoTen";
+      dgvMainList.dgvList.Columns["DiaChi"].HeaderText = "Địa chỉ";
+      dgvMainList.dgvList.Columns["DiaChi"].DataPropertyName = "DiaChi";
+      dgvMainList.dgvList.Columns["Sdt"].HeaderText = "Số điện thoại";
+      dgvMainList.dgvList.Columns["Sdt"].DataPropertyName = "Sdt";
+      dgvMainList.dgvList.Columns["NvLapHD"].HeaderText = "Nhân viên lập";
+      dgvMainList.dgvList.Columns["NvLapHD"].DataPropertyName = "NvLapHD";
+      dgvMainList.dgvList.Columns["TongTien"].HeaderText = "Tổng tiền";
+      dgvMainList.dgvList.Columns["TongTien"].DataPropertyName = "TongTien";
+      dgvMainList.dgvList.Columns["NgLapHD"].HeaderText = "Ngày lập";
+      dgvMainList.dgvList.Columns["NgLapHD"].DataPropertyName = "NgLapHD";
 
       //Attach event handler for cell formatting
       dgvMainList.dgvList.CellFormatting += dgvList_CellFormatting;
@@ -113,8 +134,8 @@ namespace TechForgeGUI.SubPages
         if (dgvMainList.SelectedRows.Count > 0)
         {
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
-          HoaDonDTO hoaDon = dsHoaDon.Find(hd => hd.MaHD == (int)selectedRow.Cells[0].Value);
-          hoaDonBus.GetDetailWithProducts(hoaDon);
+          HoaDonDTO hoaDon = DsHoaDon.Find(hd => hd.MaHD == (int)selectedRow.Cells[0].Value);
+          hoaDonBus.GetDetailWithReceipts(hoaDon);
 
           ReceiptDetailFormGUI DetailForm = new ReceiptDetailFormGUI(permissions, hoaDonBus, hoaDon);
           OverlayFormGUI Overlay = new OverlayFormGUI(Form.ActiveForm, DetailForm);
@@ -137,8 +158,8 @@ namespace TechForgeGUI.SubPages
 
       // Update summary cards when new products are added
       summaryCards.Update(new SummaryCard[] {
-          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-          new SummaryCard("Giá trị hóa đơn gần nhất", dsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
+          new SummaryCard("Tổng hóa đơn", DsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Giá trị hóa đơn gần nhất", DsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
         });
     }
     // Handle edit submit event
@@ -149,8 +170,8 @@ namespace TechForgeGUI.SubPages
 
       // Update summary cards when products are edited
       summaryCards.Update(new SummaryCard[] {
-          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-          new SummaryCard("Giá trị hóa đơn gần nhất", dsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
+          new SummaryCard("Tổng hóa đơn", DsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Giá trị hóa đơn gần nhất", DsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
         });
     }
     // Handle delete submit event
@@ -161,9 +182,21 @@ namespace TechForgeGUI.SubPages
 
       // Update summary cards when products are edited
       summaryCards.Update(new SummaryCard[] {
-          new SummaryCard("Tổng hóa đơn", dsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-          new SummaryCard("Giá trị hóa đơn gần nhất", dsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
+          new SummaryCard("Tổng hóa đơn", DsHoaDon.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
+          new SummaryCard("Giá trị hóa đơn gần nhất", DsHoaDon.OrderByDescending(hd => hd.NgLapHD).FirstOrDefault().TongTien.ToString("C0", new System.Globalization.CultureInfo("vi-VN")), "money_icon", Color.FromArgb(155, 89, 182)),
         });
+    }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<HoaDonDTO> newDsHoaDon = hoaDonBus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsHoaDon.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      DsHoaDon = newDsHoaDon;
+
+      LoadData();
     }
   }
 }

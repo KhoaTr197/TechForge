@@ -18,7 +18,7 @@ namespace TechForgeDAO
     {
       try
       {
-        List<LichSuKhoDTO> receipts = new List<LichSuKhoDTO>();
+        List<LichSuKhoDTO> logs = new List<LichSuKhoDTO>();
 
         using (SqlConnection conn = CreateConnection())
         {
@@ -29,7 +29,7 @@ namespace TechForgeDAO
           {
             while (reader.Read())
             {
-              receipts.Add(new LichSuKhoDTO()
+              logs.Add(new LichSuKhoDTO()
               {
                 MaLS = reader.GetInt32(0),
                 TongTien = reader.GetDecimal(1),
@@ -41,7 +41,7 @@ namespace TechForgeDAO
           }
         }
 
-        return receipts;
+        return logs;
       }
       catch (Exception ex)
       {
@@ -263,6 +263,57 @@ namespace TechForgeDAO
       catch (Exception ex)
       {
         throw new DataException("An error occurred while getting the next ID from the database.", ex);
+      }
+    }
+    public List<LichSuKhoDTO> FindByAnyProperty(string searchText)
+    {
+      try
+      {
+        List<LichSuKhoDTO> logs = new List<LichSuKhoDTO>();
+
+        using (SqlConnection conn = CreateConnection())
+        {
+          conn.Open();
+          string query = @"
+            SELECT * FROM LSKHO
+            WHERE MALS LIKE @SEARCH_TEXT OR
+                  TONGTIEN LIKE @SEARCH_TEXT OR
+                  THOIGIAN LIKE @SEARCH_TEXT OR
+                  MAND LIKE @SEARCH_TEXT OR
+                  HOATDONG LIKE @SEARCH_TEXT
+          ";
+
+          using (SqlCommand cmd = new SqlCommand(query, conn))
+          {
+            cmd.Parameters.AddWithValue("@SEARCH_TEXT", $"%{searchText}%");
+
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+              while (reader.Read())
+              {
+                logs.Add(new LichSuKhoDTO
+                {
+                  MaLS = reader.GetInt32(0),
+                  TongTien = reader.GetDecimal(1),
+                  ThoiGian = reader.GetDateTime(2),
+                  MaND = reader.GetString(3),
+                  HoatDong = reader.GetBoolean(4),
+                  Ctlsk = GetDetail(reader.GetInt32(0))
+                });
+              }
+            }
+          }
+        }
+
+        return logs;
+      }
+      catch (SqlException ex)
+      {
+        throw new DataException("Database error occurred while searching for logs.", ex);
+      }
+      catch (Exception ex)
+      {
+        throw new DataException("An unexpected error occurred while searching for logs.", ex);
       }
     }
   }

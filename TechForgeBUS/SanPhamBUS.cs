@@ -77,5 +77,9 @@ namespace TechForgeBUS
     {
       return this.DAO.FindBy(name: name);
     }
+    public List<SanPhamDTO> FindByAnyProperty(string searchText)
+    {
+      return this.DAO.FindByAnyProperty(searchText);
+    }
   }
 }

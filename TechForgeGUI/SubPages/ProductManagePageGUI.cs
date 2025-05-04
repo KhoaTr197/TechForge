@@ -41,6 +41,10 @@ namespace TechForgeGUI
 
       // Attach event handler for cell click
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
+
+      btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
@@ -398,6 +402,18 @@ namespace TechForgeGUI
         new SummaryCard("Sắp hết hàng", dsSanPham.Count(p => p.SoLuong < 10 && p.TrangThai).ToString(), "warning_icon", Color.FromArgb(231, 76, 60)),
         new SummaryCard("Giá trị kho", dsSanPham.Where(p => p.TrangThai).Sum(p => p.SoLuong * p.Gia).ToString("N0") + " đ", "money_icon", Color.FromArgb(155, 89, 182))
       });
+    }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<SanPhamDTO> newDsSanPHam = sanPhamBus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsSanPHam.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      dsSanPham = newDsSanPHam;
+
+      LoadData();
     }
   }
 }

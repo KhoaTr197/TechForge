@@ -52,20 +52,20 @@
       this.cboNhaCungCap = new System.Windows.Forms.ComboBox();
       this.cboTrangThai = new System.Windows.Forms.ComboBox();
       this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-      this.picHinh = new System.Windows.Forms.PictureBox();
-      this.btnUploadImg = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
       this.label3 = new System.Windows.Forms.Label();
       this.nudGiaNhap = new System.Windows.Forms.NumericUpDown();
       this.nudGia = new System.Windows.Forms.NumericUpDown();
       this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+      this.picHinh = new System.Windows.Forms.PictureBox();
+      this.btnUploadImg = new System.Windows.Forms.Button();
       this.tableLayoutPanel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudKhuyenMai)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudSoLuong)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.picHinh)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudGiaNhap)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudGia)).BeginInit();
       this.tableLayoutPanel2.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.picHinh)).BeginInit();
       this.SuspendLayout();
       // 
       // tableLayoutPanel1
@@ -396,28 +396,6 @@
       this.dateTimePicker1.Size = new System.Drawing.Size(324, 25);
       this.dateTimePicker1.TabIndex = 39;
       // 
-      // picHinh
-      // 
-      this.picHinh.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.picHinh.Location = new System.Drawing.Point(4, 4);
-      this.picHinh.Margin = new System.Windows.Forms.Padding(4);
-      this.picHinh.Name = "picHinh";
-      this.picHinh.Size = new System.Drawing.Size(314, 147);
-      this.picHinh.TabIndex = 0;
-      this.picHinh.TabStop = false;
-      // 
-      // btnUploadImg
-      // 
-      this.btnUploadImg.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.btnUploadImg.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.btnUploadImg.Location = new System.Drawing.Point(4, 159);
-      this.btnUploadImg.Margin = new System.Windows.Forms.Padding(4);
-      this.btnUploadImg.Name = "btnUploadImg";
-      this.btnUploadImg.Size = new System.Drawing.Size(314, 31);
-      this.btnUploadImg.TabIndex = 1;
-      this.btnUploadImg.Text = "Tải ảnh";
-      this.btnUploadImg.UseVisualStyleBackColor = true;
-      // 
       // label5
       // 
       this.label5.AutoSize = true;
@@ -498,6 +476,29 @@
       this.tableLayoutPanel2.Size = new System.Drawing.Size(322, 194);
       this.tableLayoutPanel2.TabIndex = 40;
       // 
+      // picHinh
+      // 
+      this.picHinh.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.picHinh.Location = new System.Drawing.Point(4, 4);
+      this.picHinh.Margin = new System.Windows.Forms.Padding(4);
+      this.picHinh.Name = "picHinh";
+      this.picHinh.Size = new System.Drawing.Size(314, 147);
+      this.picHinh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+      this.picHinh.TabIndex = 0;
+      this.picHinh.TabStop = false;
+      // 
+      // btnUploadImg
+      // 
+      this.btnUploadImg.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.btnUploadImg.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.btnUploadImg.Location = new System.Drawing.Point(4, 159);
+      this.btnUploadImg.Margin = new System.Windows.Forms.Padding(4);
+      this.btnUploadImg.Name = "btnUploadImg";
+      this.btnUploadImg.Size = new System.Drawing.Size(314, 31);
+      this.btnUploadImg.TabIndex = 1;
+      this.btnUploadImg.Text = "Tải ảnh";
+      this.btnUploadImg.UseVisualStyleBackColor = true;
+      // 
       // ProductDetailFormGUI
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -511,10 +512,10 @@
       this.tableLayoutPanel1.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudKhuyenMai)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudSoLuong)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.picHinh)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudGiaNhap)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.nudGia)).EndInit();
       this.tableLayoutPanel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.picHinh)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 

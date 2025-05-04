@@ -16,7 +16,7 @@ namespace TechForgeGUI.SubPages
 {
   public partial class ImportExportManagePageGUI : ManagePage
   {
-    private List<LichSuKhoDTO> dsLichSuKho { get; set; }
+    private List<LichSuKhoDTO> DsLichSuKho { get; set; }
     private LichSuKhoBUS bus { get; set; }
     private NguoiDungBUS BusNguoiDung { get; set; }
     private List<NguoiDungDTO> DsNhanVienKho { get; set; }
@@ -38,22 +38,24 @@ namespace TechForgeGUI.SubPages
       dgvMainList.dgvList.CellClick += dgvList_CellClick;
 
       btnAdd.Click += BtnAdd_Click;
+
+      btnSearch.Click += btnSearch_Click;
     }
     private void SetUpFeature()
     {
       summaryCards.Add(new SummaryCard[] {
-          new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+          new SummaryCard("Tổng phiếu nhập", DsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Tổng phiếu xuất", DsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
         });
     }
     private void GetData()
     {
-      dsLichSuKho = bus.GetAllConnected();
+      DsLichSuKho = bus.GetAllConnected();
       DsNhanVienKho = BusNguoiDung.GetAllConnected().Select(nv => nv).Where(nv => nv.VaiTro == "Quản Lý Kho").ToList();
     }
     private void LoadData()
     {
-      dgvMainList.Binding(dsLichSuKho);
+      dgvMainList.Binding(DsLichSuKho);
     }
     // Add DataGridView columns
     private void AddColumns()
@@ -155,7 +157,7 @@ namespace TechForgeGUI.SubPages
         if (dgvMainList.SelectedRows.Count > 0)
         {
           DataGridViewRow selectedRow = dgvMainList.SelectedRows[0];
-          LichSuKhoDTO lichSuKho = dsLichSuKho.Find(hv => hv.MaLS == (int)selectedRow.Cells[0].Value);
+          LichSuKhoDTO lichSuKho = DsLichSuKho.Find(hv => hv.MaLS == (int)selectedRow.Cells[0].Value);
           lichSuKho.Ctlsk = bus.GetDetail(lichSuKho.MaLS);
           SanPhamBUS sanPhamBus = new SanPhamBUS(this.connStr);
 
@@ -179,8 +181,8 @@ namespace TechForgeGUI.SubPages
 
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-        new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Tổng phiếu nhập", DsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Tổng phiếu xuất", DsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
@@ -190,8 +192,8 @@ namespace TechForgeGUI.SubPages
 
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-        new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Tổng phiếu nhập", DsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+        new SummaryCard("Tổng phiếu xuất", DsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
@@ -201,9 +203,21 @@ namespace TechForgeGUI.SubPages
 
       summaryCards.Update(new SummaryCard[]
       {
-        new SummaryCard("Tổng phiếu nhập", dsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-          new SummaryCard("Tổng phiếu xuất", dsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
+        new SummaryCard("Tổng phiếu nhập", DsLichSuKho.Where(p => !p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+          new SummaryCard("Tổng phiếu xuất", DsLichSuKho.Where(p => p.HoatDong).Count().ToString(), "box_icon", Color.FromArgb(231, 76, 60)),
       });
+    }
+    private void btnSearch_Click(object sender, EventArgs e)
+    {
+      List<LichSuKhoDTO> newDsLichSuKho = bus.FindByAnyProperty(txtSearch.Text.Trim().ToLower());
+      if (newDsLichSuKho.Count == 0)
+      {
+        MessageBox.Show("Không có kết quả phù hợp!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return;
+      }
+      DsLichSuKho = newDsLichSuKho;
+
+      LoadData();
     }
   }
 }
