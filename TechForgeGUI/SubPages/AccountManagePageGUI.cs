@@ -48,10 +48,11 @@ namespace TechForgeGUI.SubPages
         }
         private void SetUpFeature()
         {
+            summaryCards.Controls.Clear();
             summaryCards.Add(new SummaryCard[]
             {
                 new SummaryCard("Số tài khoản", dsTaiKhoan.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-                new SummaryCard("Số tài khoản kích hoạt", dsTaiKhoan.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
+                new SummaryCard("Số tài khoản kích hoạt", dsTaiKhoan.Where(tk => tk.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
             });
 
         }
@@ -151,10 +152,7 @@ namespace TechForgeGUI.SubPages
             GetData();
             LoadData();
 
-            summaryCards.Add(new SummaryCard[] {
-                new SummaryCard("Số tài khoản", dsTaiKhoan.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-                new SummaryCard("Số tài khoản kích hoạt", dsTaiKhoan.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-            });
+            SetUpFeature();
         }
 
         private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
@@ -162,24 +160,14 @@ namespace TechForgeGUI.SubPages
             GetData();
             LoadData();
 
-            // Update summary cards when categories are edited
-            summaryCards.Update(new SummaryCard[]
-            {
-                new SummaryCard("Số tài khoản", dsTaiKhoan.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-                new SummaryCard("Số tài khoản kích hoạt", dsTaiKhoan.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-            });
+            SetUpFeature();
         }
         private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
         {
             GetData();
             LoadData();
 
-            // Update summary cards when categories are edited
-            summaryCards.Update(new SummaryCard[]
-            {
-                new SummaryCard("Số tài khoản", dsTaiKhoan.Count.ToString(), "box_icon", Color.FromArgb(52, 152, 219)),
-                new SummaryCard("Số tài khoản kích hoạt", dsTaiKhoan.Where(hv => hv.TrangThai).Count().ToString(), "box_icon", Color.FromArgb(46, 204, 113)),
-            });
+            SetUpFeature();
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)

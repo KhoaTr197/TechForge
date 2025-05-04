@@ -59,6 +59,7 @@ namespace TechForgeGUI.SubForms
     }
     private void SetUpFeature()
     {
+      summaryCards.Controls.Clear();
       summaryCards.Add(new SummaryCard[] {
         new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "users_icon", Color.FromArgb(52, 152, 219)),
       });
@@ -178,33 +179,22 @@ namespace TechForgeGUI.SubForms
       GetData();
       LoadData();
 
-      // Update summary cards when new categories are added
-      summaryCards.Update(new SummaryCard[]
-      {
-        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
-      });
+      SetUpFeature();
+      
     }
     private void DetailsForm_EditSubmit(object sender, DetailFormEditSubmitEventArgs e)
     {
       GetData();
       LoadData();
 
-      // Update summary cards when categories are edited
-      summaryCards.Update(new SummaryCard[]
-      {
-        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
-      });
+      SetUpFeature();
     }
     private void DetailsForm_DeleteSubmit(object sender, DetailFormDeleteSubmitEventArgs e)
     {
       GetData();
       LoadData();
 
-      // Update summary cards when categories are edited
-      summaryCards.Update(new SummaryCard[]
-      {
-        new SummaryCard("Tổng người dùng", DsNguoiDung.Count.ToString(), "category_icon", Color.FromArgb(52, 152, 219)),
-      });
+      SetUpFeature();
     }
     private void btnSearch_Click(object sender, EventArgs e)
     {
