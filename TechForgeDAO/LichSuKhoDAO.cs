@@ -131,6 +131,14 @@ namespace TechForgeDAO
 
                     cmdDetail.ExecuteNonQuery();
                   }
+                  // Update the product quantity in the SANPHAM table
+                  using (SqlCommand cmdUpdate = new SqlCommand(
+                      $"UPDATE SANPHAM SET SL = SL {(newLog.HoatDong ? "-" : "+")} @SL WHERE MASP = @MASP", conn, transaction))
+                  {
+                    cmdUpdate.Parameters.AddWithValue("@SL", item.SoLuong);
+                    cmdUpdate.Parameters.AddWithValue("@MASP", item.MaSP);
+                    cmdUpdate.ExecuteNonQuery();
+                  }
                 }
 
                 transaction.Commit();

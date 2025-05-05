@@ -23,7 +23,7 @@ namespace TechForgeGUI.SubPages
     private List<NguoiDungDTO> DsNhanVienKho { get; set; }
     private List<SanPhamDTO> dsSanPham { get; set; }
     private ChiTietLichSuKhoDTO ChiTietLichSuKho { get; set; }
-        private NguoiDungDTO currentUser { get; set; }
+    private NguoiDungDTO currentUser { get; set; }
 
     private UserNotification notify;
     public ImportExportDetailFormGUI(LichSuKhoBUS _BUS, SanPhamBUS _busSanPham, NguoiDungDTO _currentUser, LichSuKhoDTO _thongTinLichSu = null)
@@ -40,8 +40,6 @@ namespace TechForgeGUI.SubPages
 
       if (ThongTinLichSu == null)
       {
-        this.btnEdit.Visible = false;
-        this.btnEdit.Enabled = false;
         this.btnDelete.Visible = false;
         this.btnDelete.Enabled = false;
 
@@ -64,6 +62,8 @@ namespace TechForgeGUI.SubPages
         LoadDetailForm();
       }
 
+      this.btnEdit.Visible = false;
+      this.btnEdit.Enabled = false;
       this.btnDelete.Visible = false;
       this.btnDelete.Enabled = false;
 
@@ -137,18 +137,18 @@ namespace TechForgeGUI.SubPages
       {
         MaSP = filteredResult.MaSP,
         TenSP = filteredResult.TenSP,
-        Gia = filteredResult.Gia,
+        Gia = filteredResult.GiaNhap,
         SoLuong = 1,
-        ThanhTien = filteredResult.Gia,
+        ThanhTien = filteredResult.GiaNhap,
         HinhAnh = filteredResult.HinhAnh,
         HoatDong = cboHoatDong.SelectedIndex == 1 ? true : false
       };
 
       txtMaSP.Text = filteredResult.MaSP.ToString();
       txtTenSP.Text = filteredResult.TenSP;
-      nudGia.Value = filteredResult.Gia;
+      nudGia.Value = filteredResult.GiaNhap;
       nudSoLuong.Value = 1;
-      nudChiTietTongTien.Value = filteredResult.Gia;
+      nudChiTietTongTien.Value = filteredResult.GiaNhap;
 
       btnChiTietThem.Enabled = true;
       btnChiTietThem.BackColor = Color.DodgerBlue;
@@ -186,7 +186,11 @@ namespace TechForgeGUI.SubPages
       nudTongTien.Value = ThongTinLichSu.Ctlsk.Sum(x => x.ThanhTien ?? 0);
 
       dgvDetail.DataSource = null;
+      dgvDetail.Enabled = false;
       dgvDetail.DataSource = ThongTinLichSu.Ctlsk;
+      dgvDetail.ClearSelection();
+      dgvDetail.Refresh();
+      dgvDetail.Enabled = true;
     }
     private void btnChiTietCapNhat_Click(object sender, EventArgs e)
     {
@@ -228,10 +232,10 @@ namespace TechForgeGUI.SubPages
       txtMa.Text = BUS.GetNextId().ToString();
       txtMaND.Text = currentUser.MaND;
 
-            cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
+      cboHoatDong.DataSource = new List<string> { "Nhập", "Xuất" };
       cboHoatDong.SelectedIndex = 0;
       dgvDetail.AutoGenerateColumns = false;
-      dgvDetail.DataSource = ThongTinLichSu.Ctlsk;
+      dgvDetail.DataSource = null;
     }
     private void LoadDetailForm()
     {
@@ -252,6 +256,10 @@ namespace TechForgeGUI.SubPages
       if (dgvDetail.SelectedRows.Count > 0)
       {
         DataGridViewRow row = dgvDetail.SelectedRows[0];
+
+        if (row.DataBoundItem == null)
+          return;
+
         ChiTietLichSuKhoDTO selectedProduct = row.DataBoundItem as ChiTietLichSuKhoDTO;
 
         if (selectedProduct != null) {
